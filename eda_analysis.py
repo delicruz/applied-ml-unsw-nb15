@@ -1,10 +1,8 @@
-r"""Exploratory data analysis for the UNSW-NB15 project milestone.
+"""Exploratory data analysis for the UNSW-NB15 project milestone.
 
 Run from the project folder:
     .\.venv\Scripts\python.exe eda_analysis.py
 
-The script uses the complete supplied training and testing files. It produces
-tables and figures in artifacts/eda without training any machine-learning model.
 """
 
 # %% Imports and configuration

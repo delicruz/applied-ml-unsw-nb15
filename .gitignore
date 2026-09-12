@@ -2,6 +2,20 @@
 __pycache__/
 *.py[cod]
 .pytest_cache/
-data/raw/*.csv
-artifacts/*
-!artifacts/.gitkeep
+
+# Codex working and helper folders
+.codex-*/
+.codex/
+_docx_work/
+
+# Generated analysis and presentation outputs
+artifacts/
+deliverables/
+
+# Documentation and presentation files are kept locally only
+*.md
+*.docx
+*.pptx
+*.pdf
+*.mp4
+~$*
