@@ -1,0 +1,159 @@
+# Explainable ML for Suspicious Network Traffic
+
+This project builds a reproducible binary classifier for the UNSW-NB15 dataset. It compares a logistic-regression baseline with a Random Forest, evaluates precision, recall, F1 and PR-AUC, examines decision thresholds, and explains the Random Forest globally and locally with feature importance and SHAP.
+
+## Design choices
+
+- The supplied test split remains untouched until final evaluation. The supplied
+  training split is divided into development-training and validation partitions.
+- The development/validation split is approximately 80/20, stratified by attack
+  category, and keeps repeated predictor vectors in one partition only.
+- `label` is the binary target: `0` is Normal and `1` is Suspicious.
+- `id` and `attack_cat` are excluded from model inputs. `attack_cat` directly reveals whether a row is normal, so using it would leak the answer. It is retained only for error analysis.
+- Numerical values use median imputation. Categorical values use most-frequent imputation and one-hot encoding with unknown-category handling.
+- Logistic Regression is the interpretable baseline; Random Forest is the main nonlinear model.
+- The default operating threshold is 0.50, with a separate table showing alternatives from 0.10 to 0.90.
+
+## Setup
+
+From PowerShell in this directory:
+
+```powershell
+python -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+New-Item -ItemType Directory -Force data\raw
+Expand-Archive -LiteralPath 'C:\Users\Dung\Downloads\OneDrive_2_8-20-2026.zip' -DestinationPath data\raw
+```
+
+## Run
+
+Create the development and validation partitions without modifying the raw data:
+
+```powershell
+.\.venv\Scripts\python.exe prepare_data_splits.py
+```
+
+The generated output CSVs are written to `data/processed/`; split summaries are
+written to `artifacts/eda/`. The supplied testing CSV remains in `data/raw/`.
+
+Run the complete analysis:
+
+```powershell
+.\.venv\Scripts\python.exe run_project.py
+```
+
+Run the development-only overfitting diagnostics without opening the protected
+test set:
+
+```powershell
+.\.venv\Scripts\python.exe run_overfitting_diagnostics.py
+```
+
+This diagnostic stage verifies split integrity, audits individual predictors for
+leakage signals, compares training, out-of-bag and validation performance, runs
+duplicate-aware cross-validation, removes suspected shortcut features, and
+builds a grouped learning curve. Use `--rf-trees` or `--cv-folds` to change the
+computational budget while developing.
+
+Tune and regularise the Random Forest after the diagnostic stage:
+
+```powershell
+.\.venv\Scripts\python.exe tune_random_forest.py
+```
+
+The tuning command screens a bounded structural grid with grouped folds, then
+confirms the selected structure using 200 and 500 trees. Average Precision is
+the primary selection metric, and explicit tolerance rules prefer a shallower,
+more regularised, or smaller model when results are practically tied.
+
+Run the paired statistical comparison and probability-calibration analysis:
+
+```powershell
+.\.venv\Scripts\python.exe run_statistical_comparison.py
+```
+
+This stage compares Logistic Regression with the selected Random Forest using
+paired group-cluster bootstrap intervals for Average Precision, F1 and MCC. It
+also runs a conventional row-bootstrap sensitivity analysis, calculates Brier
+score, log loss and calibration error, and saves row-level validation
+predictions for reproducible error analysis.
+
+Freeze and explain the selected model and generate the complete validation error
+analysis:
+
+```powershell
+.\.venv\Scripts\python.exe run_explainability_analysis.py
+```
+
+This command serialises the selected pipeline, records dataset hashes and model
+versions, calculates original-feature permutation importance, aggregates SHAP
+importance back to original predictors, produces local explanations, and
+analyses attack-specific, high-confidence, and cross-model errors.
+
+For a quick development check:
+
+```powershell
+.\.venv\Scripts\python.exe run_project.py --train-limit 10000 --test-limit 5000 --rf-trees 50 --shap-samples 50
+```
+
+To omit SHAP or run only one stage:
+
+```powershell
+.\.venv\Scripts\python.exe run_project.py --skip-shap
+.\.venv\Scripts\python.exe run_project.py --mode audit
+.\.venv\Scripts\python.exe run_project.py --mode train
+```
+
+## Outputs
+
+Outputs are written to `artifacts/`:
+
+- `audit/dataset_summary.csv`, feature types, and attack-category counts
+- EDA, confusion matrix, precision-recall, threshold, feature-importance, and SHAP plots
+- `metrics.json` and `model_comparison.csv`
+- `threshold_analysis.csv`
+- `false_positives.csv`, `false_negatives.csv`, and errors by attack category
+- three local explanation cases when available
+- `random_forest_pipeline.joblib`, containing preprocessing and model together
+- `overfitting_diagnostics/summary.json` and CSV tables for the generalisation
+  gap, grouped cross-validation, feature ablation, and learning curve
+- `overfitting_diagnostics/plots/` containing the corresponding diagnostic plots
+- `random_forest_tuning/selected_configuration.json`, fold-level tuning tables,
+  the provisional validation comparison, and selection plots
+- `statistical_comparison/summary.json`, paired bootstrap samples and intervals,
+  calibration tables, validation predictions, and statistical comparison plots
+- `explainability_analysis/analysis_summary.json`, the frozen fitted pipeline,
+  permutation and SHAP outputs, detailed error tables, and explanation plots
+- `robustness_audit/summary.json`, TTL-removal results, near-duplicate overlap,
+  grouped robustness-split metrics, paired bootstrap intervals, and plots
+- `final_holdout_evaluation/summary.json`, conservative supplied-test metrics,
+  group-bootstrap intervals, per-attack recall, predictions, plots, and the
+  frozen no-TTL model
+- `distribution_shift_audit/summary.json`, train-to-holdout feature-shift
+  statistics, false-positive subgroup tables, SHAP drivers, and diagnostic plots
+
+The generated CSVs and plots are intended to feed directly into the Dataset, EDA, Results, Explainability, Error Analysis, and Discussion sections of the final report.
+
+Run the TTL shortcut and near-duplicate robustness audit without opening the
+supplied test set:
+
+```powershell
+.\.venv\Scripts\python.exe run_robustness_audit.py
+```
+
+After the model and threshold are frozen, run the final supplied-test evaluation:
+
+```powershell
+.\.venv\Scripts\python.exe run_final_holdout_evaluation.py
+```
+
+Run the descriptive post-evaluation shift and false-positive audit:
+
+```powershell
+.\.venv\Scripts\python.exe run_distribution_shift_audit.py
+```
+
+This audit verifies the frozen model hash, reproduces the conservative primary
+holdout scope, measures numeric and categorical distribution shift, profiles
+false-positive subgroups, and contrasts false positives with true negatives
+using SHAP. It does not change the model, features, or decision threshold.

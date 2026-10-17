@@ -1,0 +1,36 @@
+# Evidence Manifest
+
+This manifest maps the main claims in `Results_and_Discussion.md` to the saved
+machine-readable artifacts. The graded methodology documents are not part of
+this package and were not modified.
+
+| Claim or section | Primary evidence | Supporting output |
+|---|---|---|
+| Random Forest configuration | `../../artifacts/random_forest_tuning/selected_configuration.json` | `../../artifacts/random_forest_tuning/` |
+| RF versus LR validation comparison | `../../artifacts/statistical_comparison/summary.json` | `../../artifacts/statistical_comparison/paired_bootstrap_summary.csv` |
+| Training, OOB, validation, grouped CV and learning curve | `../../artifacts/overfitting_diagnostics/summary.json` | `../../artifacts/overfitting_diagnostics/` |
+| TTL-feature ablation | `../../artifacts/robustness_audit/robustness_metrics.csv` | `../../artifacts/robustness_audit/ttl_ablation_paired_bootstrap.csv` |
+| Near-duplicate overlap and reconstructed split | `../../artifacts/robustness_audit/summary.json` | `../../artifacts/robustness_audit/` |
+| Frozen model identity and holdout integrity | `../../artifacts/final_holdout_evaluation/summary.json` | `../../artifacts/final_holdout_evaluation/final_random_forest_no_ttl.joblib` |
+| Conservative holdout metrics | `../../artifacts/final_holdout_evaluation/holdout_metrics.csv` | `../../artifacts/final_holdout_evaluation/holdout_bootstrap_intervals.csv` |
+| Per-attack recall | `../../artifacts/final_holdout_evaluation/per_attack_recall.csv` | `../../artifacts/final_holdout_evaluation/plots/primary_attack_recall.png` |
+| Numeric and categorical distribution shift | `../../artifacts/distribution_shift_audit/numeric_feature_shift.csv` | `../../artifacts/distribution_shift_audit/categorical_feature_shift.csv` |
+| False-positive subgroup analysis | `../../artifacts/distribution_shift_audit/categorical_error_groups.csv` | `../../artifacts/distribution_shift_audit/plots/categorical_false_positive_groups.png` |
+| False-positive score distribution | `../../artifacts/distribution_shift_audit/normal_probability_bins.csv` | `../../artifacts/distribution_shift_audit/plots/normal_probability_distribution.png` |
+| False-positive SHAP drivers | `../../artifacts/distribution_shift_audit/false_positive_shap_drivers.csv` | `../../artifacts/distribution_shift_audit/plots/false_positive_shap_drivers.png` |
+
+## Integrity checks already applied
+
+- The final model SHA-256 was verified before the distribution-shift audit.
+- The conservative holdout mask reproduced 69,222 records.
+- False-positive subgroup totals reproduce 8,779 false positives separately for
+  `proto`, `service`, and `state`.
+- Probability-bin counts reproduce all 33,278 Normal records.
+- The post-hoc audit records `model_or_threshold_changes: false`.
+
+## Interpretation boundary
+
+Numerical performance claims are directly supported by local artifacts.
+Statements about likely distribution shift are inferences from those results.
+The package does not claim that PSI, Jensen-Shannon divergence, subgroup error
+rates, or SHAP values establish a causal mechanism.

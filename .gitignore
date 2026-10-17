@@ -19,3 +19,10 @@ deliverables/
 *.pdf
 *.mp4
 ~$*
+
+# Version the project guide and the compact current-results package.
+!README.md
+!deliverables/
+deliverables/*
+!deliverables/current_results_package/
+!deliverables/current_results_package/**

@@ -1,0 +1,23 @@
+stage,scope,model_or_variant,metric,estimate,ci_95_low,ci_95_high,notes
+model_comparison,validation,logistic_regression,average_precision,0.991650,,,threshold 0.10
+model_comparison,validation,random_forest,average_precision,0.996488,,,threshold 0.54
+model_comparison,paired_group_bootstrap,rf_minus_lr,average_precision,0.004837,0.004037,0.005744,1000 resamples
+model_comparison,paired_group_bootstrap,rf_minus_lr,f1,0.011739,0.009874,0.013948,1000 resamples
+model_comparison,paired_group_bootstrap,rf_minus_lr,mcc,0.040231,0.034189,0.047065,1000 resamples
+robustness,near_duplicate_grouped_resplit,all_features,average_precision,0.996834,,,threshold 0.52
+robustness,near_duplicate_grouped_resplit,without_all_ttl,average_precision,0.996773,,,threshold 0.49 within robustness resplit only
+robustness,near_duplicate_grouped_resplit,without_all_ttl,f1,0.968408,,,threshold 0.49 within robustness resplit only
+robustness,near_duplicate_grouped_resplit,without_all_ttl,mcc,0.898988,,,threshold 0.49 within robustness resplit only
+final_model,current_validation,without_all_ttl,average_precision,0.996446,,,frozen final threshold 0.54
+final_model,current_validation,without_all_ttl,f1,0.965580,,,frozen final threshold 0.54
+final_model,current_validation,without_all_ttl,mcc,0.890781,,,frozen final threshold 0.54
+final_model,current_validation,without_all_ttl,false_positive_rate,0.089375,,,frozen final threshold 0.54
+final_model,conservative_primary_holdout,without_all_ttl,average_precision,0.982069,0.980911,0.983218,group bootstrap
+final_model,conservative_primary_holdout,without_all_ttl,accuracy,0.863887,,,threshold 0.54
+final_model,conservative_primary_holdout,without_all_ttl,precision,0.800839,,,threshold 0.54
+final_model,conservative_primary_holdout,without_all_ttl,recall,0.982111,,,threshold 0.54
+final_model,conservative_primary_holdout,without_all_ttl,f1,0.882260,0.878751,0.885932,group bootstrap
+final_model,conservative_primary_holdout,without_all_ttl,mcc,0.746241,0.740862,0.751234,group bootstrap
+final_model,conservative_primary_holdout,without_all_ttl,false_positive_rate,0.263808,,,8779 false positives among 33278 Normal records
+final_model,conservative_primary_holdout,without_all_ttl,brier_score,0.089653,,,descriptive
+final_model,conservative_primary_holdout,without_all_ttl,log_loss,0.258253,,,descriptive
