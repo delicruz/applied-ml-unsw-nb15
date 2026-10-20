@@ -140,6 +140,9 @@ Outputs are written to `artifacts/`:
 - `external_netflow_validation/summary.json`, endpoint-free matched-representation
   NF-UNSW-NB15 to NF-ToN-IoT results, exact-feature-group bootstrap intervals,
   per-attack recall, locked models, and generalisation plots
+- `external_shift_audit/summary.json`, cross-dataset feature-distribution shift,
+  prevalence-adjusted feature/label drift, frozen-model score shift, external
+  feature-bin error profiles, and diagnostic plots
 
 The generated CSVs and plots are intended to feed directly into the Dataset, EDA, Results, Explainability, Error Analysis, and Discussion sections of the final report.
 
@@ -211,3 +214,16 @@ and never tunes on NF-ToN-IoT. The experiment tests transfer of a common
 eight-feature modelling approach; it is not a direct external evaluation of
 the frozen 44-feature UNSW-NB15 model. Large external CSVs under
 `data/external/` are intentionally ignored by Git.
+
+Explain the completed cross-dataset failure without changing either frozen
+model or its threshold:
+
+```powershell
+.\.venv\Scripts\python.exe run_external_shift_audit.py
+```
+
+This audit verifies the full-run dataset hashes and fitted model artifacts,
+reconstructs the source-validation fold, and compares source with external
+feature distributions, prevalence-adjusted feature/label relationships, model
+scores, and error profiles. Its outputs are descriptive and must not be used to
+retune against NF-ToN-IoT.

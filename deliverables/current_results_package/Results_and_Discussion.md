@@ -320,9 +320,49 @@ earlier high accuracy as general deployment performance. It is consistent with
 dataset-specific overfitting, major distribution shift, and incompatible attack
 patterns; this experiment alone cannot identify the causal share of each.
 
+### Why the transfer failed
+
+The post-evaluation shift audit found large changes in the shared traffic
+features. `IN_PKTS`, `OUT_PKTS`, `IN_BYTES`, and `OUT_BYTES` had PSI values of
+4.751, 4.327, 3.130, and 2.387, respectively. Median packet counts decreased
+from 16 incoming and 18 outgoing packets in NF-UNSW-NB15 to 4 for each in
+NF-ToN-IoT. Median incoming bytes decreased from 1,920 to 458, while median
+outgoing bytes decreased from 3,276 to 696. These values establish substantial
+distribution differences under the source-derived bins; they do not identify
+a causal reason for the differences.
+
+`L7_PROTO` showed the largest categorical shift, with Jensen-Shannon divergence
+of 0.663 bits. Protocol value `7.0` increased from 10.76% of source records to
+59.32% of external records, and 5.34% of external records used an `L7_PROTO`
+value absent from the source data. `PROTOCOL` itself changed less in aggregate,
+although the external data contained only 5 observed values compared with 255
+in the source data.
+
+Because attack prevalence increased from 4.43% to 80.40%, raw bin-level attack
+rates would exaggerate every feature/label change. The audit therefore compared
+each bin's log odds with its own dataset's overall log odds. Under this
+prevalence-adjusted measure, the largest external-weighted association drift was
+for `IN_PKTS` (3.282 absolute log-odds units), followed by `L7_PROTO` (2.138),
+`OUT_BYTES` (2.054), and `TCP_FLAGS` (1.755). This indicates that both the input
+distribution and the relationships learned from those inputs changed.
+
+The frozen score distributions make the failure visible. On source validation,
+Random Forest mean attack probability was 0.918 compared with 0.072 for Normal
+records. Externally, the ordering reversed slightly: mean probability was 0.354
+for attacks and 0.363 for benign records. Logistic Regression also reversed,
+from 0.878 versus 0.138 on source validation to 0.789 versus 0.850 externally.
+Consequently, this is not merely a threshold-calibration failure. The models'
+ranking relationships themselves did not transfer.
+
 ![External precision-recall curves](../../artifacts/external_netflow_validation/plots/precision_recall_curves.png)
 
 ![In-domain versus external performance](../../artifacts/external_netflow_validation/plots/generalisation_comparison.png)
+
+![Shared-feature distribution shift](../../artifacts/external_shift_audit/plots/feature_distribution_shift.png)
+
+![Prevalence-adjusted association drift](../../artifacts/external_shift_audit/plots/feature_label_association_drift.png)
+
+![Frozen-model score shift](../../artifacts/external_shift_audit/plots/model_score_distribution_shift.png)
 
 ## 10. What is new in this work
 
@@ -346,7 +386,10 @@ chain:
    numeric, and SHAP contrasts without creating test-derived correction rules;
    and
 10. an endpoint-free, exact-duplicate-grouped NetFlow experiment freezes models
-    and thresholds on NF-UNSW-NB15 before testing them on all NF-ToN-IoT flows.
+    and thresholds on NF-UNSW-NB15 before testing them on all NF-ToN-IoT flows;
+    and
+11. a no-retuning shift audit separates input-distribution change,
+    prevalence-adjusted feature/label drift, and frozen-score reversal.
 
 This contribution is best described as a reproducible robustness and
 generalisation study of a conventional detector. The strongest substantive
@@ -387,6 +430,10 @@ different holdout distribution.
 - Exact-feature-group bootstrap intervals preserve the dependence definition
   used in the external experiment, but cannot capture unknown temporal, host,
   or campaign-level dependence because those identifiers are unavailable.
+- PSI, Jensen-Shannon divergence, and relative log-odds drift depend on the
+  selected source-derived bins. They document incompatibility between these two
+  datasets but do not prove which collection or attack-generation mechanism
+  caused it.
 
 ## 12. Supported conclusion
 

@@ -29,6 +29,10 @@ this package and were not modified.
 | Source-validation and NF-ToN-IoT metrics | `../../artifacts/external_netflow_validation/metrics_long.csv` | `../../artifacts/external_netflow_validation/plots/generalisation_comparison.png` |
 | External exact-feature-group bootstrap intervals | `../../artifacts/external_netflow_validation/group_bootstrap_intervals.csv` | `../../artifacts/external_netflow_validation/group_bootstrap_samples.csv` |
 | External attack-family recall | `../../artifacts/external_netflow_validation/per_attack_recall.csv` | `../../artifacts/external_netflow_validation/plots/precision_recall_curves.png` |
+| Cross-dataset numeric and categorical feature shift | `../../artifacts/external_shift_audit/numeric_distribution_shift.csv` | `../../artifacts/external_shift_audit/categorical_distribution_shift.csv` |
+| Prevalence-adjusted feature/label association drift | `../../artifacts/external_shift_audit/feature_label_association_drift.csv` | `../../artifacts/external_shift_audit/plots/feature_label_association_drift.png` |
+| Frozen-model score reversal | `../../artifacts/external_shift_audit/model_score_shift.csv` | `../../artifacts/external_shift_audit/plots/model_score_distribution_shift.png` |
+| External feature-bin error profiles | `../../artifacts/external_shift_audit/external_error_profiles_by_feature_bin.csv` | `../../artifacts/external_shift_audit/summary.json` |
 
 ## Integrity checks already applied
 
@@ -48,6 +52,9 @@ this package and were not modified.
   validation partitions, and records `external_data_used_for_tuning: false`.
 - Full external results use all 1,623,118 NF-UNSW-NB15 rows and all 1,379,274
   NF-ToN-IoT rows; SHA-256 values for both official CSV files are recorded.
+- The cross-dataset shift audit re-verifies both dataset hashes, records hashes
+  for both fitted pipelines, reconstructs the 325,466-row source-validation
+  fold, and records no model, feature, threshold, or tuning changes.
 
 ## Interpretation boundary
 

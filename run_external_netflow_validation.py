@@ -222,6 +222,7 @@ def balanced_group_folds(
 
 
 def log1p_nonnegative(values: np.ndarray) -> np.ndarray:
+    """Backward-compatible loader target for the first saved model artifacts."""
     return np.log1p(np.maximum(values, 0))
 
 
@@ -230,7 +231,7 @@ def make_preprocessor(scale: bool) -> ColumnTransformer:
         ("impute", SimpleImputer(strategy="median")),
         (
             "log1p",
-            FunctionTransformer(log1p_nonnegative, feature_names_out="one-to-one"),
+            FunctionTransformer(np.log1p, feature_names_out="one-to-one"),
         ),
     ]
     if scale:
@@ -765,6 +766,9 @@ def main() -> None:
                 "threshold": thresholds[model],
                 "fit_seconds": fit_times[model],
                 "artifact": f"{model}_netflow_v1.joblib",
+                "sha256": sha256_file(
+                    output_dir / f"{model}_netflow_v1.joblib"
+                ),
             }
             for model in MODEL_NAMES
         },

@@ -49,3 +49,13 @@ external_validation,NF_ToN_external,random_forest,average_precision,0.792129,0.7
 external_validation,NF_ToN_external,random_forest,mcc,-0.152427,-0.227679,-0.086025,locked model and source-selected threshold
 external_validation,NF_ToN_external,random_forest,recall,0.042965,0.032438,0.052870,47648 of 1108995 attacks detected
 external_validation,NF_ToN_external,random_forest,specificity,0.865150,0.809191,0.910132,locked model and source-selected threshold
+external_shift,NF_UNSW_to_NF_ToN,IN_PKTS,psi,4.750896,,,source-derived quantile bins; descriptive
+external_shift,NF_UNSW_to_NF_ToN,OUT_PKTS,psi,4.327104,,,source-derived quantile bins; descriptive
+external_shift,NF_UNSW_to_NF_ToN,IN_BYTES,psi,3.129885,,,source-derived quantile bins; descriptive
+external_shift,NF_UNSW_to_NF_ToN,OUT_BYTES,psi,2.386515,,,source-derived quantile bins; descriptive
+external_shift,NF_UNSW_to_NF_ToN,L7_PROTO,jensen_shannon_divergence_bits,0.662844,,,5.34 percent of external rows use unseen source categories
+external_shift,NF_UNSW_to_NF_ToN,IN_PKTS,weighted_absolute_relative_log_odds_drift,3.282443,,,prevalence-adjusted feature-label association drift
+external_shift,NF_UNSW_to_NF_ToN,L7_PROTO,weighted_absolute_relative_log_odds_drift,2.137828,,,prevalence-adjusted feature-label association drift
+external_shift,NF_UNSW_to_NF_ToN,OUT_BYTES,weighted_absolute_relative_log_odds_drift,2.053506,,,prevalence-adjusted feature-label association drift
+external_shift,NF_ToN_external,random_forest,normal_mean_probability,0.363073,,,attack mean probability 0.353763; ordering reverses
+external_shift,NF_ToN_external,logistic_regression,normal_mean_probability,0.850120,,,attack mean probability 0.789111; ordering reverses
