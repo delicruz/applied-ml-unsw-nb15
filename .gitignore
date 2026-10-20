@@ -3,6 +3,9 @@ __pycache__/
 *.py[cod]
 .pytest_cache/
 
+# Large external-validation datasets are downloaded locally, never committed.
+data/external/
+
 # Codex working and helper folders
 .codex-*/
 .codex/

@@ -37,3 +37,15 @@ subgroup_error,conservative_primary_holdout,state_INT_Normal,support,2821,,,desc
 subgroup_error,conservative_primary_holdout,state_INT_Normal,false_positives,2173,,,frozen threshold 0.54
 subgroup_error,conservative_primary_holdout,state_INT_Normal,false_positive_rate,0.770294,,,648 true negatives
 subgroup_error,conservative_primary_holdout,state_INT_false_positive,median_probability,0.742684,,,true-negative median 0.404409
+external_validation,NF_UNSW_source_validation,logistic_regression,average_precision,0.648340,0.596104,0.704693,exact-feature-group bootstrap; threshold 0.69 selected on separate source calibration fold
+external_validation,NF_UNSW_source_validation,logistic_regression,mcc,0.641928,0.601426,0.677621,exact-feature-group bootstrap
+external_validation,NF_UNSW_source_validation,random_forest,average_precision,0.854099,0.792361,0.897718,exact-feature-group bootstrap; threshold 0.64 selected on separate source calibration fold
+external_validation,NF_UNSW_source_validation,random_forest,mcc,0.776295,0.724820,0.834634,exact-feature-group bootstrap
+external_validation,NF_ToN_external,logistic_regression,average_precision,0.706887,0.571919,0.839915,locked model and source-selected threshold; prevalence 0.804043
+external_validation,NF_ToN_external,logistic_regression,mcc,-0.116994,-0.219685,-0.013322,locked model and source-selected threshold
+external_validation,NF_ToN_external,logistic_regression,recall,0.693584,0.618478,0.767968,locked model and source-selected threshold
+external_validation,NF_ToN_external,logistic_regression,specificity,0.174009,0.123682,0.242767,locked model and source-selected threshold
+external_validation,NF_ToN_external,random_forest,average_precision,0.792129,0.766528,0.832642,below external prevalence baseline 0.804043
+external_validation,NF_ToN_external,random_forest,mcc,-0.152427,-0.227679,-0.086025,locked model and source-selected threshold
+external_validation,NF_ToN_external,random_forest,recall,0.042965,0.032438,0.052870,47648 of 1108995 attacks detected
+external_validation,NF_ToN_external,random_forest,specificity,0.865150,0.809191,0.910132,locked model and source-selected threshold

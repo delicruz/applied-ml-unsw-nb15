@@ -13,9 +13,11 @@ made using development data before the supplied test set was opened.
 The main result is more nuanced than the validation score initially suggested.
 The model retains excellent attack-ranking performance on the conservative
 holdout, but the fixed decision threshold produces too many false alarms for a
-deployment claim. Internal overfitting is present but limited; the larger
-problem is that the validation distribution does not fully represent the
-official holdout distribution.
+deployment claim. A matched-representation external stress test strengthens
+this warning: models that remained strong on an endpoint-free, duplicate-grouped
+NF-UNSW-NB15 validation split failed to generalise to NF-ToN-IoT. Internal
+overfitting is limited within UNSW-NB15, but dataset-specific fitting and
+distribution shift remain severe risks.
 
 ## 1. Model selection and internal validation
 
@@ -275,7 +277,54 @@ frozen final threshold, and holdout performance was not used for selection.
 
 ![Development-only cost sensitivity](../../artifacts/operational_burden/plots/cost_sensitivity.png)
 
-## 9. What is new in this work
+## 9. External cross-dataset validation
+
+The supplied UNSW-NB15 training and testing files do not contain timestamps,
+source or destination addresses, or capture-session identifiers. A defensible
+temporal or source-aware reconstruction was therefore not possible from the
+local files. The next stress test used the University of Queensland's
+standardised NetFlow-v1 versions of NF-UNSW-NB15 and NF-ToN-IoT, which share a
+common representation.
+
+This is a new matched-representation experiment rather than a direct external
+test of the frozen 44-feature model. Source and destination IP addresses and
+ports were excluded to prevent endpoint identity from acting as a shortcut.
+The remaining eight traffic features were `PROTOCOL`, `L7_PROTO`, `IN_BYTES`,
+`OUT_BYTES`, `IN_PKTS`, `OUT_PKTS`, `TCP_FLAGS`, and
+`FLOW_DURATION_MILLISECONDS`. Exact duplicates across those eight features
+were kept in one fold. Three folds trained each pre-specified model, a fourth
+selected its MCC-maximising threshold, and a fifth remained untouched for
+source validation. The 1,379,274 NF-ToN-IoT records were used only after model
+fitting and threshold selection were complete.
+
+| Model and scope | Average Precision | MCC | Recall | Specificity | Balanced accuracy |
+|---|---:|---:|---:|---:|---:|
+| Logistic Regression, NF-UNSW source validation | 0.64834 | 0.64193 | 0.87906 | 0.95890 | 0.91898 |
+| Logistic Regression, NF-ToN external | 0.70689 | -0.11699 | 0.69358 | 0.17401 | 0.43380 |
+| Random Forest, NF-UNSW source validation | 0.85410 | 0.77629 | 0.99382 | 0.97228 | 0.98305 |
+| Random Forest, NF-ToN external | 0.79213 | -0.15243 | 0.04297 | 0.86515 | 0.45406 |
+
+The external attack prevalence was 0.80404. Random Forest external Average
+Precision of 0.79213 was therefore below the prevalence baseline, despite its
+0.85410 source-validation Average Precision. At the threshold fixed on
+NF-UNSW-NB15, it detected only 47,648 of 1,108,995 external attacks. Its
+exact-feature-group bootstrap interval was [0.03244, 0.05287] for recall and
+[-0.22768, -0.08603] for MCC. Logistic Regression detected more attacks but
+misclassified 82.60% of external benign flows, and its MCC was also negative.
+
+Random Forest recall was 0.02% for password attacks, 0.18% for scanning, 0.20%
+for cross-site scripting, 1.06% for distributed denial-of-service, and 98.24%
+for backdoor. This extreme attack-family variation shows why a single aggregate
+score is inadequate. The result is strong evidence against interpreting the
+earlier high accuracy as general deployment performance. It is consistent with
+dataset-specific overfitting, major distribution shift, and incompatible attack
+patterns; this experiment alone cannot identify the causal share of each.
+
+![External precision-recall curves](../../artifacts/external_netflow_validation/plots/precision_recall_curves.png)
+
+![In-domain versus external performance](../../artifacts/external_netflow_validation/plots/generalisation_comparison.png)
+
+## 10. What is new in this work
 
 The novelty is evaluative rather than algorithmic. A claim that Logistic
 Regression and Random Forest have not previously been compared on UNSW-NB15
@@ -294,7 +343,10 @@ chain:
 8. threshold transfer is expressed in operational units with development-only
    cost and alert-budget sensitivity analyses; and
 9. the two priority error groups are decomposed using score, subgroup, robust
-   numeric, and SHAP contrasts without creating test-derived correction rules.
+   numeric, and SHAP contrasts without creating test-derived correction rules;
+   and
+10. an endpoint-free, exact-duplicate-grouped NetFlow experiment freezes models
+    and thresholds on NF-UNSW-NB15 before testing them on all NF-ToN-IoT flows.
 
 This contribution is best described as a reproducible robustness and
 generalisation study of a conventional detector. The strongest substantive
@@ -302,7 +354,7 @@ finding is that near-perfect internal Average Precision can coexist with an
 operationally poor false-positive rate after the threshold is transferred to a
 different holdout distribution.
 
-## 10. Limitations
+## 11. Limitations
 
 - The official holdout is not completely pristine because a deterministic
   5,000-row sample had been evaluated by an older workflow. Excluding those
@@ -328,8 +380,15 @@ different holdout distribution.
 - Fuzzers and `state=INT` contrasts were discovered after holdout evaluation.
   They generate hypotheses but cannot validate subgroup corrections. SHAP
   contrasts also use a fixed sample of up to 300 records per outcome.
+- The external experiment retrains models on the common eight-feature NetFlow-v1
+  representation. It tests transfer of the modelling approach, not the frozen
+  44-feature pipeline. NF-UNSW-NB15 and NF-ToN-IoT also differ substantially in
+  prevalence, collection environment, and attack families.
+- Exact-feature-group bootstrap intervals preserve the dependence definition
+  used in the external experiment, but cannot capture unknown temporal, host,
+  or campaign-level dependence because those identifiers are unavailable.
 
-## 11. Supported conclusion
+## 12. Supported conclusion
 
 The selected Random Forest is superior to the Logistic Regression baseline on
 the internal validation data, and its high validation performance survives both
@@ -341,10 +400,13 @@ F1 and MCC decline and the false-positive rate rises to 26.38%.
 At the frozen threshold, this corresponds to approximately 2,638 false alerts
 per 10,000 Normal holdout flows, compared with 894 on validation.
 
-The defensible conclusion is therefore that the model is a strong benchmark
-ranker but not yet a deployment-ready detector at the frozen threshold. The
-results support further evaluation on fresh, representative calibration data;
-they do not support tuning the model on the official test set or claiming that
+The external experiment makes the boundary clearer. On a standardised shared
+feature space, both conventional models failed on NF-ToN-IoT without external
+retuning; Random Forest recall fell to 4.30% and both MCC values were negative.
+The defensible conclusion is therefore that the model is a strong
+UNSW-NB15 benchmark ranker but not a generally validated intrusion detector.
+The results support further evaluation on fresh, representative calibration
+data; they do not support tuning on either official test set or claiming that
 the existing threshold is operationally acceptable.
 
 The targeted audit localises part of the remaining error: Fuzzers misses are
@@ -353,17 +415,18 @@ high-scoring and associated with different connection-count and traffic-volume
 profiles. Because these patterns were identified on the holdout, they should be
 tested on new data before any model or policy change is considered.
 
-## 12. Next targets
+## 13. Next targets
 
 1. Obtain or construct a genuinely fresh calibration partition that reflects
    the intended deployment environment.
 2. Elicit an acceptable false-alert budget or empirical false-negative versus
    false-positive cost, then evaluate calibration and threshold choices on the
    fresh calibration data while leaving official test results unchanged.
-3. Repeat evaluation using a temporal or source-aware split if timestamps or
-   capture-session identifiers can be recovered.
-4. Validate the complete pipeline on a newer or external intrusion-detection
-   dataset before making any deployment claim.
+3. Recover richer raw flow records with timestamps or capture/session IDs, then
+   repeat source evaluation using a temporal or source-aware split.
+4. Investigate whether invariant feature selection or calibration on a new,
+   explicitly designated target-development set improves transfer, then test
+   that frozen proposal on a third untouched dataset.
 
 ## Draft AI-use acknowledgement
 

@@ -25,6 +25,10 @@ this package and were not modified.
 | Supported categorical subgroup profiles | `../../artifacts/subgroup_error_analysis/categorical_subgroup_profiles.csv` | `../../artifacts/subgroup_error_analysis/plots/categorical_subgroup_error_rates.png` |
 | Numeric outcome contrasts | `../../artifacts/subgroup_error_analysis/numeric_outcome_contrasts.csv` | `../../artifacts/subgroup_error_analysis/plots/numeric_outcome_contrasts.png` |
 | Sampled subgroup SHAP contrasts | `../../artifacts/subgroup_error_analysis/subgroup_shap_contrasts.csv` | `../../artifacts/subgroup_error_analysis/plots/subgroup_shap_contrasts.png` |
+| External experiment scope, hashes, splits and locked thresholds | `../../artifacts/external_netflow_validation/summary.json` | `../../artifacts/external_netflow_validation/source_split_summary.csv` |
+| Source-validation and NF-ToN-IoT metrics | `../../artifacts/external_netflow_validation/metrics_long.csv` | `../../artifacts/external_netflow_validation/plots/generalisation_comparison.png` |
+| External exact-feature-group bootstrap intervals | `../../artifacts/external_netflow_validation/group_bootstrap_intervals.csv` | `../../artifacts/external_netflow_validation/group_bootstrap_samples.csv` |
+| External attack-family recall | `../../artifacts/external_netflow_validation/per_attack_recall.csv` | `../../artifacts/external_netflow_validation/plots/precision_recall_curves.png` |
 
 ## Integrity checks already applied
 
@@ -39,10 +43,17 @@ this package and were not modified.
 - The targeted subgroup audit verified the frozen model SHA-256, reproduced the
   69,222-row conservative scope, and records both `model_or_threshold_changes:
   false` and `subgroup_rules_created: false`.
+- The external experiment excludes all four endpoint identifiers, reports zero
+  exact-feature-group overlap among source training, threshold-calibration and
+  validation partitions, and records `external_data_used_for_tuning: false`.
+- Full external results use all 1,623,118 NF-UNSW-NB15 rows and all 1,379,274
+  NF-ToN-IoT rows; SHA-256 values for both official CSV files are recorded.
 
 ## Interpretation boundary
 
 Numerical performance claims are directly supported by local artifacts.
 Statements about likely distribution shift are inferences from those results.
 The package does not claim that PSI, Jensen-Shannon divergence, subgroup error
-rates, or SHAP values establish a causal mechanism.
+rates, SHAP values, or cross-dataset performance establish a causal mechanism.
+The NetFlow-v1 experiment validates transfer of a matched modelling approach,
+not the previously frozen 44-feature model.

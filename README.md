@@ -137,6 +137,9 @@ Outputs are written to `artifacts/`:
 - `subgroup_error_analysis/summary.json`, descriptive Fuzzers miss and Normal
   `state=INT` false-positive profiles, numeric contrasts, sampled SHAP
   contrasts, and diagnostic plots
+- `external_netflow_validation/summary.json`, endpoint-free matched-representation
+  NF-UNSW-NB15 to NF-ToN-IoT results, exact-feature-group bootstrap intervals,
+  per-attack recall, locked models, and generalisation plots
 
 The generated CSVs and plots are intended to feed directly into the Dataset, EDA, Results, Explainability, Error Analysis, and Discussion sections of the final report.
 
@@ -188,3 +191,23 @@ conservative holdout, and compares missed versus detected Fuzzers attacks and
 false-positive versus true-negative Normal `state=INT` records. Its score,
 categorical, numeric, and SHAP contrasts are explanatory diagnostics only; they
 do not change the model, features, or threshold.
+
+Run the cross-dataset NetFlow-v1 stress test after downloading the official
+open-access NF-UNSW-NB15 and NF-ToN-IoT archives from the University of
+Queensland and extracting both CSV files anywhere below `data/external/`:
+
+- [UQ NetFlow dataset catalogue](https://staff.itee.uq.edu.au/marius/NIDS_datasets/)
+- [NF-UNSW-NB15 NetFlow-v1 file](https://rdm.uq.edu.au/files/c31a9f50-ef99-11ed-ab7b-c7846b13c8a9)
+- [NF-ToN-IoT NetFlow-v1 file](https://rdm.uq.edu.au/files/2ad93cd0-ef9c-11ed-827d-e762de186848)
+
+```powershell
+.\.venv\Scripts\python.exe run_external_netflow_validation.py
+```
+
+The runner excludes source/destination IP addresses and ports, keeps exact
+duplicates of the eight remaining shared traffic features in one source fold,
+uses separate source folds for training, threshold calibration, and validation,
+and never tunes on NF-ToN-IoT. The experiment tests transfer of a common
+eight-feature modelling approach; it is not a direct external evaluation of
+the frozen 44-feature UNSW-NB15 model. Large external CSVs under
+`data/external/` are intentionally ignored by Git.
