@@ -29,3 +29,11 @@ cost_sensitivity,current_validation,minimum_cost_fp1_fn2_threshold_0.43,false_al
 cost_sensitivity,current_validation,minimum_cost_fp1_fn2_threshold_0.43,missed_attacks_per_10000_suspicious,101.390984,,,relative cost scenario; not measured utility
 cost_sensitivity,current_validation,alert_budget_100_threshold_0.84,false_alerts_per_10000_normal,91.964286,,,policy selected on internal grouped development fold
 cost_sensitivity,current_validation,alert_budget_100_threshold_0.84,missed_attacks_per_10000_suspicious,1234.288587,,,illustrative alert budget
+subgroup_error,conservative_primary_holdout,Fuzzers,support,5454,,,descriptive post-evaluation audit
+subgroup_error,conservative_primary_holdout,Fuzzers,missed_records,535,,,frozen threshold 0.54
+subgroup_error,conservative_primary_holdout,Fuzzers,recall,0.901907,,,4919 detected records
+subgroup_error,conservative_primary_holdout,Fuzzers_missed,median_probability,0.477661,,,95th percentile 0.535389
+subgroup_error,conservative_primary_holdout,state_INT_Normal,support,2821,,,descriptive post-evaluation audit
+subgroup_error,conservative_primary_holdout,state_INT_Normal,false_positives,2173,,,frozen threshold 0.54
+subgroup_error,conservative_primary_holdout,state_INT_Normal,false_positive_rate,0.770294,,,648 true negatives
+subgroup_error,conservative_primary_holdout,state_INT_false_positive,median_probability,0.742684,,,true-negative median 0.404409

@@ -134,6 +134,9 @@ Outputs are written to `artifacts/`:
 - `operational_burden/summary.json`, development-only cost-sensitive threshold
   policies, validation policy evaluation, frozen-threshold alert burden, and
   operational trade-off plots
+- `subgroup_error_analysis/summary.json`, descriptive Fuzzers miss and Normal
+  `state=INT` false-positive profiles, numeric contrasts, sampled SHAP
+  contrasts, and diagnostic plots
 
 The generated CSVs and plots are intended to feed directly into the Dataset, EDA, Results, Explainability, Error Analysis, and Discussion sections of the final report.
 
@@ -173,3 +176,15 @@ This stage reports false alerts per 10,000 Normal flows and missed attacks per
 near-duplicate-grouped development fold and checked on validation. The supplied
 test predictions are used only to report the already-frozen threshold of 0.54;
 the script does not retune or replace the final model.
+
+Describe the two priority error groups without creating test-derived rules:
+
+```powershell
+.\.venv\Scripts\python.exe run_subgroup_error_analysis.py
+```
+
+This post-evaluation stage verifies the frozen model hash, reproduces the
+conservative holdout, and compares missed versus detected Fuzzers attacks and
+false-positive versus true-negative Normal `state=INT` records. Its score,
+categorical, numeric, and SHAP contrasts are explanatory diagnostics only; they
+do not change the model, features, or threshold.

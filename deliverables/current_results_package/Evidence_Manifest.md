@@ -21,6 +21,10 @@ this package and were not modified.
 | Operational burden at frozen threshold | `../../artifacts/operational_burden/frozen_threshold_burden.csv` | `../../artifacts/operational_burden/plots/frozen_threshold_burden.png` |
 | Development-only cost sensitivity | `../../artifacts/operational_burden/selected_cost_policies.csv` | `../../artifacts/operational_burden/plots/cost_sensitivity.png` |
 | Validation of candidate policies | `../../artifacts/operational_burden/validation_policy_evaluation.csv` | `../../artifacts/operational_burden/summary.json` |
+| Fuzzers and `state=INT` score profiles | `../../artifacts/subgroup_error_analysis/score_summary.csv` | `../../artifacts/subgroup_error_analysis/plots/subgroup_probability_distributions.png` |
+| Supported categorical subgroup profiles | `../../artifacts/subgroup_error_analysis/categorical_subgroup_profiles.csv` | `../../artifacts/subgroup_error_analysis/plots/categorical_subgroup_error_rates.png` |
+| Numeric outcome contrasts | `../../artifacts/subgroup_error_analysis/numeric_outcome_contrasts.csv` | `../../artifacts/subgroup_error_analysis/plots/numeric_outcome_contrasts.png` |
+| Sampled subgroup SHAP contrasts | `../../artifacts/subgroup_error_analysis/subgroup_shap_contrasts.csv` | `../../artifacts/subgroup_error_analysis/plots/subgroup_shap_contrasts.png` |
 
 ## Integrity checks already applied
 
@@ -32,6 +36,9 @@ this package and were not modified.
 - The post-hoc audit records `model_or_threshold_changes: false`.
 - Operational policies were selected on an internal grouped development fold;
   holdout predictions only report the unchanged threshold of 0.54.
+- The targeted subgroup audit verified the frozen model SHA-256, reproduced the
+  69,222-row conservative scope, and records both `model_or_threshold_changes:
+  false` and `subgroup_rules_created: false`.
 
 ## Interpretation boundary
 

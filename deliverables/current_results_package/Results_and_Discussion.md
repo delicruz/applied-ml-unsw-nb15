@@ -196,7 +196,51 @@ not evidence that the variables cause malicious activity.
 
 ![False-positive SHAP drivers](../../artifacts/distribution_shift_audit/plots/false_positive_shap_drivers.png)
 
-## 7. Operational alert burden and cost sensitivity
+## 7. Targeted Fuzzers and `state=INT` error audit
+
+Fuzzers was the weakest supported attack category. In the conservative primary
+holdout, 4,919 of 5,454 Fuzzers records were detected and 535 were missed,
+giving 90.19% recall. Missed Fuzzers had a median predicted attack probability
+of 0.478, compared with 0.792 for detected records. Their 95th percentile was
+0.535, immediately below the frozen threshold of 0.54. The errors were
+therefore mostly lower-confidence or threshold-adjacent cases rather than
+high-confidence Normal predictions.
+
+Among supported categorical groups, 421 of the misses were TCP records, 418
+were in `state=FIN`, and 522 had no named service. These counts largely reflect
+the composition of Fuzzers traffic: the corresponding miss rates were 12.05%,
+11.99%, and 10.54%. UDP Fuzzers had a similar 11.39% miss rate, whereas
+`state=INT` Fuzzers had a lower 5.91% miss rate. These overlaps should not be
+read as independent risk factors.
+
+The largest numeric separation between missed and detected Fuzzers was
+`ct_dst_src_ltm` (medians 4 versus 2; KS statistic 0.413). Missed records also
+had lower median `smean` (61 versus 100). In the sampled SHAP comparison,
+`ct_dst_src_ltm`, `ct_srv_dst`, `ct_srv_src`, `state`, and `proto` showed the
+largest negative signed gaps for misses relative to detections. This means
+those features contributed less attack evidence, or more Normal evidence, for
+the sampled missed cases; it does not show that they caused the errors.
+
+The Normal `state=INT` subgroup contained 2,821 records, of which 2,173 were
+false positives, for a 77.03% false-positive rate. False positives had a median
+attack probability of 0.743, compared with 0.404 for the 648 true negatives.
+Nearly all records were UDP with no named service, so those categorical labels
+do not distinguish the outcomes within this subgroup.
+
+Numeric contrasts were stronger within `state=INT`. False positives had much
+lower medians than true negatives for `ct_dst_src_ltm` (4 versus 23; KS 0.547),
+`ct_srv_dst` (5 versus 23; KS 0.541), and `ct_srv_src` (5 versus 23; KS 0.492).
+The sampled SHAP comparison showed that `smean`, `sbytes`, `ct_srv_dst`,
+`ct_srv_src`, and `sload` supplied substantially less negative evidence for
+false positives than for true negatives. In other words, their protective
+effect was weaker in the false-positive sample. These holdout-derived patterns
+are diagnostic hypotheses only and were not converted into subgroup rules.
+
+![Subgroup probability distributions](../../artifacts/subgroup_error_analysis/plots/subgroup_probability_distributions.png)
+
+![Subgroup SHAP contrasts](../../artifacts/subgroup_error_analysis/plots/subgroup_shap_contrasts.png)
+
+## 8. Operational alert burden and cost sensitivity
 
 The frozen threshold of 0.54 generated 858.3 false alerts per 10,000 Normal
 flows on the internal grouped tuning fold and 893.8 on validation. On the
@@ -231,7 +275,7 @@ frozen final threshold, and holdout performance was not used for selection.
 
 ![Development-only cost sensitivity](../../artifacts/operational_burden/plots/cost_sensitivity.png)
 
-## 8. What is new in this work
+## 9. What is new in this work
 
 The novelty is evaluative rather than algorithmic. A claim that Logistic
 Regression and Random Forest have not previously been compared on UNSW-NB15
@@ -248,7 +292,9 @@ chain:
 7. the validation-to-holdout gap is investigated through distribution-shift,
    subgroup-error, and SHAP analyses; and
 8. threshold transfer is expressed in operational units with development-only
-   cost and alert-budget sensitivity analyses.
+   cost and alert-budget sensitivity analyses; and
+9. the two priority error groups are decomposed using score, subgroup, robust
+   numeric, and SHAP contrasts without creating test-derived correction rules.
 
 This contribution is best described as a reproducible robustness and
 generalisation study of a conventional detector. The strongest substantive
@@ -256,7 +302,7 @@ finding is that near-perfect internal Average Precision can coexist with an
 operationally poor false-positive rate after the threshold is transferred to a
 different holdout distribution.
 
-## 9. Limitations
+## 10. Limitations
 
 - The official holdout is not completely pristine because a deterministic
   5,000-row sample had been evaluated by an older workflow. Excluding those
@@ -279,8 +325,11 @@ different holdout distribution.
 - The cost ratios and alert budgets are illustrative. No stakeholder-derived
   utility function, analyst capacity limit, or measured incident cost was
   available.
+- Fuzzers and `state=INT` contrasts were discovered after holdout evaluation.
+  They generate hypotheses but cannot validate subgroup corrections. SHAP
+  contrasts also use a fixed sample of up to 300 records per outcome.
 
-## 10. Supported conclusion
+## 11. Supported conclusion
 
 The selected Random Forest is superior to the Logistic Regression baseline on
 the internal validation data, and its high validation performance survives both
@@ -298,7 +347,13 @@ results support further evaluation on fresh, representative calibration data;
 they do not support tuning the model on the official test set or claiming that
 the existing threshold is operationally acceptable.
 
-## 11. Next targets
+The targeted audit localises part of the remaining error: Fuzzers misses are
+mostly threshold-adjacent, while Normal `state=INT` errors are frequently
+high-scoring and associated with different connection-count and traffic-volume
+profiles. Because these patterns were identified on the holdout, they should be
+tested on new data before any model or policy change is considered.
+
+## 12. Next targets
 
 1. Obtain or construct a genuinely fresh calibration partition that reflects
    the intended deployment environment.
@@ -307,9 +362,7 @@ the existing threshold is operationally acceptable.
    fresh calibration data while leaving official test results unchanged.
 3. Repeat evaluation using a temporal or source-aware split if timestamps or
    capture-session identifiers can be recovered.
-4. Investigate Fuzzers errors and the high-risk `state=INT` subgroup without
-   creating subgroup rules from the current test set.
-5. Validate the complete pipeline on a newer or external intrusion-detection
+4. Validate the complete pipeline on a newer or external intrusion-detection
    dataset before making any deployment claim.
 
 ## Draft AI-use acknowledgement
