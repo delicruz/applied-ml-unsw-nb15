@@ -87,6 +87,26 @@ failure is not repairable by moving the decision threshold alone.
 
 ![Cross-dataset frozen score ordering](../../artifacts/third_dataset_shift_audit/plots/cross_external_score_ordering.png)
 
+### Cross-external error-pattern synthesis
+
+The saved NF-ToN-IoT and NF-BoT-IoT feature-bin profiles were aligned without
+re-running or retuning either model. With at least 100 class examples per
+dataset as the support rule, Random Forest had 32 feature-bin rows with recall
+at or below 20% in both external datasets and no recurring high-false-positive
+rows. Logistic Regression had the complementary failure: no recurring
+low-recall rows but 25 feature-bin rows with a false-positive rate at or above
+20% in both datasets.
+
+For Random Forest, recurring low-recall bins covered at least 94% of attacks in
+both datasets for `IN_BYTES`, `OUT_PKTS`, `PROTOCOL`, and `L7_PROTO`. For
+Logistic Regression, recurring high-false-positive bins covered at least 94%
+of benign rows in both datasets for `IN_BYTES`, `OUT_BYTES`, `PROTOCOL`, and
+`TCP_FLAGS`. Shares are feature-specific and overlap, so they are not additive.
+The result describes a broad, model-specific failure pattern rather than a
+single causal feature.
+
+![Cross-external recurring feature-bin failures](../../artifacts/cross_external_error_synthesis/plots/consistent_feature_bin_failures.png)
+
 ### Output files
 
 | File | Purpose |
@@ -98,6 +118,8 @@ failure is not repairable by moving the decision threshold alone.
 | `artifacts/third_dataset_validation/per_attack_recall.csv` | Attack-family recall |
 | `artifacts/third_dataset_shift_audit/summary.json` | Verified descriptive shift-audit summary |
 | `artifacts/third_dataset_shift_audit/cross_external_score_comparison.csv` | Source and two-external-dataset score ordering |
+| `artifacts/cross_external_error_synthesis/summary.json` | Aligned recurring error-bin rules and counts |
+| `artifacts/cross_external_error_synthesis/feature_consistency_summary.csv` | Per-feature coverage of recurring errors in both datasets |
 
 ### Anomalies detected
 

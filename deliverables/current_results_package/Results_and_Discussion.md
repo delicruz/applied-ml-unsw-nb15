@@ -452,6 +452,36 @@ that changing only the threshold cannot repair the observed transfer failure.
 
 ![Cross-dataset frozen score ordering](../../artifacts/third_dataset_shift_audit/plots/cross_external_score_ordering.png)
 
+### Cross-external feature-bin consistency
+
+A final descriptive synthesis aligned the source-derived feature bins used in
+both external audits. A bin was flagged as consistently low recall only when it
+contained at least 100 attacks in each external dataset and attack recall was
+at most 20% in both. A consistently high false-positive bin required at least
+100 benign rows in each dataset and a false-positive rate of at least 20% in
+both. These post-hoc rules were used only to summarise recurring errors; they
+did not change a model, feature, or threshold.
+
+The two models failed in different ways. Random Forest produced 32 aligned
+low-recall feature-bin rows and no aligned high-false-positive rows. Across
+each feature considered separately, those recurring low-recall bins contained
+99.99% and 99.74% of attacks for `IN_BYTES`, 100.00% and 99.37% for
+`PROTOCOL`, 98.42% and 99.95% for `OUT_PKTS`, and 94.51% and 94.12% for
+`L7_PROTO` on NF-ToN-IoT and NF-BoT-IoT, respectively. Logistic Regression
+showed the opposite pattern: no recurring low-recall bins but 25 recurring
+high-false-positive bin rows. Those bins contained 100.00% of benign rows in
+both datasets for `TCP_FLAGS`, 97.66% and 99.87% for `PROTOCOL`, 94.84% and
+99.65% for `IN_BYTES`, and 95.99% and 94.95% for `OUT_BYTES`.
+
+The shares overlap across features because every feature partitions the same
+flows; they must not be added. Their breadth is the important result. The
+external failures are not confined to one isolated bin or one suspected
+variable. They recur across packet, byte, protocol, flag, and duration views,
+which supports a broad incompatibility diagnosis while still not proving that
+any individual feature causes the errors.
+
+![Cross-external recurring feature-bin failures](../../artifacts/cross_external_error_synthesis/plots/consistent_feature_bin_failures.png)
+
 ## 11. What is new in this work
 
 The novelty is evaluative rather than algorithmic. A claim that Logistic
@@ -482,7 +512,11 @@ chain:
     thresholds, features, uncertainty method, and decision rule on a third
     dataset, avoiding adaptation to the earlier external failure; and
 13. a second no-retuning shift audit compares source, NF-ToN-IoT, and
-    NF-BoT-IoT score ordering and documents a repeated external ranking reversal.
+    NF-BoT-IoT score ordering and documents a repeated external ranking
+    reversal; and
+14. an aligned source-bin synthesis shows that the recurring external failure
+    mode differs by model: Random Forest misses attacks broadly, while Logistic
+    Regression raises benign alarms broadly.
 
 This contribution is best described as a reproducible robustness and
 generalisation study of a conventional detector. The strongest substantive
@@ -539,6 +573,10 @@ different holdout distribution.
   collection or encoding difference, but the available files do not establish
   the mechanism. Identically named NetFlow-v1 fields should therefore not be
   assumed semantically interchangeable without provenance-level confirmation.
+- The cross-external bin thresholds were defined after both external results
+  were known. The bin shares overlap across features and are descriptive, not
+  independent causal effects or evidence that removing a feature will improve
+  transfer.
 
 ## 13. Supported conclusion
 
@@ -568,6 +606,12 @@ NF-BoT-IoT. Logistic Regression also reversed on both external datasets. The
 repeated reversal, together with large feature-distribution and adjusted
 feature/label association changes, is consistent with dataset-specific fitting
 under substantial domain shift.
+
+The aligned-bin synthesis further shows that the recurring error is broad and
+model-specific: Random Forest's external problem is dominated by attack misses
+across multiple traffic dimensions, whereas Logistic Regression's is dominated
+by benign false alarms across those same dimensions. This localises the failure
+mode without turning either external dataset into tuning data.
 
 The defensible conclusion is therefore that the model is a strong
 UNSW-NB15 benchmark ranker but not a generally validated intrusion detector.

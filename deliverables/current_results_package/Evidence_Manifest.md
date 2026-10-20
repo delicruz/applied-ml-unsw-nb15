@@ -41,6 +41,8 @@ this package and were not modified.
 | NF-BoT-IoT prevalence-adjusted feature/label drift | `../../artifacts/third_dataset_shift_audit/feature_label_association_drift.csv` | `../../artifacts/third_dataset_shift_audit/feature_label_association_bins.csv` |
 | Source and two-external-dataset score ordering | `../../artifacts/third_dataset_shift_audit/cross_external_score_comparison.csv` | `../../artifacts/third_dataset_shift_audit/plots/cross_external_score_ordering.png` |
 | NF-BoT-IoT feature-bin error profiles | `../../artifacts/third_dataset_shift_audit/external_error_profiles_by_feature_bin.csv` | `../../artifacts/third_dataset_shift_audit/summary.json` |
+| Aligned recurring external error bins | `../../artifacts/cross_external_error_synthesis/aligned_feature_bin_errors.csv` | `../../artifacts/cross_external_error_synthesis/summary.json` |
+| Per-feature coverage of recurring failure modes | `../../artifacts/cross_external_error_synthesis/feature_consistency_summary.csv` | `../../artifacts/cross_external_error_synthesis/plots/consistent_feature_bin_failures.png` |
 
 ## Integrity checks already applied
 
@@ -79,6 +81,10 @@ this package and were not modified.
 - The cross-external score table uses the earlier NF-ToN-IoT audit artifact and
   the newly computed NF-BoT-IoT scores. Both external datasets reverse the
   attack-above-benign mean-score ordering observed on source validation.
+- The cross-external error synthesis reads only saved aggregated audit tables,
+  re-verifies the shared source fold and model hashes, and records no model,
+  feature, threshold, or external-tuning changes. Its support and error-rate
+  cutoffs are descriptive post-hoc reporting rules, not selection criteria.
 
 ## Interpretation boundary
 

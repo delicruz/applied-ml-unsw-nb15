@@ -149,6 +149,8 @@ Outputs are written to `artifacts/`:
 - `third_dataset_shift_audit/summary.json`, NF-BoT-IoT feature-distribution and
   prevalence-adjusted association shift, frozen-score reversal, feature-bin
   errors, and comparison with the earlier NF-ToN-IoT score audit
+- `cross_external_error_synthesis/summary.json`, aligned recurring feature-bin
+  failures across NF-ToN-IoT and NF-BoT-IoT, with coverage tables and a plot
 
 The generated CSVs and plots are intended to feed directly into the Dataset, EDA, Results, Explainability, Error Analysis, and Discussion sections of the final report.
 
@@ -270,3 +272,15 @@ NF-BoT-IoT. It records extreme numeric shift, prevalence-adjusted feature/label
 drift, and a frozen-score ordering reversal for both models. It also creates a
 single comparison of source, NF-ToN-IoT, and NF-BoT-IoT score ordering. The
 analysis is descriptive and does not authorise target-data tuning.
+
+Align the two completed external error audits and identify recurring supported
+feature-bin failures without fitting or threshold selection:
+
+```powershell
+.\.venv\Scripts\python.exe run_cross_external_error_synthesis.py
+```
+
+The synthesis flags a bin only when it has at least 100 relevant class rows in
+each external dataset. It reports Random Forest's recurring low-recall bins and
+Logistic Regression's recurring high-false-positive bins. These are post-hoc
+hypotheses from already-opened external data, not validated correction rules.
