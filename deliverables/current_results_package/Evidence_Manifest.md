@@ -18,6 +18,9 @@ this package and were not modified.
 | False-positive subgroup analysis | `../../artifacts/distribution_shift_audit/categorical_error_groups.csv` | `../../artifacts/distribution_shift_audit/plots/categorical_false_positive_groups.png` |
 | False-positive score distribution | `../../artifacts/distribution_shift_audit/normal_probability_bins.csv` | `../../artifacts/distribution_shift_audit/plots/normal_probability_distribution.png` |
 | False-positive SHAP drivers | `../../artifacts/distribution_shift_audit/false_positive_shap_drivers.csv` | `../../artifacts/distribution_shift_audit/plots/false_positive_shap_drivers.png` |
+| Operational burden at frozen threshold | `../../artifacts/operational_burden/frozen_threshold_burden.csv` | `../../artifacts/operational_burden/plots/frozen_threshold_burden.png` |
+| Development-only cost sensitivity | `../../artifacts/operational_burden/selected_cost_policies.csv` | `../../artifacts/operational_burden/plots/cost_sensitivity.png` |
+| Validation of candidate policies | `../../artifacts/operational_burden/validation_policy_evaluation.csv` | `../../artifacts/operational_burden/summary.json` |
 
 ## Integrity checks already applied
 
@@ -27,6 +30,8 @@ this package and were not modified.
   `proto`, `service`, and `state`.
 - Probability-bin counts reproduce all 33,278 Normal records.
 - The post-hoc audit records `model_or_threshold_changes: false`.
+- Operational policies were selected on an internal grouped development fold;
+  holdout predictions only report the unchanged threshold of 0.54.
 
 ## Interpretation boundary
 

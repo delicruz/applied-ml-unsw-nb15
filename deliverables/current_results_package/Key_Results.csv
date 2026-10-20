@@ -21,3 +21,11 @@ final_model,conservative_primary_holdout,without_all_ttl,mcc,0.746241,0.740862,0
 final_model,conservative_primary_holdout,without_all_ttl,false_positive_rate,0.263808,,,8779 false positives among 33278 Normal records
 final_model,conservative_primary_holdout,without_all_ttl,brier_score,0.089653,,,descriptive
 final_model,conservative_primary_holdout,without_all_ttl,log_loss,0.258253,,,descriptive
+operational_burden,internal_grouped_development_fold,frozen_threshold_0.54,false_alerts_per_10000_normal,858.258929,,,selected without holdout data
+operational_burden,current_validation,frozen_threshold_0.54,false_alerts_per_10000_normal,893.750000,,,validation evaluation
+operational_burden,conservative_primary_holdout,frozen_threshold_0.54,false_alerts_per_10000_normal,2638.079211,,,holdout reporting only; no threshold change
+operational_burden,conservative_primary_holdout,frozen_threshold_0.54,missed_attacks_per_10000_suspicious,178.889383,,,holdout reporting only
+cost_sensitivity,current_validation,minimum_cost_fp1_fn2_threshold_0.43,false_alerts_per_10000_normal,1359.821429,,,policy selected on internal grouped development fold
+cost_sensitivity,current_validation,minimum_cost_fp1_fn2_threshold_0.43,missed_attacks_per_10000_suspicious,101.390984,,,relative cost scenario; not measured utility
+cost_sensitivity,current_validation,alert_budget_100_threshold_0.84,false_alerts_per_10000_normal,91.964286,,,policy selected on internal grouped development fold
+cost_sensitivity,current_validation,alert_budget_100_threshold_0.84,missed_attacks_per_10000_suspicious,1234.288587,,,illustrative alert budget

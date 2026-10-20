@@ -196,7 +196,42 @@ not evidence that the variables cause malicious activity.
 
 ![False-positive SHAP drivers](../../artifacts/distribution_shift_audit/plots/false_positive_shap_drivers.png)
 
-## 7. What is new in this work
+## 7. Operational alert burden and cost sensitivity
+
+The frozen threshold of 0.54 generated 858.3 false alerts per 10,000 Normal
+flows on the internal grouped tuning fold and 893.8 on validation. On the
+conservative primary holdout, the burden increased to 2,638.1 false alerts per
+10,000 Normal flows. At the same threshold, missed attacks per 10,000
+Suspicious flows were 250.3 internally, 274.0 on validation, and 178.9 on the
+holdout. The transferred detector therefore caught slightly more attacks on the
+holdout while creating roughly three times the Normal-traffic alert burden.
+
+Relative cost scenarios were selected on the internal grouped development fold
+only. Equal false-positive and false-negative costs selected the existing 0.54
+threshold. Setting a false negative to twice the cost of a false positive
+selected 0.43; on validation this produced 1,359.8 false alerts per 10,000
+Normal flows and 101.4 missed attacks per 10,000 Suspicious flows. A five-times
+false-negative cost selected 0.26, producing 1,957.1 false alerts and 5.4 missed
+attacks per 10,000 respective class flows on validation.
+
+Alert-budget policies showed the opposite trade-off. An internal budget of 100
+false alerts per 10,000 Normal flows selected 0.84 and yielded 92.0 false alerts
+but 1,234.3 missed attacks per 10,000 Suspicious flows on validation. Internal
+budgets of 500 and 1,000 selected thresholds of 0.65 and 0.51; their validation
+burdens were 519.6 and 1,027.7 false alerts, respectively. The small budget
+overshoots after transfer reinforce that a threshold should be calibrated on
+fresh, representative data rather than treated as universally portable.
+
+These cost ratios are sensitivity scenarios, not measured organisational
+utilities. They make the trade-off explicit but do not identify an acceptable
+deployment policy. No candidate threshold from this analysis replaced the
+frozen final threshold, and holdout performance was not used for selection.
+
+![Frozen-threshold alert burden](../../artifacts/operational_burden/plots/frozen_threshold_burden.png)
+
+![Development-only cost sensitivity](../../artifacts/operational_burden/plots/cost_sensitivity.png)
+
+## 8. What is new in this work
 
 The novelty is evaluative rather than algorithmic. A claim that Logistic
 Regression and Random Forest have not previously been compared on UNSW-NB15
@@ -211,7 +246,9 @@ chain:
 5. both exact and five-significant-digit near-duplicate overlap are audited;
 6. results include per-attack recall and uncertainty intervals; and
 7. the validation-to-holdout gap is investigated through distribution-shift,
-   subgroup-error, and SHAP analyses.
+   subgroup-error, and SHAP analyses; and
+8. threshold transfer is expressed in operational units with development-only
+   cost and alert-budget sensitivity analyses.
 
 This contribution is best described as a reproducible robustness and
 generalisation study of a conventional detector. The strongest substantive
@@ -219,7 +256,7 @@ finding is that near-perfect internal Average Precision can coexist with an
 operationally poor false-positive rate after the threshold is transferred to a
 different holdout distribution.
 
-## 8. Limitations
+## 9. Limitations
 
 - The official holdout is not completely pristine because a deterministic
   5,000-row sample had been evaluated by an older workflow. Excluding those
@@ -239,8 +276,11 @@ different holdout distribution.
   evaluate multiclass diagnosis.
 - The frozen threshold maximises a development-stage objective rather than an
   explicitly measured operational cost function.
+- The cost ratios and alert budgets are illustrative. No stakeholder-derived
+  utility function, analyst capacity limit, or measured incident cost was
+  available.
 
-## 9. Supported conclusion
+## 10. Supported conclusion
 
 The selected Random Forest is superior to the Logistic Regression baseline on
 the internal validation data, and its high validation performance survives both
@@ -249,6 +289,8 @@ classic overfitting or simple duplicate leakage unlikely as the sole
 explanation for the original score. Nevertheless, the conservative holdout
 reveals a substantial generalisation gap. Average Precision remains high, but
 F1 and MCC decline and the false-positive rate rises to 26.38%.
+At the frozen threshold, this corresponds to approximately 2,638 false alerts
+per 10,000 Normal holdout flows, compared with 894 on validation.
 
 The defensible conclusion is therefore that the model is a strong benchmark
 ranker but not yet a deployment-ready detector at the frozen threshold. The
@@ -256,19 +298,18 @@ results support further evaluation on fresh, representative calibration data;
 they do not support tuning the model on the official test set or claiming that
 the existing threshold is operationally acceptable.
 
-## 10. Next targets
+## 11. Next targets
 
 1. Obtain or construct a genuinely fresh calibration partition that reflects
    the intended deployment environment.
-2. Evaluate probability calibration and cost-sensitive threshold choices on
-   that calibration data, leaving the official test results unchanged.
+2. Elicit an acceptable false-alert budget or empirical false-negative versus
+   false-positive cost, then evaluate calibration and threshold choices on the
+   fresh calibration data while leaving official test results unchanged.
 3. Repeat evaluation using a temporal or source-aware split if timestamps or
    capture-session identifiers can be recovered.
 4. Investigate Fuzzers errors and the high-risk `state=INT` subgroup without
    creating subgroup rules from the current test set.
-5. Report alert burden using an operational unit such as false alerts per
-   10,000 Normal flows and specify the acceptable cost trade-off.
-6. Validate the complete pipeline on a newer or external intrusion-detection
+5. Validate the complete pipeline on a newer or external intrusion-detection
    dataset before making any deployment claim.
 
 ## Draft AI-use acknowledgement

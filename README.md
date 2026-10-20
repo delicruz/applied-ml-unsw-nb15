@@ -131,6 +131,9 @@ Outputs are written to `artifacts/`:
   frozen no-TTL model
 - `distribution_shift_audit/summary.json`, train-to-holdout feature-shift
   statistics, false-positive subgroup tables, SHAP drivers, and diagnostic plots
+- `operational_burden/summary.json`, development-only cost-sensitive threshold
+  policies, validation policy evaluation, frozen-threshold alert burden, and
+  operational trade-off plots
 
 The generated CSVs and plots are intended to feed directly into the Dataset, EDA, Results, Explainability, Error Analysis, and Discussion sections of the final report.
 
@@ -157,3 +160,16 @@ This audit verifies the frozen model hash, reproduces the conservative primary
 holdout scope, measures numeric and categorical distribution shift, profiles
 false-positive subgroups, and contrasts false positives with true negatives
 using SHAP. It does not change the model, features, or decision threshold.
+
+Quantify operational alert burden and explore relative cost scenarios without
+using holdout performance for threshold selection:
+
+```powershell
+.\.venv\Scripts\python.exe run_operational_burden_analysis.py
+```
+
+This stage reports false alerts per 10,000 Normal flows and missed attacks per
+10,000 Suspicious flows. Candidate policies are selected only on an internal
+near-duplicate-grouped development fold and checked on validation. The supplied
+test predictions are used only to report the already-frozen threshold of 0.54;
+the script does not retune or replace the final model.
