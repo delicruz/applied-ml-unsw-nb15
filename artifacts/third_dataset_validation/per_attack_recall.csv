@@ -1,0 +1,11 @@
+dataset,model,attack,rows,positive_rows,recall
+NF-BoT-IoT,logistic_regression,Benign,13859,0,
+NF-BoT-IoT,logistic_regression,DDoS,56844,56844,0.7054042643023011
+NF-BoT-IoT,logistic_regression,DoS,56833,56833,0.7053472454383897
+NF-BoT-IoT,logistic_regression,Reconnaissance,470655,470655,0.9632724607196353
+NF-BoT-IoT,logistic_regression,Theft,1909,1909,0.858040859088528
+NF-BoT-IoT,random_forest,Benign,13859,0,
+NF-BoT-IoT,random_forest,DDoS,56844,56844,0.0025508408978959962
+NF-BoT-IoT,random_forest,DoS,56833,56833,0.002551334611933208
+NF-BoT-IoT,random_forest,Reconnaissance,470655,470655,0.0021608184338846926
+NF-BoT-IoT,random_forest,Theft,1909,1909,0.014667365112624411

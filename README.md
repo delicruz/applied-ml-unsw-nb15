@@ -143,6 +143,9 @@ Outputs are written to `artifacts/`:
 - `external_shift_audit/summary.json`, cross-dataset feature-distribution shift,
   prevalence-adjusted feature/label drift, frozen-model score shift, external
   feature-bin error profiles, and diagnostic plots
+- `third_dataset_validation/summary.json`, preregistered NF-BoT-IoT verdict,
+  point metrics, exact-feature-group bootstrap intervals and samples, and
+  attack-family recall
 
 The generated CSVs and plots are intended to feed directly into the Dataset, EDA, Results, Explainability, Error Analysis, and Discussion sections of the final report.
 
@@ -228,11 +231,11 @@ feature distributions, prevalence-adjusted feature/label relationships, model
 scores, and error profiles. Its outputs are descriptive and must not be used to
 retune against NF-ToN-IoT.
 
-The third external evaluation is sealed before data access in
-`protocols/third_dataset_preregistration.json`. NF-BoT-IoT NetFlow-v1 remains
-untouched until that protocol is committed. After downloading the official
-archive and extracting its CSV below the ignored `data/external/` directory,
-execute the frozen evaluation with:
+The third external evaluation was sealed before data access in
+`protocols/third_dataset_preregistration.json`. After that protocol was
+committed, the official NF-BoT-IoT NetFlow-v1 archive was downloaded and its
+CSV was extracted below the ignored `data/external/` directory. Reproduce the
+frozen evaluation with:
 
 ```powershell
 .\.venv\Scripts\python.exe run_third_dataset_validation.py `
@@ -241,4 +244,12 @@ execute the frozen evaluation with:
 
 The runner has no training or threshold-selection path. It verifies official
 row and attack counts plus both frozen model hashes before scoring, then applies
-the preregistered group-bootstrap decision rule.
+the preregistered group-bootstrap decision rule. The completed run matched all
+official counts and evaluated 600,100 rows. Random Forest recall was 0.00228,
+balanced accuracy was 0.49811, and MCC was -0.01170 with a 95% exact-feature-
+group interval of [-0.02348, 0.00029]. Its Average Precision of 0.94531 was
+below the 0.97691 attack-prevalence baseline. It failed all three frozen
+requirements, producing the preregistered verdict `useful transfer not
+supported`. See
+`deliverables/current_results_package/Third_Dataset_Result.md` for the concise
+experiment record.

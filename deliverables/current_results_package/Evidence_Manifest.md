@@ -34,6 +34,9 @@ this package and were not modified.
 | Frozen-model score reversal | `../../artifacts/external_shift_audit/model_score_shift.csv` | `../../artifacts/external_shift_audit/plots/model_score_distribution_shift.png` |
 | External feature-bin error profiles | `../../artifacts/external_shift_audit/external_error_profiles_by_feature_bin.csv` | `../../artifacts/external_shift_audit/summary.json` |
 | Third external holdout preregistration | `../../protocols/third_dataset_preregistration.json` | `Third_Dataset_Protocol.md` |
+| Third external holdout integrity and verdict | `../../artifacts/third_dataset_validation/summary.json` | `Third_Dataset_Result.md` |
+| NF-BoT-IoT point metrics and group-bootstrap intervals | `../../artifacts/third_dataset_validation/metrics_long.csv` | `../../artifacts/third_dataset_validation/group_bootstrap_intervals.csv` |
+| NF-BoT-IoT attack-family recall | `../../artifacts/third_dataset_validation/per_attack_recall.csv` | `../../artifacts/third_dataset_validation/group_bootstrap_samples.csv` |
 
 ## Integrity checks already applied
 
@@ -56,6 +59,15 @@ this package and were not modified.
 - The cross-dataset shift audit re-verifies both dataset hashes, records hashes
   for both fitted pipelines, reconstructs the 325,466-row source-validation
   fold, and records no model, feature, threshold, or tuning changes.
+- The NF-BoT-IoT protocol was committed before the official archive was
+  downloaded or row-level data was opened. The runner reproduced all official
+  row and attack counts and verified both frozen model hashes before scoring.
+- The third-dataset result uses all 600,100 rows and 39,901 exact eight-feature
+  groups. It records `model_or_threshold_changes: false` and
+  `external_tuning: false`.
+- The primary Random Forest failed each preregistered transfer requirement:
+  MCC interval lower bound above zero, balanced accuracy above 0.50, and
+  Average Precision lift above 1.00.
 
 ## Interpretation boundary
 
@@ -63,5 +75,7 @@ Numerical performance claims are directly supported by local artifacts.
 Statements about likely distribution shift are inferences from those results.
 The package does not claim that PSI, Jensen-Shannon divergence, subgroup error
 rates, SHAP values, or cross-dataset performance establish a causal mechanism.
-The NetFlow-v1 experiment validates transfer of a matched modelling approach,
-not the previously frozen 44-feature model.
+The NetFlow-v1 experiments test transfer of a matched modelling approach, not
+the previously frozen 44-feature model. The NF-BoT-IoT result supports the
+fixed protocol verdict "useful transfer not supported" but does not identify a
+single causal mechanism for the failure.

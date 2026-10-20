@@ -15,9 +15,11 @@ The model retains excellent attack-ranking performance on the conservative
 holdout, but the fixed decision threshold produces too many false alarms for a
 deployment claim. A matched-representation external stress test strengthens
 this warning: models that remained strong on an endpoint-free, duplicate-grouped
-NF-UNSW-NB15 validation split failed to generalise to NF-ToN-IoT. Internal
-overfitting is limited within UNSW-NB15, but dataset-specific fitting and
-distribution shift remain severe risks.
+NF-UNSW-NB15 validation split failed to generalise to NF-ToN-IoT. A separately
+preregistered evaluation on untouched NF-BoT-IoT then failed all three frozen
+transfer criteria. Internal overfitting is limited within UNSW-NB15, but the
+two external failures show that dataset-specific fitting and distribution shift
+remain severe risks.
 
 ## 1. Model selection and internal validation
 
@@ -364,7 +366,48 @@ ranking relationships themselves did not transfer.
 
 ![Frozen-model score shift](../../artifacts/external_shift_audit/plots/model_score_distribution_shift.png)
 
-## 10. What is new in this work
+## 10. Preregistered third-dataset validation
+
+The NF-ToN-IoT result was already known when the next evaluation was planned,
+so a third dataset was required to prevent further post-hoc adaptation. The
+NF-BoT-IoT NetFlow-v1 protocol was committed before its archive was downloaded
+or its row-level data was opened. It fixed the two existing model artifacts,
+their source-selected thresholds, the eight endpoint-free features, 200
+exact-feature-group bootstrap resamples, and a three-part decision rule. The
+runner contained no fitting or threshold-selection path.
+
+The official file matched every preregistered count: 600,100 rows, including
+586,241 attacks and 13,859 benign records, with 39,901 exact groups across the
+eight frozen features. No model, feature, or threshold was changed after data
+access.
+
+| Model | Average Precision | AP lift over prevalence | ROC AUC | MCC | Balanced accuracy | Recall | Specificity |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| Logistic Regression | 0.97258 | 0.99558 | 0.49746 | -0.03627 | 0.46624 | 0.91292 | 0.01955 |
+| Random Forest | 0.94531 | 0.96766 | 0.09381 | -0.01170 | 0.49811 | 0.00228 | 0.99394 |
+
+The attack prevalence was 0.97691, so the apparently high Average Precision
+values for both models were below the no-skill prevalence baseline. This is an
+important example of why a high raw score cannot be interpreted without its
+reference rate. The Random Forest classified only 1,419 records as attacks: it
+detected 1,335 of 586,241 attacks and produced 84 false positives. Its MCC 95%
+exact-feature-group bootstrap interval was [-0.02348, 0.00029].
+
+Random Forest recall was 0.255% for DDoS, 0.255% for DoS, 0.216% for
+Reconnaissance, and 1.467% for Theft. It failed all three preregistered
+requirements: the MCC interval lower bound was not above zero, balanced
+accuracy was not above 0.50, and Average Precision lift was not above 1.00.
+The fixed verdict is therefore **useful transfer not supported**.
+
+This second external failure makes an accidental one-dataset anomaly less
+plausible. It strengthens the inference that the excellent UNSW-NB15 validation
+scores reflect dataset-specific patterns that do not remain stable across
+collection environments. The evidence still does not separate classic model
+overfitting from covariate shift, label-relationship shift, and attack-family
+incompatibility, so those mechanisms should not be collapsed into a single
+causal claim.
+
+## 11. What is new in this work
 
 The novelty is evaluative rather than algorithmic. A claim that Logistic
 Regression and Random Forest have not previously been compared on UNSW-NB15
@@ -389,7 +432,10 @@ chain:
     and thresholds on NF-UNSW-NB15 before testing them on all NF-ToN-IoT flows;
     and
 11. a no-retuning shift audit separates input-distribution change,
-    prevalence-adjusted feature/label drift, and frozen-score reversal.
+    prevalence-adjusted feature/label drift, and frozen-score reversal; and
+12. a protocol committed before NF-BoT-IoT access tests the unchanged models,
+    thresholds, features, uncertainty method, and decision rule on a third
+    dataset, avoiding adaptation to the earlier external failure.
 
 This contribution is best described as a reproducible robustness and
 generalisation study of a conventional detector. The strongest substantive
@@ -397,7 +443,7 @@ finding is that near-perfect internal Average Precision can coexist with an
 operationally poor false-positive rate after the threshold is transferred to a
 different holdout distribution.
 
-## 11. Limitations
+## 12. Limitations
 
 - The official holdout is not completely pristine because a deterministic
   5,000-row sample had been evaluated by an older workflow. Excluding those
@@ -434,8 +480,16 @@ different holdout distribution.
   selected source-derived bins. They document incompatibility between these two
   datasets but do not prove which collection or attack-generation mechanism
   caused it.
+- NF-BoT-IoT is extremely attack-heavy (97.69%), making raw Average Precision
+  visually impressive even when it is worse than the prevalence baseline. Its
+  collection environment and attack mixture also differ from the source. The
+  preregistered result is a strong transfer test, not an estimate of production
+  prevalence or deployment utility.
+- The third-dataset bootstrap clusters exact eight-feature duplicates, but no
+  timestamps, hosts, capture sessions, or attack-campaign identifiers were
+  available to represent broader dependence.
 
-## 12. Supported conclusion
+## 13. Supported conclusion
 
 The selected Random Forest is superior to the Logistic Regression baseline on
 the internal validation data, and its high validation performance survives both
@@ -450,6 +504,12 @@ per 10,000 Normal holdout flows, compared with 894 on validation.
 The external experiment makes the boundary clearer. On a standardised shared
 feature space, both conventional models failed on NF-ToN-IoT without external
 retuning; Random Forest recall fell to 4.30% and both MCC values were negative.
+The preregistered NF-BoT-IoT evaluation independently failed all three frozen
+transfer requirements. Random Forest recall fell further to 0.23%, its balanced
+accuracy was 49.81%, and its Average Precision was below the 97.69% prevalence
+baseline. The apparently high AP of 0.94531 is therefore evidence of neither
+useful discrimination nor generalisation on this dataset.
+
 The defensible conclusion is therefore that the model is a strong
 UNSW-NB15 benchmark ranker but not a generally validated intrusion detector.
 The results support further evaluation on fresh, representative calibration
@@ -462,7 +522,7 @@ high-scoring and associated with different connection-count and traffic-volume
 profiles. Because these patterns were identified on the holdout, they should be
 tested on new data before any model or policy change is considered.
 
-## 13. Next targets
+## 14. Next targets
 
 1. Obtain or construct a genuinely fresh calibration partition that reflects
    the intended deployment environment.
@@ -471,9 +531,9 @@ tested on new data before any model or policy change is considered.
    fresh calibration data while leaving official test results unchanged.
 3. Recover richer raw flow records with timestamps or capture/session IDs, then
    repeat source evaluation using a temporal or source-aware split.
-4. Investigate whether invariant feature selection or calibration on a new,
-   explicitly designated target-development set improves transfer, then test
-   that frozen proposal on a third untouched dataset.
+4. Investigate invariant feature selection or calibration only on a new,
+   explicitly designated target-development set, then preregister a fourth
+   untouched evaluation before claiming improvement.
 
 ## Draft AI-use acknowledgement
 

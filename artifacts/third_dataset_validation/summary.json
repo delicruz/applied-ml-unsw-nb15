@@ -1,0 +1,39 @@
+{
+  "protocol_id": "nf-bot-iot-v1-third-holdout-2026-10-20",
+  "protocol_sha256": "6c8ef2fba1a3299f837d4f16131e109c3737bb81251f879565d7c7cc4e8139cc",
+  "dataset": {
+    "path": "C:\\Users\\Dung\\Documents\\ChatGPT\\Applied ML\\data\\external\\nf-bot-iot\\de2c6f75dd50d933_MOHANAD_A4706\\data\\NF-BoT-IoT.csv",
+    "sha256": "0dcaeb12918dccee4127e537863366958a2fdc222fda06e0b1b0458c31a429ff",
+    "rows": 600100,
+    "positive_rows": 586241,
+    "negative_rows": 13859,
+    "exact_feature_groups": 39901
+  },
+  "frozen_models": {
+    "logistic_regression": {
+      "sha256": "65200507f2fdf43703026d8d8fcd0e577cad670b459247fd6dc944bd50acd746",
+      "threshold": 0.69,
+      "role": "baseline"
+    },
+    "random_forest": {
+      "sha256": "38756c9b09be364b5ff483df82b98183634753ef326faafeaaa8ebcfd498646b",
+      "threshold": 0.64,
+      "role": "primary"
+    }
+  },
+  "decision": {
+    "primary_model": "random_forest",
+    "primary_metric": "mcc",
+    "mcc_ci_lower": -0.023483951224522216,
+    "requirements": {
+      "mcc_ci_lower_gt_zero": false,
+      "balanced_accuracy_gt_half": false,
+      "average_precision_lift_gt_one": false
+    },
+    "verdict": "useful transfer not supported",
+    "deployment_claim_permitted": false
+  },
+  "model_or_threshold_changes": false,
+  "external_tuning": false,
+  "interpretation_boundary": "This evaluates direct transfer of the already-frozen NetFlow-v1 models. It does not validate the separate frozen 44-feature UNSW-NB15 pipeline and cannot establish deployment readiness."
+}

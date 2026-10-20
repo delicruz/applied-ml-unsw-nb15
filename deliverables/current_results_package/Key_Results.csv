@@ -59,3 +59,16 @@ external_shift,NF_UNSW_to_NF_ToN,L7_PROTO,weighted_absolute_relative_log_odds_dr
 external_shift,NF_UNSW_to_NF_ToN,OUT_BYTES,weighted_absolute_relative_log_odds_drift,2.053506,,,prevalence-adjusted feature-label association drift
 external_shift,NF_ToN_external,random_forest,normal_mean_probability,0.363073,,,attack mean probability 0.353763; ordering reverses
 external_shift,NF_ToN_external,logistic_regression,normal_mean_probability,0.850120,,,attack mean probability 0.789111; ordering reverses
+third_external_validation,NF_BoT_external,logistic_regression,average_precision,0.972583,0.940962,0.988684,prevalence 0.976906; AP lift 0.995575
+third_external_validation,NF_BoT_external,logistic_regression,mcc,-0.036268,-0.089330,-0.013515,locked model and source-selected threshold 0.69
+third_external_validation,NF_BoT_external,logistic_regression,balanced_accuracy,0.466238,0.422774,0.486683,exact-feature-group bootstrap
+third_external_validation,NF_BoT_external,random_forest,average_precision,0.945314,0.899702,0.969974,below prevalence baseline 0.976906; AP lift 0.967662
+third_external_validation,NF_BoT_external,random_forest,roc_auc,0.093813,,,frozen model ranking is worse than random orientation
+third_external_validation,NF_BoT_external,random_forest,mcc,-0.011702,-0.023484,0.000285,primary preregistered metric; lower bound not above zero
+third_external_validation,NF_BoT_external,random_forest,balanced_accuracy,0.498108,0.495283,0.500052,preregistered requirement above 0.50 failed
+third_external_validation,NF_BoT_external,random_forest,recall,0.002277,0.000995,0.005695,1335 of 586241 attacks detected
+third_external_validation,NF_BoT_external,random_forest,specificity,0.993939,0.987998,0.996331,84 false positives among 13859 benign records
+third_external_validation,NF_BoT_external_DDoS,random_forest,recall,0.002551,,,145 of 56844 detected
+third_external_validation,NF_BoT_external_DoS,random_forest,recall,0.002551,,,145 of 56833 detected
+third_external_validation,NF_BoT_external_Reconnaissance,random_forest,recall,0.002161,,,1017 of 470655 detected
+third_external_validation,NF_BoT_external_Theft,random_forest,recall,0.014667,,,28 of 1909 detected
