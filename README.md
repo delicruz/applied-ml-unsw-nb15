@@ -284,3 +284,10 @@ The synthesis flags a bin only when it has at least 100 relevant class rows in
 each external dataset. It reports Random Forest's recurring low-recall bins and
 Logistic Regression's recurring high-false-positive bins. These are post-hoc
 hypotheses from already-opened external data, not validated correction rules.
+
+The next improvement study uses the previously unused NF-CSE-CIC-IDS2018
+NetFlow-v1 dataset. Its split, candidate set, development success rule, and
+sealed 20% confirmation partition were registered before download or row-level
+access in `protocols/fresh_target_development_protocol.json`. See
+`deliverables/current_results_package/Fresh_Development_Protocol.md` for the
+human-readable protocol.

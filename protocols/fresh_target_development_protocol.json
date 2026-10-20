@@ -1,0 +1,182 @@
+{
+  "protocol_id": "nf-cse-cic-ids2018-v1-target-development-2026-10-20",
+  "status": "REGISTERED_BEFORE_DATA_ACCESS",
+  "registered_date": "2026-10-20",
+  "timezone": "Australia/Adelaide",
+  "repository_parent_commit": "30096efe0e275f4402c13901d46a584650d7dae7",
+  "data_access_at_registration": {
+    "official_aggregate_metadata_viewed": true,
+    "archive_downloaded": false,
+    "row_level_data_viewed": false,
+    "labels_or_predictions_computed": false
+  },
+  "dataset": {
+    "name": "NF-CSE-CIC-IDS2018",
+    "representation": "NetFlow v1",
+    "role": "fresh target-development dataset with sealed confirmation partition",
+    "official_catalogue": "https://staff.itee.uq.edu.au/marius/NIDS_datasets/",
+    "official_file_page": "https://rdm.uq.edu.au/files/650f1fa0-ef9c-11ed-b5f6-b1a04f482c13",
+    "expected_rows": 8392401,
+    "expected_positive_rows": 1019203,
+    "expected_negative_rows": 7373198,
+    "expected_attack_counts": {
+      "Benign": 7373198,
+      "BruteForce": 287597,
+      "Bot": 15683,
+      "DoS": 269361,
+      "DDoS": 380096,
+      "Infiltration": 62072,
+      "Web Attacks": 4394
+    }
+  },
+  "features": {
+    "model_features": [
+      "PROTOCOL",
+      "L7_PROTO",
+      "IN_BYTES",
+      "OUT_BYTES",
+      "IN_PKTS",
+      "OUT_PKTS",
+      "TCP_FLAGS",
+      "FLOW_DURATION_MILLISECONDS"
+    ],
+    "excluded_endpoint_features": [
+      "IPV4_SRC_ADDR",
+      "L4_SRC_PORT",
+      "IPV4_DST_ADDR",
+      "L4_DST_PORT"
+    ],
+    "reduced_candidate_features": [
+      "PROTOCOL",
+      "IN_BYTES",
+      "OUT_BYTES",
+      "IN_PKTS",
+      "OUT_PKTS"
+    ],
+    "reduced_candidate_rationale": "Pre-specified from the completed cross-external audit: remove duration, L7 protocol, and TCP flags as a bounded stability hypothesis. This is not a claim that those features caused the earlier failures."
+  },
+  "split_protocol": {
+    "group_definition": "Categorical values exact; numeric values rounded to five significant digits across the eight endpoint-free features",
+    "group_hash": "SHA-256 of the canonical grouped feature tuple",
+    "assignment_value": "Unsigned first 64 bits of group SHA-256 divided by 2^64",
+    "partitions": {
+      "target_training": "[0.00, 0.48)",
+      "target_calibration": "[0.48, 0.64)",
+      "target_validation": "[0.64, 0.80)",
+      "sealed_confirmation": "[0.80, 1.00)"
+    },
+    "development_sampling": {
+      "reason": "Bound local compute while retaining group-level deterministic sampling",
+      "target_training_max_approximate_rows": 1000000,
+      "target_calibration_max_approximate_rows": 500000,
+      "target_validation_max_approximate_rows": 500000,
+      "method": "A second deterministic SHA-256 group value selects groups within each development partition; all rows of a selected group remain together"
+    },
+    "sealed_confirmation_rule": "The runner may count and hash confirmation groups during one-pass partition construction but must not compute predictions, labels by subgroup, metrics, plots, or candidate comparisons for confirmation rows."
+  },
+  "candidate_experiments": [
+    {
+      "id": "frozen_source_lr",
+      "model": "existing source-trained Logistic Regression",
+      "features": "all eight",
+      "threshold": 0.69,
+      "role": "unchanged transfer baseline"
+    },
+    {
+      "id": "frozen_source_rf",
+      "model": "existing source-trained Random Forest",
+      "features": "all eight",
+      "threshold": 0.64,
+      "role": "unchanged primary transfer baseline"
+    },
+    {
+      "id": "frozen_source_rf_recalibrated_threshold",
+      "model": "existing source-trained Random Forest",
+      "features": "all eight",
+      "threshold": "MCC-maximising threshold on target_calibration only",
+      "role": "threshold-only adaptation"
+    },
+    {
+      "id": "target_lr_all_features",
+      "model": "Logistic Regression fitted on target_training only",
+      "features": "all eight",
+      "threshold": "MCC-maximising threshold on target_calibration only",
+      "role": "target-development linear baseline"
+    },
+    {
+      "id": "target_rf_all_features",
+      "model": "Random Forest fitted on target_training only",
+      "features": "all eight",
+      "threshold": "MCC-maximising threshold on target_calibration only",
+      "role": "target-development nonlinear baseline"
+    },
+    {
+      "id": "target_rf_reduced_features",
+      "model": "Random Forest fitted on target_training only",
+      "features": "pre-specified reduced five-feature set",
+      "threshold": "MCC-maximising threshold on target_calibration only",
+      "role": "bounded feature-stability hypothesis"
+    }
+  ],
+  "model_settings": {
+    "logistic_regression": {
+      "regularisation": "L2",
+      "class_weight": "balanced",
+      "max_iter": 1000,
+      "random_state": 42
+    },
+    "random_forest": {
+      "n_estimators": 200,
+      "max_depth": 24,
+      "min_samples_leaf": 5,
+      "max_features": "sqrt",
+      "class_weight": "balanced_subsample",
+      "n_jobs": -1,
+      "random_state": 42
+    },
+    "threshold_grid": {
+      "minimum": 0.01,
+      "maximum": 0.99,
+      "step": 0.01,
+      "selection_metric": "MCC"
+    }
+  },
+  "evaluation": {
+    "selection_scope": "target_validation only after fitting on target_training and threshold selection on target_calibration",
+    "primary_metric": "mcc",
+    "secondary_metrics": [
+      "balanced_accuracy",
+      "average_precision",
+      "average_precision_lift",
+      "f1",
+      "recall",
+      "specificity",
+      "false_positive_rate",
+      "brier_score"
+    ],
+    "overfitting_checks": [
+      "training-to-validation metric gaps",
+      "Random Forest out-of-bag score where available",
+      "per-attack validation recall",
+      "comparison of full and reduced feature sets"
+    ],
+    "development_success_rule": "A candidate is development-promising only if target-validation MCC and balanced accuracy each exceed the unchanged frozen-source Random Forest by at least 0.05. This does not establish generalisation until the sealed confirmation partition is evaluated under a later preregistered decision rule."
+  },
+  "integrity_rules": {
+    "allowed": [
+      "verify archive and CSV hashes",
+      "verify official row and label counts",
+      "construct the deterministic group partitions",
+      "fit candidates on target_training",
+      "select thresholds on target_calibration",
+      "compare candidates on target_validation"
+    ],
+    "prohibited_in_this_step": [
+      "score any model on sealed_confirmation",
+      "select candidates using sealed_confirmation",
+      "reuse NF-ToN-IoT or NF-BoT-IoT for model or threshold selection",
+      "change the split after reading candidate results",
+      "present development-validation performance as final external confirmation"
+    ]
+  }
+}
