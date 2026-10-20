@@ -227,3 +227,18 @@ reconstructs the source-validation fold, and compares source with external
 feature distributions, prevalence-adjusted feature/label relationships, model
 scores, and error profiles. Its outputs are descriptive and must not be used to
 retune against NF-ToN-IoT.
+
+The third external evaluation is sealed before data access in
+`protocols/third_dataset_preregistration.json`. NF-BoT-IoT NetFlow-v1 remains
+untouched until that protocol is committed. After downloading the official
+archive and extracting its CSV below the ignored `data/external/` directory,
+execute the frozen evaluation with:
+
+```powershell
+.\.venv\Scripts\python.exe run_third_dataset_validation.py `
+  --dataset-path data\external\nf-bot-iot\NF-BoT-IoT.csv
+```
+
+The runner has no training or threshold-selection path. It verifies official
+row and attack counts plus both frozen model hashes before scoring, then applies
+the preregistered group-bootstrap decision rule.

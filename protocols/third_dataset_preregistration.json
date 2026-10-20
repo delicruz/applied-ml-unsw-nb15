@@ -1,0 +1,111 @@
+{
+  "protocol_id": "nf-bot-iot-v1-third-holdout-2026-10-20",
+  "status": "PREREGISTERED_BEFORE_DATA_ACCESS",
+  "registered_date": "2026-10-20",
+  "timezone": "Australia/Adelaide",
+  "repository_parent_commit": "fc730109314ff0ad03bb1e49a327c4e403dc9763",
+  "data_access_at_registration": {
+    "official_aggregate_metadata_viewed": true,
+    "archive_downloaded": false,
+    "row_level_data_viewed": false,
+    "labels_or_predictions_computed": false
+  },
+  "dataset": {
+    "name": "NF-BoT-IoT",
+    "representation": "NetFlow v1",
+    "role": "third untouched external holdout",
+    "official_catalogue": "https://staff.itee.uq.edu.au/marius/NIDS_datasets/",
+    "official_file_page": "https://rdm.uq.edu.au/files/48fa1900-ef9c-11ed-827d-e762de186848",
+    "expected_rows": 600100,
+    "expected_positive_rows": 586241,
+    "expected_negative_rows": 13859,
+    "expected_attack_counts": {
+      "Benign": 13859,
+      "Reconnaissance": 470655,
+      "DDoS": 56844,
+      "DoS": 56833,
+      "Theft": 1909
+    }
+  },
+  "frozen_inputs": {
+    "model_features": [
+      "PROTOCOL",
+      "L7_PROTO",
+      "IN_BYTES",
+      "OUT_BYTES",
+      "IN_PKTS",
+      "OUT_PKTS",
+      "TCP_FLAGS",
+      "FLOW_DURATION_MILLISECONDS"
+    ],
+    "excluded_endpoint_features": [
+      "IPV4_SRC_ADDR",
+      "L4_SRC_PORT",
+      "IPV4_DST_ADDR",
+      "L4_DST_PORT"
+    ],
+    "models": {
+      "logistic_regression": {
+        "artifact": "artifacts/external_netflow_validation/logistic_regression_netflow_v1.joblib",
+        "sha256": "65200507f2fdf43703026d8d8fcd0e577cad670b459247fd6dc944bd50acd746",
+        "threshold": 0.69,
+        "role": "baseline"
+      },
+      "random_forest": {
+        "artifact": "artifacts/external_netflow_validation/random_forest_netflow_v1.joblib",
+        "sha256": "38756c9b09be364b5ff483df82b98183634753ef326faafeaaa8ebcfd498646b",
+        "threshold": 0.64,
+        "role": "primary"
+      }
+    }
+  },
+  "analysis": {
+    "primary_model": "random_forest",
+    "primary_metric": "mcc",
+    "secondary_metrics": [
+      "average_precision",
+      "average_precision_lift",
+      "roc_auc",
+      "f1",
+      "precision",
+      "recall",
+      "specificity",
+      "balanced_accuracy",
+      "brier_score"
+    ],
+    "subgroup_metric": "per_attack_recall",
+    "uncertainty_method": "exact-eight-feature-group bootstrap",
+    "bootstrap_iterations": 200,
+    "confidence_level": 0.95,
+    "external_threshold_tuning": false,
+    "model_refitting": false,
+    "feature_selection_after_opening": false
+  },
+  "decision_rule": {
+    "label": "useful transfer supported",
+    "requirements": [
+      "primary-model MCC 95% group-bootstrap lower bound is greater than zero",
+      "primary-model point balanced accuracy is greater than 0.50",
+      "primary-model point average-precision lift over prevalence is greater than 1.00"
+    ],
+    "failure_to_meet_rule": "useful transfer not supported",
+    "deployment_claim_permitted": false
+  },
+  "integrity_rules": {
+    "allowed_before_scoring": [
+      "verify archive and CSV hashes",
+      "verify required column names and numeric parsability",
+      "verify official row and label counts",
+      "verify frozen model hashes",
+      "abort on any mismatch"
+    ],
+    "prohibited": [
+      "choose a different threshold after viewing NF-BoT-IoT",
+      "select or remove features using NF-BoT-IoT labels",
+      "refit either model using NF-BoT-IoT",
+      "replace the decision rule after viewing results",
+      "present NF-BoT-IoT as untouched after any exploratory reuse"
+    ]
+  },
+  "interpretation_boundary": "This evaluates direct transfer of the already-frozen NetFlow-v1 models. It does not validate the separate frozen 44-feature UNSW-NB15 pipeline and cannot establish deployment readiness."
+}

@@ -33,6 +33,7 @@ this package and were not modified.
 | Prevalence-adjusted feature/label association drift | `../../artifacts/external_shift_audit/feature_label_association_drift.csv` | `../../artifacts/external_shift_audit/plots/feature_label_association_drift.png` |
 | Frozen-model score reversal | `../../artifacts/external_shift_audit/model_score_shift.csv` | `../../artifacts/external_shift_audit/plots/model_score_distribution_shift.png` |
 | External feature-bin error profiles | `../../artifacts/external_shift_audit/external_error_profiles_by_feature_bin.csv` | `../../artifacts/external_shift_audit/summary.json` |
+| Third external holdout preregistration | `../../protocols/third_dataset_preregistration.json` | `Third_Dataset_Protocol.md` |
 
 ## Integrity checks already applied
 
