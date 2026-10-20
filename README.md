@@ -146,6 +146,9 @@ Outputs are written to `artifacts/`:
 - `third_dataset_validation/summary.json`, preregistered NF-BoT-IoT verdict,
   point metrics, exact-feature-group bootstrap intervals and samples, and
   attack-family recall
+- `third_dataset_shift_audit/summary.json`, NF-BoT-IoT feature-distribution and
+  prevalence-adjusted association shift, frozen-score reversal, feature-bin
+  errors, and comparison with the earlier NF-ToN-IoT score audit
 
 The generated CSVs and plots are intended to feed directly into the Dataset, EDA, Results, Explainability, Error Analysis, and Discussion sections of the final report.
 
@@ -253,3 +256,17 @@ requirements, producing the preregistered verdict `useful transfer not
 supported`. See
 `deliverables/current_results_package/Third_Dataset_Result.md` for the concise
 experiment record.
+
+Explain the completed NF-BoT-IoT transfer failure without changing either
+frozen model or its threshold:
+
+```powershell
+.\.venv\Scripts\python.exe run_third_dataset_shift_audit.py
+```
+
+The audit verifies the preregistration, dataset and model hashes, reconstructs
+the original source-validation fold, and applies the source-derived bins to
+NF-BoT-IoT. It records extreme numeric shift, prevalence-adjusted feature/label
+drift, and a frozen-score ordering reversal for both models. It also creates a
+single comparison of source, NF-ToN-IoT, and NF-BoT-IoT score ordering. The
+analysis is descriptive and does not authorise target-data tuning.

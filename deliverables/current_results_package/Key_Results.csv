@@ -72,3 +72,16 @@ third_external_validation,NF_BoT_external_DDoS,random_forest,recall,0.002551,,,1
 third_external_validation,NF_BoT_external_DoS,random_forest,recall,0.002551,,,145 of 56833 detected
 third_external_validation,NF_BoT_external_Reconnaissance,random_forest,recall,0.002161,,,1017 of 470655 detected
 third_external_validation,NF_BoT_external_Theft,random_forest,recall,0.014667,,,28 of 1909 detected
+third_external_shift,NF_UNSW_to_NF_BoT,FLOW_DURATION_MILLISECONDS,psi,11.401914,,,source-derived quantile bins; source median 7; external median 4294966
+third_external_shift,NF_UNSW_to_NF_BoT,IN_PKTS,psi,9.062404,,,source median 16; external median 1
+third_external_shift,NF_UNSW_to_NF_BoT,OUT_PKTS,psi,6.541355,,,source median 18; external median 1
+third_external_shift,NF_UNSW_to_NF_BoT,OUT_BYTES,psi,5.503539,,,source median 3276; external median 40
+third_external_shift,NF_UNSW_to_NF_BoT,IN_BYTES,psi,4.493406,,,source median 1920; external median 44
+third_external_shift,NF_UNSW_to_NF_BoT,L7_PROTO,jensen_shannon_divergence_bits,0.352125,,,2.03 percent of external rows use unseen source categories
+third_external_shift,NF_UNSW_to_NF_BoT,TCP_FLAGS,weighted_absolute_relative_log_odds_drift,2.269214,,,prevalence-adjusted feature-label association drift
+third_external_shift,NF_UNSW_to_NF_BoT,IN_BYTES,weighted_absolute_relative_log_odds_drift,1.760616,,,prevalence-adjusted feature-label association drift
+third_external_shift,NF_UNSW_to_NF_BoT,IN_PKTS,weighted_absolute_relative_log_odds_drift,1.066599,,,prevalence-adjusted feature-label association drift
+third_external_shift,NF_BoT_external,random_forest,normal_mean_probability,0.444220,,,attack mean probability 0.250740; ordering reverses strongly
+third_external_shift,NF_BoT_external,random_forest,attack_minus_normal_mean_probability,-0.193480,,,source-validation margin 0.846772
+third_external_shift,NF_BoT_external,logistic_regression,normal_mean_probability,0.962674,,,attack mean probability 0.929014; ordering reverses
+third_external_shift,NF_BoT_external,logistic_regression,attack_minus_normal_mean_probability,-0.033661,,,source-validation margin 0.739448

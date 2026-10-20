@@ -407,6 +407,51 @@ overfitting from covariate shift, label-relationship shift, and attack-family
 incompatibility, so those mechanisms should not be collapsed into a single
 causal claim.
 
+### Why the NF-BoT-IoT transfer failed
+
+The post-evaluation audit reused the source-derived bins and reconstructed the
+same 325,466-row NF-UNSW-NB15 validation fold. It re-verified both dataset hashes,
+the protocol hash, both model hashes, and both thresholds. No model, feature,
+threshold, or prediction rule was changed.
+
+The numeric shifts were larger than those observed for NF-ToN-IoT. Median flow
+duration changed from 7 to 4,294,966, with PSI 11.402; 65.13% of NF-BoT-IoT
+records exceeded the source 99th percentile. Median incoming and outgoing
+packet counts changed from 16 and 18 to 1 and 1, with PSI values of 9.062 and
+6.541. Median outgoing bytes changed from 3,276 to 40 (PSI 5.504), while median
+incoming bytes changed from 1,920 to 44 (PSI 4.493). These differences may
+reflect collection, aggregation, or encoding incompatibility despite matching
+column names; the audit does not determine which explanation is causal.
+
+`L7_PROTO` had Jensen-Shannon divergence of 0.352 bits. Its value `0.0`
+increased from 31.91% of source rows to 69.40% of NF-BoT-IoT rows, and 2.03% of
+external rows used values absent from the source. `PROTOCOL` contracted from
+255 observed source values to only 3 external values. After adjusting each
+dataset for its own prevalence, the largest external-weighted absolute
+feature/label association drifts were for `TCP_FLAGS` (2.269 log-odds units),
+`IN_BYTES` (1.761), and `IN_PKTS` (1.067).
+
+The frozen score ordering confirms that this was not merely a calibration
+problem:
+
+| Model and dataset | Mean benign score | Mean attack score | Attack minus benign |
+|---|---:|---:|---:|
+| Logistic Regression, NF-UNSW source validation | 0.138 | 0.878 | +0.739 |
+| Logistic Regression, NF-ToN-IoT | 0.850 | 0.789 | -0.061 |
+| Logistic Regression, NF-BoT-IoT | 0.963 | 0.929 | -0.034 |
+| Random Forest, NF-UNSW source validation | 0.072 | 0.918 | +0.847 |
+| Random Forest, NF-ToN-IoT | 0.363 | 0.354 | -0.009 |
+| Random Forest, NF-BoT-IoT | 0.444 | 0.251 | -0.193 |
+
+Both models ranked attacks above benign traffic on source validation and benign
+traffic above attacks on both external datasets. For Random Forest, the reversal
+was far stronger on NF-BoT-IoT. This agrees with its ROC AUC of 0.0938 and shows
+that changing only the threshold cannot repair the observed transfer failure.
+
+![NF-BoT-IoT feature-distribution shift](../../artifacts/third_dataset_shift_audit/plots/feature_distribution_shift.png)
+
+![Cross-dataset frozen score ordering](../../artifacts/third_dataset_shift_audit/plots/cross_external_score_ordering.png)
+
 ## 11. What is new in this work
 
 The novelty is evaluative rather than algorithmic. A claim that Logistic
@@ -435,7 +480,9 @@ chain:
     prevalence-adjusted feature/label drift, and frozen-score reversal; and
 12. a protocol committed before NF-BoT-IoT access tests the unchanged models,
     thresholds, features, uncertainty method, and decision rule on a third
-    dataset, avoiding adaptation to the earlier external failure.
+    dataset, avoiding adaptation to the earlier external failure; and
+13. a second no-retuning shift audit compares source, NF-ToN-IoT, and
+    NF-BoT-IoT score ordering and documents a repeated external ranking reversal.
 
 This contribution is best described as a reproducible robustness and
 generalisation study of a conventional detector. The strongest substantive
@@ -488,6 +535,10 @@ different holdout distribution.
 - The third-dataset bootstrap clusters exact eight-feature duplicates, but no
   timestamps, hosts, capture sessions, or attack-campaign identifiers were
   available to represent broader dependence.
+- The unusually large `FLOW_DURATION_MILLISECONDS` shift could reflect a
+  collection or encoding difference, but the available files do not establish
+  the mechanism. Identically named NetFlow-v1 fields should therefore not be
+  assumed semantically interchangeable without provenance-level confirmation.
 
 ## 13. Supported conclusion
 
@@ -509,6 +560,14 @@ transfer requirements. Random Forest recall fell further to 0.23%, its balanced
 accuracy was 49.81%, and its Average Precision was below the 97.69% prevalence
 baseline. The apparently high AP of 0.94531 is therefore evidence of neither
 useful discrimination nor generalisation on this dataset.
+
+The NF-BoT-IoT shift audit shows why threshold recalibration alone is
+insufficient. Random Forest's mean attack-minus-benign score margin changed
+from +0.847 on source validation to -0.009 on NF-ToN-IoT and -0.193 on
+NF-BoT-IoT. Logistic Regression also reversed on both external datasets. The
+repeated reversal, together with large feature-distribution and adjusted
+feature/label association changes, is consistent with dataset-specific fitting
+under substantial domain shift.
 
 The defensible conclusion is therefore that the model is a strong
 UNSW-NB15 benchmark ranker but not a generally validated intrusion detector.

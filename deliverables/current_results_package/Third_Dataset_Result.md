@@ -66,6 +66,27 @@ it strengthens the diagnosis of dataset-specific fitting and distribution
 shift. It does not isolate a single causal mechanism, validate the separate
 44-feature UNSW-NB15 model, or establish deployment readiness.
 
+### Post-evaluation shift audit
+
+The frozen-model audit re-verified the source and third-dataset hashes, the
+protocol hash, both fitted-model hashes, and the thresholds. No training or
+selection occurred. Its strongest descriptive findings were:
+
+- `FLOW_DURATION_MILLISECONDS` PSI 11.402, with medians 7 in the source and
+  4,294,966 in NF-BoT-IoT;
+- `IN_PKTS` PSI 9.062 and `OUT_PKTS` PSI 6.541;
+- `L7_PROTO` Jensen-Shannon divergence 0.352 bits;
+- prevalence-adjusted association drift of 2.269 for `TCP_FLAGS`, 1.761 for
+  `IN_BYTES`, and 1.067 for `IN_PKTS`; and
+- Random Forest mean attack-minus-benign score margin changing from +0.847 on
+  source validation to -0.193 on NF-BoT-IoT.
+
+Both models ranked benign traffic above attacks on average on NF-BoT-IoT, as
+they had on NF-ToN-IoT. This repeated score-ordering reversal shows that the
+failure is not repairable by moving the decision threshold alone.
+
+![Cross-dataset frozen score ordering](../../artifacts/third_dataset_shift_audit/plots/cross_external_score_ordering.png)
+
 ### Output files
 
 | File | Purpose |
@@ -75,6 +96,8 @@ shift. It does not isolate a single causal mechanism, validate the separate
 | `artifacts/third_dataset_validation/group_bootstrap_intervals.csv` | Exact-feature-group 95% intervals |
 | `artifacts/third_dataset_validation/group_bootstrap_samples.csv` | 200 bootstrap replicates |
 | `artifacts/third_dataset_validation/per_attack_recall.csv` | Attack-family recall |
+| `artifacts/third_dataset_shift_audit/summary.json` | Verified descriptive shift-audit summary |
+| `artifacts/third_dataset_shift_audit/cross_external_score_comparison.csv` | Source and two-external-dataset score ordering |
 
 ### Anomalies detected
 

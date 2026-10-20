@@ -37,6 +37,10 @@ this package and were not modified.
 | Third external holdout integrity and verdict | `../../artifacts/third_dataset_validation/summary.json` | `Third_Dataset_Result.md` |
 | NF-BoT-IoT point metrics and group-bootstrap intervals | `../../artifacts/third_dataset_validation/metrics_long.csv` | `../../artifacts/third_dataset_validation/group_bootstrap_intervals.csv` |
 | NF-BoT-IoT attack-family recall | `../../artifacts/third_dataset_validation/per_attack_recall.csv` | `../../artifacts/third_dataset_validation/group_bootstrap_samples.csv` |
+| NF-BoT-IoT numeric and categorical feature shift | `../../artifacts/third_dataset_shift_audit/numeric_distribution_shift.csv` | `../../artifacts/third_dataset_shift_audit/categorical_distribution_shift.csv` |
+| NF-BoT-IoT prevalence-adjusted feature/label drift | `../../artifacts/third_dataset_shift_audit/feature_label_association_drift.csv` | `../../artifacts/third_dataset_shift_audit/feature_label_association_bins.csv` |
+| Source and two-external-dataset score ordering | `../../artifacts/third_dataset_shift_audit/cross_external_score_comparison.csv` | `../../artifacts/third_dataset_shift_audit/plots/cross_external_score_ordering.png` |
+| NF-BoT-IoT feature-bin error profiles | `../../artifacts/third_dataset_shift_audit/external_error_profiles_by_feature_bin.csv` | `../../artifacts/third_dataset_shift_audit/summary.json` |
 
 ## Integrity checks already applied
 
@@ -68,6 +72,13 @@ this package and were not modified.
 - The primary Random Forest failed each preregistered transfer requirement:
   MCC interval lower bound above zero, balanced accuracy above 0.50, and
   Average Precision lift above 1.00.
+- The NF-BoT-IoT shift audit re-verifies the protocol, source and target data,
+  both frozen model hashes, the original source-validation fold, and the two
+  source-selected thresholds. It records no model, feature, threshold, or
+  external-tuning changes.
+- The cross-external score table uses the earlier NF-ToN-IoT audit artifact and
+  the newly computed NF-BoT-IoT scores. Both external datasets reverse the
+  attack-above-benign mean-score ordering observed on source validation.
 
 ## Interpretation boundary
 
