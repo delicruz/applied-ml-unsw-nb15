@@ -19,7 +19,9 @@ NF-UNSW-NB15 validation split failed to generalise to NF-ToN-IoT. A separately
 preregistered evaluation on untouched NF-BoT-IoT then failed all three frozen
 transfer criteria. Internal overfitting is limited within UNSW-NB15, but the
 two external failures show that dataset-specific fitting and distribution shift
-remain severe risks.
+remain severe risks. A preregistered target-development experiment on the
+previously unused NF-CSE-CIC-IDS2018 dataset has now identified a promising
+target-trained Random Forest, but its confirmation partition remains sealed.
 
 ## 1. Model selection and internal validation
 
@@ -482,7 +484,58 @@ any individual feature causes the errors.
 
 ![Cross-external recurring feature-bin failures](../../artifacts/cross_external_error_synthesis/plots/consistent_feature_bin_failures.png)
 
-## 11. What is new in this work
+## 11. Fresh target-development experiment
+
+The next improvement study was registered before NF-CSE-CIC-IDS2018 was
+downloaded or inspected at row level. Eight endpoint-free NetFlow-v1 features
+were grouped using five-significant-digit numeric values and exact categorical
+values. Group hashes assigned records to target training, calibration,
+validation, and a sealed confirmation partition. The three development
+partitions shared zero groups. The confirmation partition contained 1,631,543
+records and was counted and hashed without predictions, metrics, or label
+summaries.
+
+Six registered candidates tested unchanged source models, threshold-only
+adaptation, target retraining, and a reduced five-feature stability hypothesis.
+The 400,087-row target-validation result was:
+
+| Candidate | Average Precision | MCC | Balanced accuracy | Recall | Specificity |
+|---|---:|---:|---:|---:|---:|
+| Frozen source Logistic Regression | 0.05771 | 0.09985 | 0.60116 | 0.79739 | 0.40493 |
+| Frozen source Random Forest | 0.03910 | -0.02726 | 0.49142 | 0.00747 | 0.97537 |
+| Frozen source RF, recalibrated | 0.03910 | 0.01033 | 0.50217 | 0.99374 | 0.01059 |
+| Target Logistic Regression | 0.62346 | 0.63042 | 0.77198 | 0.55558 | 0.98839 |
+| **Target Random Forest, all features** | **0.91443** | **0.71401** | **0.93047** | **0.90076** | **0.96019** |
+| Target Random Forest, reduced features | 0.91710 | 0.20014 | 0.70251 | 0.99035 | 0.41467 |
+
+The all-feature target Random Forest, using the calibration-selected threshold
+of 0.39, was the strongest development candidate. It exceeded the frozen
+source Random Forest by 0.74126 MCC and 0.43905 balanced-accuracy points,
+satisfying the registered development rule. Threshold recalibration alone was
+not a solution: it achieved 99.37% recall by reducing specificity to 1.06%.
+The reduced-feature Random Forest ranked attacks slightly better by Average
+Precision but produced a 58.53% false-positive rate at its selected threshold.
+
+The selected model did not show a conventional training-to-validation
+collapse. Its training-minus-validation gaps were -0.03872 for Average
+Precision, -0.14904 for MCC, and -0.01284 for balanced accuracy; its OOB
+accuracy was 0.98181. These values do not settle the overfitting question,
+because training, calibration, and validation attack prevalence differed
+substantially at 2.84%, 38.49%, and 6.19%. Average Precision and F1 are
+prevalence-sensitive, and OOB accuracy is not a class-balanced measure.
+
+Attack-level recall also exposes a remaining weakness. The selected model
+detected only 12.77% of 2,811 Infiltration records, despite detecting nearly all
+records in several larger attack families. The result is therefore
+development-promising rather than deployment-ready. The model, features, and
+threshold must be frozen under a new registered decision rule before the
+confirmation partition is opened.
+
+![Fresh target-development candidate comparison](../../artifacts/fresh_target_development/plots/candidate_validation_comparison.png)
+
+![Fresh target-development overfitting gaps](../../artifacts/fresh_target_development/plots/target_development_overfitting_gaps.png)
+
+## 12. What is new in this work
 
 The novelty is evaluative rather than algorithmic. A claim that Logistic
 Regression and Random Forest have not previously been compared on UNSW-NB15
@@ -516,7 +569,11 @@ chain:
     reversal; and
 14. an aligned source-bin synthesis shows that the recurring external failure
     mode differs by model: Random Forest misses attacks broadly, while Logistic
-    Regression raises benign alarms broadly.
+    Regression raises benign alarms broadly; and
+15. a preregistered fresh target-development experiment separates target
+    training, calibration, validation, and sealed confirmation, showing that
+    target retraining can repair much of the transfer failure while preserving
+    a final untouched test.
 
 This contribution is best described as a reproducible robustness and
 generalisation study of a conventional detector. The strongest substantive
@@ -524,7 +581,7 @@ finding is that near-perfect internal Average Precision can coexist with an
 operationally poor false-positive rate after the threshold is transferred to a
 different holdout distribution.
 
-## 12. Limitations
+## 13. Limitations
 
 - The official holdout is not completely pristine because a deterministic
   5,000-row sample had been evaluated by an older workflow. Excluding those
@@ -577,8 +634,19 @@ different holdout distribution.
   were known. The bin shares overlap across features and are descriptive, not
   independent causal effects or evidence that removing a feature will improve
   transfer.
+- The fresh target-development split prevents five-significant-digit feature
+  groups from crossing partitions, but large repeated groups produced very
+  different attack prevalence across training, calibration, and validation.
+  Prevalence-sensitive metric gaps are therefore not direct like-for-like
+  overfitting estimates.
+- The fresh target result contains no cluster-bootstrap interval yet and has
+  not been independently reproduced. Rare attack-family estimates are
+  unstable, and Infiltration recall remains low.
+- NF-CSE-CIC-IDS2018 target validation is now part of model selection. It can no
+  longer serve as independent confirmation; only the sealed partition retains
+  that role.
 
-## 13. Supported conclusion
+## 14. Supported conclusion
 
 The selected Random Forest is superior to the Logistic Regression baseline on
 the internal validation data, and its high validation performance survives both
@@ -625,18 +693,29 @@ high-scoring and associated with different connection-count and traffic-volume
 profiles. Because these patterns were identified on the holdout, they should be
 tested on new data before any model or policy change is considered.
 
-## 14. Next targets
+The new target-development result shows that retraining on a fresh target
+development partition can produce a much stronger detector than transferring
+the source model unchanged. The selected target Random Forest achieved MCC
+0.71401 and balanced accuracy 0.93047 while keeping the target-validation
+false-positive rate at 3.98%. This is evidence that target-specific development
+can repair much of the observed transfer failure. It is not yet evidence that
+the improvement generalises: the confirmation partition is sealed, prevalence
+varies across the development partitions, and Infiltration recall is only
+12.77%.
 
-1. Obtain or construct a genuinely fresh calibration partition that reflects
-   the intended deployment environment.
-2. Elicit an acceptable false-alert budget or empirical false-negative versus
-   false-positive cost, then evaluate calibration and threshold choices on the
-   fresh calibration data while leaving official test results unchanged.
-3. Recover richer raw flow records with timestamps or capture/session IDs, then
+## 15. Next targets
+
+1. Freeze the selected target Random Forest, its eight-feature set, threshold
+   0.39, and fitted-model hash.
+2. Register the confirmation metrics, group-bootstrap uncertainty method,
+   attack-level reporting, and accept/reject rule before opening the sealed
+   NF-CSE-CIC-IDS2018 confirmation partition.
+3. Run the confirmation evaluation exactly once and report it regardless of
+   outcome, without further tuning.
+4. Elicit an acceptable false-alert budget or empirical false-negative versus
+   false-positive cost before making any operational recommendation.
+5. Recover richer raw flow records with timestamps or capture/session IDs, then
    repeat source evaluation using a temporal or source-aware split.
-4. Investigate invariant feature selection or calibration only on a new,
-   explicitly designated target-development set, then preregister a fourth
-   untouched evaluation before claiming improvement.
 
 ## Draft AI-use acknowledgement
 

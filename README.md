@@ -291,3 +291,19 @@ sealed 20% confirmation partition were registered before download or row-level
 access in `protocols/fresh_target_development_protocol.json`. See
 `deliverables/current_results_package/Fresh_Development_Protocol.md` for the
 human-readable protocol.
+
+Run the preregistered development-only comparison with:
+
+```powershell
+.\.venv\Scripts\python.exe run_fresh_target_development.py `
+  --dataset-path data\external\nf-cse-cic-ids2018\NF-CSE-CIC-IDS2018.csv
+```
+
+The completed run verified all 8,392,401 official rows, preserved zero grouped
+overlap among the three development partitions, and left 1,631,543 confirmation
+rows unscored. The strongest development candidate was the target-trained
+eight-feature Random Forest at threshold 0.39, with validation MCC 0.71401 and
+balanced accuracy 0.93047. This is not a final generalisation result:
+Infiltration recall was only 0.12771, development-partition prevalences differed,
+and the sealed confirmation partition remains unopened. See
+`deliverables/current_results_package/Fresh_Development_Result.md`.

@@ -43,6 +43,11 @@ this package and were not modified.
 | NF-BoT-IoT feature-bin error profiles | `../../artifacts/third_dataset_shift_audit/external_error_profiles_by_feature_bin.csv` | `../../artifacts/third_dataset_shift_audit/summary.json` |
 | Aligned recurring external error bins | `../../artifacts/cross_external_error_synthesis/aligned_feature_bin_errors.csv` | `../../artifacts/cross_external_error_synthesis/summary.json` |
 | Per-feature coverage of recurring failure modes | `../../artifacts/cross_external_error_synthesis/feature_consistency_summary.csv` | `../../artifacts/cross_external_error_synthesis/plots/consistent_feature_bin_failures.png` |
+| Fresh target-development protocol | `../../protocols/fresh_target_development_protocol.json` | `Fresh_Development_Protocol.md` |
+| Fresh target-development integrity and candidate selection | `../../artifacts/fresh_target_development/summary.json` | `Fresh_Development_Result.md` |
+| Fresh target-validation candidate metrics | `../../artifacts/fresh_target_development/validation_candidate_comparison.csv` | `../../artifacts/fresh_target_development/plots/candidate_validation_comparison.png` |
+| Fresh target overfitting gaps and OOB results | `../../artifacts/fresh_target_development/overfitting_gaps.csv` | `../../artifacts/fresh_target_development/plots/target_development_overfitting_gaps.png` |
+| Fresh target attack-family recall | `../../artifacts/fresh_target_development/validation_per_attack_recall.csv` | `Fresh_Development_Result.md` |
 
 ## Integrity checks already applied
 
@@ -85,6 +90,15 @@ this package and were not modified.
   re-verifies the shared source fold and model hashes, and records no model,
   feature, threshold, or external-tuning changes. Its support and error-rate
   cutoffs are descriptive post-hoc reporting rules, not selection criteria.
+- The fresh target runner verified all 8,392,401 official rows and parent attack
+  counts before fitting. Training, calibration, and validation shared zero
+  five-significant-digit feature groups.
+- The 1,631,543-row confirmation partition was counted and hashed but not
+  scored. The result records `predictions_computed: false`,
+  `metrics_computed: false`, and `labels_summarised_by_partition: false`.
+- Candidate models used target training only, thresholds used target
+  calibration only, and ranking used target validation only. NF-ToN-IoT and
+  NF-BoT-IoT were not reused for tuning.
 
 ## Interpretation boundary
 
@@ -95,4 +109,6 @@ rates, SHAP values, or cross-dataset performance establish a causal mechanism.
 The NetFlow-v1 experiments test transfer of a matched modelling approach, not
 the previously frozen 44-feature model. The NF-BoT-IoT result supports the
 fixed protocol verdict "useful transfer not supported" but does not identify a
-single causal mechanism for the failure.
+single causal mechanism for the failure. The fresh target-development result is
+candidate-selection evidence only; it is not a confirmed generalisation or
+deployment claim.
