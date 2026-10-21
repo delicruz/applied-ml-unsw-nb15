@@ -1,0 +1,155 @@
+{
+  "protocol_id": "nf-cse-cic-ids2018-v1-sealed-confirmation-2026-10-21",
+  "status": "PREREGISTERED_BEFORE_CONFIRMATION_ACCESS",
+  "registered_date": "2026-10-21",
+  "timezone": "Australia/Adelaide",
+  "repository_parent_commit": "4d9beb7839fa2c81796e5d0e822d9876350de301",
+  "confirmation_access_at_registration": {
+    "development_partitions_evaluated": true,
+    "confirmation_rows_counted_and_hashed": true,
+    "confirmation_predictions_computed": false,
+    "confirmation_metrics_computed": false,
+    "confirmation_labels_summarised": false
+  },
+  "dataset": {
+    "name": "NF-CSE-CIC-IDS2018",
+    "representation": "NetFlow v1",
+    "expected_csv_sha256": "ed3387646fda24084889f07788cd22da2978b860f5b3d2d6f1210a4e3d79998e0",
+    "expected_rows": 8392401,
+    "expected_positive_rows": 1019203,
+    "expected_negative_rows": 7373198,
+    "expected_attack_counts": {
+      "Benign": 7373198,
+      "BruteForce": 287597,
+      "Bot": 15683,
+      "DoS": 269361,
+      "DDoS": 380096,
+      "Infiltration": 62072,
+      "Web Attacks": 4394
+    },
+    "partition_rule": "The five-significant-digit eight-feature group SHA-256 first-word assignment is sealed_confirmation when the unsigned value is above the registered 0.80 cutoff.",
+    "expected_confirmation_rows": 1631543,
+    "expected_confirmation_ordered_group_digest_sha256": "2eb47d7a15380c5d9e18c9544ca099a0a50d2482128ea3e74a196e88a1bf40b2"
+  },
+  "provenance_lock": {
+    "development_protocol": "protocols/fresh_target_development_protocol.json",
+    "development_protocol_sha256": "4280933d0accdc6ed51e0eedc3b09f1685a955ebb9fcfa2bbe2aa27689535f66",
+    "development_summary": "artifacts/fresh_target_development/summary.json",
+    "development_summary_sha256": "99a99e877a922bdd1df6b00351eaa18f6c97ab52ad26b50daa4d5ecdb17b4ee9",
+    "development_runner": "run_fresh_target_development.py",
+    "development_runner_sha256": "14fdcca84bba4a574c4cc5a77d02cee558f8abcf32072c8c125dea77e089fdb4"
+  },
+  "frozen_inputs": {
+    "model_features": [
+      "PROTOCOL",
+      "L7_PROTO",
+      "IN_BYTES",
+      "OUT_BYTES",
+      "IN_PKTS",
+      "OUT_PKTS",
+      "TCP_FLAGS",
+      "FLOW_DURATION_MILLISECONDS"
+    ],
+    "selected_candidate": {
+      "id": "target_rf_all_features",
+      "artifact": "artifacts/fresh_target_development/models/target_rf_all_features.joblib",
+      "artifact_bytes": 60719992,
+      "sha256": "a39a4c1355f638ed526bbe0004c6d9bfdc4cab6976081d73b3bd9b89bba54743",
+      "threshold": 0.39,
+      "role": "sole selected target-development candidate"
+    },
+    "comparison_baseline": {
+      "id": "frozen_source_rf",
+      "artifact": "artifacts/external_netflow_validation/random_forest_netflow_v1.joblib",
+      "artifact_bytes": 15766363,
+      "sha256": "38756c9b09be364b5ff483df82b98183634753ef326faafeaaa8ebcfd498646b",
+      "threshold": 0.64,
+      "role": "unchanged source-trained Random Forest baseline"
+    }
+  },
+  "analysis": {
+    "evaluation_scope": "all rows assigned to sealed_confirmation; no sampling",
+    "model_refitting": false,
+    "threshold_selection": false,
+    "candidate_reselection": false,
+    "bootstrap_method": "paired percentile bootstrap resampling five-significant-digit feature groups with replacement",
+    "bootstrap_iterations": 1000,
+    "bootstrap_seed": 10042,
+    "confidence_level": 0.95,
+    "primary_metrics": [
+      "mcc",
+      "balanced_accuracy"
+    ],
+    "secondary_metrics": [
+      "average_precision",
+      "average_precision_lift",
+      "f1",
+      "precision",
+      "recall",
+      "specificity",
+      "false_positive_rate",
+      "brier_score"
+    ],
+    "attack_reporting": {
+      "report_every_observed_attack_label": true,
+      "minimum_support_for_coverage_rule": 100
+    }
+  },
+  "decision_rules": {
+    "aggregate_improvement_supported": {
+      "all_required": true,
+      "requirements": {
+        "selected_candidate_mcc_at_least": 0.60,
+        "selected_candidate_balanced_accuracy_at_least": 0.80,
+        "selected_candidate_average_precision_lift_above": 1.00,
+        "paired_mcc_difference_ci_lower_above": 0.00,
+        "paired_balanced_accuracy_difference_ci_lower_above": 0.00
+      }
+    },
+    "broad_attack_coverage_supported": {
+      "all_required": true,
+      "requirements": {
+        "selected_candidate_false_positive_rate_at_most": 0.10,
+        "selected_candidate_recall_for_every_attack_with_at_least_100_rows_at_least": 0.50
+      }
+    },
+    "verdict_labels": {
+      "aggregate_and_coverage_pass": "aggregate improvement confirmed with broad supported-attack coverage",
+      "aggregate_pass_coverage_fail": "aggregate improvement confirmed; broad supported-attack coverage not supported",
+      "aggregate_fail": "development improvement not confirmed"
+    },
+    "deployment_claim_permitted": false
+  },
+  "integrity_rules": {
+    "required_before_scoring": [
+      "verify dataset SHA-256 and official global counts",
+      "reconstruct confirmation membership from the registered group rule",
+      "verify confirmation row count and ordered group digest",
+      "verify development protocol and result hashes",
+      "verify both model artifact hashes and byte sizes"
+    ],
+    "prohibited": [
+      "fit or refit a model",
+      "change or select a threshold",
+      "change the feature set",
+      "select a different candidate after confirmation results",
+      "exclude confirmation rows after observing predictions or labels",
+      "change the decision rule after opening confirmation",
+      "present this benchmark confirmation as production deployment evidence"
+    ],
+    "reporting_rule": "Report the preregistered verdict and all attack-family results regardless of outcome. A technical failure must be documented and must not be silently retried."
+  },
+  "expected_outputs": [
+    "execution_started.json",
+    "summary.json",
+    "metrics_long.csv",
+    "per_attack_recall.csv",
+    "group_bootstrap_samples.csv",
+    "group_bootstrap_intervals.csv",
+    "paired_bootstrap_differences.csv",
+    "paired_bootstrap_intervals.csv",
+    "plots/confirmation_metric_comparison.png",
+    "plots/selected_attack_recall.png"
+  ],
+  "interpretation_boundary": "This one-time confirmation tests whether the preregistered target-development improvement replicates on the sealed NF-CSE-CIC-IDS2018 partition. It cannot establish performance on other datasets or production traffic, and it never permits a deployment claim."
+}

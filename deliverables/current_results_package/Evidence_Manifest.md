@@ -48,6 +48,8 @@ this package and were not modified.
 | Fresh target-validation candidate metrics | `../../artifacts/fresh_target_development/validation_candidate_comparison.csv` | `../../artifacts/fresh_target_development/plots/candidate_validation_comparison.png` |
 | Fresh target overfitting gaps and OOB results | `../../artifacts/fresh_target_development/overfitting_gaps.csv` | `../../artifacts/fresh_target_development/plots/target_development_overfitting_gaps.png` |
 | Fresh target attack-family recall | `../../artifacts/fresh_target_development/validation_per_attack_recall.csv` | `Fresh_Development_Result.md` |
+| Frozen fresh-confirmation inputs and decision rules | `../../protocols/fresh_confirmation_protocol.json` | `Fresh_Confirmation_Protocol.md` |
+| Confirmation runner integrity tests | `../../test_fresh_confirmation_evaluation.py` | `../../run_fresh_confirmation_evaluation.py` |
 
 ## Integrity checks already applied
 
@@ -99,6 +101,11 @@ this package and were not modified.
 - Candidate models used target training only, thresholds used target
   calibration only, and ranking used target validation only. NF-ToN-IoT and
   NF-BoT-IoT were not reused for tuning.
+- The confirmation protocol fixes the selected and baseline model hashes and
+  sizes, thresholds, eight-feature set, all-row confirmation scope, paired
+  group-bootstrap method, and two-part decision rule before the sealed
+  partition is opened. Its runner exposes no model-fitting or threshold-
+  selection path.
 
 ## Interpretation boundary
 

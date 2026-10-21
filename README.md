@@ -307,3 +307,11 @@ balanced accuracy 0.93047. This is not a final generalisation result:
 Infiltration recall was only 0.12771, development-partition prevalences differed,
 and the sealed confirmation partition remains unopened. See
 `deliverables/current_results_package/Fresh_Development_Result.md`.
+
+The selected model is now frozen and the one-time confirmation analysis is
+preregistered in `protocols/fresh_confirmation_protocol.json`. The protocol
+locks the model and baseline hashes, feature list, thresholds, full-partition
+scope, paired group-bootstrap method, aggregate-improvement rule, and separate
+supported-attack coverage rule. `run_fresh_confirmation_evaluation.py` contains
+no model-fitting or threshold-selection path. Do not run it until the protocol
+commit is confirmed on the remote repository.

@@ -706,11 +706,12 @@ varies across the development partitions, and Infiltration recall is only
 ## 15. Next targets
 
 1. Freeze the selected target Random Forest, its eight-feature set, threshold
-   0.39, and fitted-model hash.
-2. Register the confirmation metrics, group-bootstrap uncertainty method,
-   attack-level reporting, and accept/reject rule before opening the sealed
-   NF-CSE-CIC-IDS2018 confirmation partition.
-3. Run the confirmation evaluation exactly once and report it regardless of
+   0.39, and fitted-model hash. **Completed on 21 October 2026.**
+2. Register the confirmation metrics, paired group-bootstrap uncertainty
+   method, attack-level reporting, and two-part decision rule before opening
+   the sealed NF-CSE-CIC-IDS2018 confirmation partition. **Completed on 21
+   October 2026.**
+3. Run the now-registered confirmation evaluation exactly once and report it regardless of
    outcome, without further tuning.
 4. Elicit an acceptable false-alert budget or empirical false-negative versus
    false-positive cost before making any operational recommendation.
