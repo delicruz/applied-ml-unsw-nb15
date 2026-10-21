@@ -10,6 +10,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import sys
 from datetime import datetime
 from pathlib import Path
 from typing import Any
@@ -36,6 +37,7 @@ from run_fresh_target_development import (
     TARGET,
     assign_partitions,
     canonical_group_hashes,
+    log1p_nonnegative,
     normalise_attack_counts,
     validate_header,
     verify_official_counts,
@@ -104,7 +106,13 @@ def verify_locked_provenance(protocol: dict[str, Any]) -> None:
             raise ValueError(f"Locked provenance hash mismatch: {path}")
 
 
+def expose_legacy_pickle_globals() -> None:
+    """Expose the development runner's transform for its __main__ pickle path."""
+    setattr(sys.modules["__main__"], "log1p_nonnegative", log1p_nonnegative)
+
+
 def load_frozen_models(protocol: dict[str, Any]) -> dict[str, dict[str, Any]]:
+    expose_legacy_pickle_globals()
     records = {
         "target_rf_all_features": protocol["frozen_inputs"]["selected_candidate"],
         "frozen_source_rf": protocol["frozen_inputs"]["comparison_baseline"],

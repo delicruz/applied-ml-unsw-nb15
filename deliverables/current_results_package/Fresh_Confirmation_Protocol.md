@@ -83,3 +83,15 @@ both frozen model hashes and byte sizes. It writes a durable one-time execution
 marker before reading the sealed rows and refuses to start when prior output is
 present. Results must be reported regardless of outcome. A technical failure
 must not be silently retried.
+
+## Technical preflight amendment
+
+The first execution command stopped during frozen-model deserialisation before
+the confirmation dataset was opened. The development model had stored its
+existing `log1p_nonnegative` transformer under Python's `__main__` namespace.
+The confirmation runner now exposes that same imported function under the
+legacy name before loading the unchanged artifact. A regression test loads both
+frozen pipelines successfully. No model, hash, feature, threshold, partition,
+metric, bootstrap procedure, or decision rule changed. The user explicitly
+authorised a retry, recorded in
+`../../protocols/fresh_confirmation_amendment_001.json`.

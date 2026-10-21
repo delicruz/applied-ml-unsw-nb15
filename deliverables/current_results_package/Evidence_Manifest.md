@@ -50,6 +50,7 @@ this package and were not modified.
 | Fresh target attack-family recall | `../../artifacts/fresh_target_development/validation_per_attack_recall.csv` | `Fresh_Development_Result.md` |
 | Frozen fresh-confirmation inputs and decision rules | `../../protocols/fresh_confirmation_protocol.json` | `Fresh_Confirmation_Protocol.md` |
 | Confirmation runner integrity tests | `../../test_fresh_confirmation_evaluation.py` | `../../run_fresh_confirmation_evaluation.py` |
+| Confirmation preflight failure and portability amendment | `../../protocols/fresh_confirmation_amendment_001.json` | `Fresh_Confirmation_Protocol.md` |
 
 ## Integrity checks already applied
 

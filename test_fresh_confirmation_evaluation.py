@@ -15,6 +15,7 @@ from run_external_netflow_validation import sha256_file
 from run_fresh_confirmation_evaluation import (
     apply_decision_rules,
     claim_one_time_execution,
+    load_frozen_models,
     load_protocol,
     paired_difference_intervals,
     paired_difference_samples,
@@ -23,6 +24,7 @@ from run_fresh_confirmation_evaluation import (
 
 
 PROTOCOL_PATH = Path("protocols/fresh_confirmation_protocol.json")
+AMENDMENT_PATH = Path("protocols/fresh_confirmation_amendment_001.json")
 
 
 class FreshConfirmationTests(unittest.TestCase):
@@ -43,6 +45,14 @@ class FreshConfirmationTests(unittest.TestCase):
             path = Path(record["artifact"])
             self.assertEqual(path.stat().st_size, record["artifact_bytes"])
             self.assertEqual(sha256_file(path), record["sha256"])
+
+    def test_frozen_models_load_with_legacy_transform_reference(self) -> None:
+        models = load_frozen_models(load_protocol(PROTOCOL_PATH))
+        self.assertEqual(
+            set(models), {"target_rf_all_features", "frozen_source_rf"}
+        )
+        for record in models.values():
+            self.assertTrue(hasattr(record["pipeline"], "predict_proba"))
 
     def test_locked_development_provenance_matches(self) -> None:
         verify_locked_provenance(load_protocol(PROTOCOL_PATH))
@@ -113,6 +123,22 @@ class FreshConfirmationTests(unittest.TestCase):
     def test_protocol_json_is_strict(self) -> None:
         with PROTOCOL_PATH.open(encoding="utf-8") as handle:
             json.load(handle)
+
+    def test_preflight_amendment_preserves_registered_design(self) -> None:
+        with AMENDMENT_PATH.open(encoding="utf-8") as handle:
+            amendment = json.load(handle)
+        self.assertEqual(
+            amendment["parent_protocol_sha256"], sha256_file(PROTOCOL_PATH)
+        )
+        self.assertFalse(amendment["failed_attempt"]["confirmation_dataset_opened"])
+        self.assertFalse(amendment["failed_attempt"]["execution_marker_created"])
+        changed = [
+            key
+            for key, value in amendment["correction"].items()
+            if key.endswith("_changed") and value
+        ]
+        self.assertEqual(changed, [])
+        self.assertTrue(amendment["retry_authorisation"]["authorised_by_user"])
 
 
 if __name__ == "__main__":

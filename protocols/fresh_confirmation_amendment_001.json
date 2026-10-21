@@ -1,0 +1,41 @@
+{
+  "amendment_id": "nf-cse-cic-ids2018-confirmation-amendment-001",
+  "status": "CORRECTIVE_TECHNICAL_AMENDMENT_BEFORE_CONFIRMATION_ACCESS",
+  "created_date": "2026-10-21",
+  "timezone": "Australia/Adelaide",
+  "parent_protocol": "protocols/fresh_confirmation_protocol.json",
+  "parent_protocol_sha256": "1723cc40e789df2fbcc439b4025c3ad0756db0a3e7fbc4d0a2d96f089da2b58a",
+  "failed_attempt": {
+    "command": ".\\.venv\\Scripts\\python.exe run_fresh_confirmation_evaluation.py --dataset-path data\\external\\nf-cse-cic-ids2018\\extracted\\88a47ba2ab64258e_MOHANAD_A4706\\data\\NF-CSE-CIC-IDS2018.csv",
+    "exit_code": 1,
+    "failure_stage": "frozen target model deserialisation during preflight",
+    "error": "AttributeError: Can't get attribute 'log1p_nonnegative' on module '__main__'",
+    "confirmation_dataset_opened": false,
+    "confirmation_rows_read": false,
+    "predictions_computed": false,
+    "metrics_computed": false,
+    "execution_marker_created": false,
+    "output_directory_created": false
+  },
+  "correction": {
+    "reason": "The target pipeline was serialised when the development runner was executed as __main__, so its FunctionTransformer stored a legacy __main__.log1p_nonnegative reference.",
+    "change": "Expose the unchanged imported development transform on the active __main__ module immediately before loading either frozen model.",
+    "corrected_runner": "run_fresh_confirmation_evaluation.py",
+    "corrected_runner_sha256": "765d8b91c58a1ac4c73a8354bc2b13fdcc92167e03c9ca74b6b7466f71de0f2f",
+    "regression_test": "test_frozen_models_load_with_legacy_transform_reference",
+    "model_artifacts_changed": false,
+    "model_hashes_changed": false,
+    "features_changed": false,
+    "thresholds_changed": false,
+    "partition_changed": false,
+    "metrics_changed": false,
+    "bootstrap_changed": false,
+    "decision_rules_changed": false
+  },
+  "retry_authorisation": {
+    "authorised_by_user": true,
+    "authorised_date": "2026-10-21",
+    "authorisation_text": "yes"
+  },
+  "interpretation": "This amendment repairs model portability only. Because the failure occurred before the dataset was opened and before the one-time marker was created, the preregistered confirmation remains sealed and the authorised retry is still the first confirmation evaluation."
+}
