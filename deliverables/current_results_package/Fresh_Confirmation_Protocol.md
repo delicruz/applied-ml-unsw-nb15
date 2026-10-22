@@ -95,3 +95,14 @@ frozen pipelines successfully. No model, hash, feature, threshold, partition,
 metric, bootstrap procedure, or decision rule changed. The user explicitly
 authorised a retry, recorded in
 `../../protocols/fresh_confirmation_amendment_001.json`.
+
+The authorised retry then stopped during the dataset-byte-hash preflight. No
+CSV parsing, confirmation-row access, prediction, metric computation, marker,
+or output occurred. The registered SHA-256 contained one extra `9`; the value
+already recorded in the locked development summary and independently observed
+for the unchanged 620,014,585-byte CSV is
+`ed3387646fda24084889f07788cd22da2978b860f5b3d2d6f1210a4e3d7998e0`.
+Amendment 002 corrects only that transcription error. All frozen inputs,
+analysis choices, and decision rules remain unchanged, and the user explicitly
+authorised the corrected retry. The complete audit record is stored in
+`../../protocols/fresh_confirmation_amendment_002.json`.

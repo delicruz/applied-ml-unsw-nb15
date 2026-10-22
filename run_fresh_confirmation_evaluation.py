@@ -8,6 +8,7 @@ selection, feature selection, candidate selection, or confirmation sampling.
 from __future__ import annotations
 
 import argparse
+import copy
 import hashlib
 import json
 import sys
@@ -45,6 +46,7 @@ from run_fresh_target_development import (
 
 
 DEFAULT_PROTOCOL = Path("protocols/fresh_confirmation_protocol.json")
+DEFAULT_HASH_AMENDMENT = Path("protocols/fresh_confirmation_amendment_002.json")
 DEFAULT_OUTPUT_DIR = Path("artifacts/fresh_confirmation_evaluation")
 DATASET_GLOB = "data/external/**/NF-CSE-CIC-IDS2018.csv"
 EXPECTED_PROTOCOL_ID = "nf-cse-cic-ids2018-v1-sealed-confirmation-2026-10-21"
@@ -74,7 +76,70 @@ def resolve_dataset_path(explicit: Path | None) -> Path:
     return matches[0].resolve()
 
 
-def load_protocol(path: Path) -> dict[str, Any]:
+def load_hash_correction(
+    amendment_path: Path,
+    protocol_path: Path,
+    protocol: dict[str, Any],
+) -> dict[str, Any]:
+    """Apply the documented dataset-hash typo correction without changing design."""
+    with amendment_path.open(encoding="utf-8") as handle:
+        amendment = json.load(handle)
+    if amendment.get("amendment_id") != (
+        "nf-cse-cic-ids2018-confirmation-amendment-002"
+    ):
+        raise ValueError("Unexpected confirmation hash amendment ID")
+    if amendment.get("status") != (
+        "CORRECTIVE_TECHNICAL_AMENDMENT_BEFORE_CONFIRMATION_ROW_ACCESS"
+    ):
+        raise ValueError("Confirmation hash amendment is not a sealed correction")
+    if amendment["parent_protocol_sha256"] != sha256_file(protocol_path):
+        raise ValueError("Hash amendment parent protocol does not match")
+
+    prior = amendment["prior_technical_amendment"]
+    prior_path = Path(prior["path"])
+    if sha256_file(prior_path) != prior["sha256"]:
+        raise ValueError("Prior technical amendment hash does not match")
+
+    correction = amendment["correction"]
+    observed_registered = protocol["dataset"]["expected_csv_sha256"]
+    if observed_registered != correction["original_value"]:
+        raise ValueError("Registered dataset hash is not the documented typo")
+    corrected_value = correction["corrected_value"]
+
+    evidence = amendment["evidence"]
+    development_summary_path = Path(evidence["development_summary"])
+    if sha256_file(development_summary_path) != evidence["development_summary_sha256"]:
+        raise ValueError("Development summary hash does not match amendment evidence")
+    with development_summary_path.open(encoding="utf-8") as handle:
+        development_summary = json.load(handle)
+    if development_summary["data_provenance"]["csv_sha256"] != corrected_value:
+        raise ValueError("Development summary does not support corrected dataset hash")
+    if evidence["observed_dataset_sha256"] != corrected_value:
+        raise ValueError("Amendment evidence and corrected dataset hash disagree")
+
+    runner_path = Path(correction["corrected_runner"])
+    if sha256_file(runner_path) != correction["corrected_runner_sha256"]:
+        raise ValueError("Corrected confirmation runner hash does not match")
+
+    corrected_protocol = copy.deepcopy(protocol)
+    corrected_protocol["dataset"]["expected_csv_sha256"] = corrected_value
+    corrected_protocol["_technical_amendments"] = [
+        {
+            "path": str(prior_path),
+            "sha256": prior["sha256"],
+        },
+        {
+            "path": str(amendment_path),
+            "sha256": sha256_file(amendment_path),
+        },
+    ]
+    return corrected_protocol
+
+
+def load_protocol(
+    path: Path,
+    amendment_path: Path = DEFAULT_HASH_AMENDMENT,
+) -> dict[str, Any]:
     with path.open(encoding="utf-8") as handle:
         protocol = json.load(handle)
     if protocol.get("protocol_id") != EXPECTED_PROTOCOL_ID:
@@ -91,7 +156,7 @@ def load_protocol(path: Path) -> dict[str, Any]:
         raise ValueError("Bootstrap count is below the integrity minimum")
     if tuple(protocol["frozen_inputs"]["model_features"]) != MODEL_FEATURES:
         raise ValueError("Protocol features do not match the frozen runner")
-    return protocol
+    return load_hash_correction(amendment_path, path, protocol)
 
 
 def verify_locked_provenance(protocol: dict[str, Any]) -> None:
@@ -462,6 +527,7 @@ def main() -> None:
         },
         "protocol_id": protocol["protocol_id"],
         "protocol_sha256": sha256_file(args.protocol),
+        "technical_amendments": protocol["_technical_amendments"],
         "dataset": {
             "path": str(dataset_path),
             "sha256": sha256_file(dataset_path),

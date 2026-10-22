@@ -25,6 +25,17 @@ from run_fresh_confirmation_evaluation import (
 
 PROTOCOL_PATH = Path("protocols/fresh_confirmation_protocol.json")
 AMENDMENT_PATH = Path("protocols/fresh_confirmation_amendment_001.json")
+HASH_AMENDMENT_PATH = Path("protocols/fresh_confirmation_amendment_002.json")
+DEVELOPMENT_SUMMARY_PATH = Path("artifacts/fresh_target_development/summary.json")
+ORIGINAL_PROTOCOL_SHA256 = (
+    "1723cc40e789df2fbcc439b4025c3ad0756db0a3e7fbc4d0a2d96f089da2b58a"
+)
+REGISTERED_HASH_TYPO = (
+    "ed3387646fda24084889f07788cd22da2978b860f5b3d2d6f1210a4e3d79998e0"
+)
+CORRECTED_DATASET_SHA256 = (
+    "ed3387646fda24084889f07788cd22da2978b860f5b3d2d6f1210a4e3d7998e0"
+)
 
 
 class FreshConfirmationTests(unittest.TestCase):
@@ -123,6 +134,45 @@ class FreshConfirmationTests(unittest.TestCase):
     def test_protocol_json_is_strict(self) -> None:
         with PROTOCOL_PATH.open(encoding="utf-8") as handle:
             json.load(handle)
+
+    def test_original_protocol_is_immutable_and_retains_documented_typo(self) -> None:
+        with PROTOCOL_PATH.open(encoding="utf-8") as handle:
+            original = json.load(handle)
+        self.assertEqual(sha256_file(PROTOCOL_PATH), ORIGINAL_PROTOCOL_SHA256)
+        self.assertEqual(
+            original["dataset"]["expected_csv_sha256"], REGISTERED_HASH_TYPO
+        )
+
+    def test_hash_amendment_is_authorised_and_changes_no_design(self) -> None:
+        with HASH_AMENDMENT_PATH.open(encoding="utf-8") as handle:
+            amendment = json.load(handle)
+        self.assertEqual(amendment["parent_protocol_sha256"], ORIGINAL_PROTOCOL_SHA256)
+        self.assertTrue(amendment["retry_authorisation"]["authorised_by_user"])
+        changed = [
+            key
+            for key, value in amendment["correction"].items()
+            if key.endswith("_changed") and value
+        ]
+        self.assertEqual(changed, [])
+        failed = amendment["failed_attempt"]
+        self.assertFalse(failed["confirmation_csv_parsed"])
+        self.assertFalse(failed["confirmation_rows_read"])
+        self.assertFalse(failed["predictions_computed"])
+        self.assertFalse(failed["metrics_computed"])
+        self.assertFalse(failed["execution_marker_created"])
+
+    def test_load_protocol_applies_only_documented_hash_correction(self) -> None:
+        with DEVELOPMENT_SUMMARY_PATH.open(encoding="utf-8") as handle:
+            development_summary = json.load(handle)
+        protocol = load_protocol(PROTOCOL_PATH)
+        self.assertEqual(
+            protocol["dataset"]["expected_csv_sha256"], CORRECTED_DATASET_SHA256
+        )
+        self.assertEqual(
+            protocol["dataset"]["expected_csv_sha256"],
+            development_summary["data_provenance"]["csv_sha256"],
+        )
+        self.assertEqual(len(protocol["_technical_amendments"]), 2)
 
     def test_preflight_amendment_preserves_registered_design(self) -> None:
         with AMENDMENT_PATH.open(encoding="utf-8") as handle:

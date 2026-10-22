@@ -1,0 +1,56 @@
+{
+  "amendment_id": "nf-cse-cic-ids2018-confirmation-amendment-002",
+  "status": "CORRECTIVE_TECHNICAL_AMENDMENT_BEFORE_CONFIRMATION_ROW_ACCESS",
+  "created_date": "2026-10-23",
+  "timezone": "Australia/Adelaide",
+  "parent_protocol": "protocols/fresh_confirmation_protocol.json",
+  "parent_protocol_sha256": "1723cc40e789df2fbcc439b4025c3ad0756db0a3e7fbc4d0a2d96f089da2b58a",
+  "prior_technical_amendment": {
+    "path": "protocols/fresh_confirmation_amendment_001.json",
+    "sha256": "2e6b5540497224a2d278f141125dd9fc59a0976506e8977fb152b319f716d468"
+  },
+  "failed_attempt": {
+    "command": ".\\.venv\\Scripts\\python.exe run_fresh_confirmation_evaluation.py --dataset-path 'data\\external\\nf-cse-cic-ids2018\\extracted\\88a47ba2ab64258e_MOHANAD_A4706\\data\\NF-CSE-CIC-IDS2018.csv'",
+    "exit_code": 1,
+    "failure_stage": "dataset SHA-256 verification during preflight",
+    "error": "ValueError: Dataset hash does not match the confirmation protocol",
+    "dataset_bytes_hashed": true,
+    "confirmation_csv_parsed": false,
+    "confirmation_rows_read": false,
+    "predictions_computed": false,
+    "metrics_computed": false,
+    "execution_marker_created": false,
+    "output_directory_created": false
+  },
+  "correction": {
+    "reason": "The preregistered dataset SHA-256 contains one extra digit 9 near its end. The unchanged file hash agrees with the value already locked in the development summary.",
+    "field": "dataset.expected_csv_sha256",
+    "original_value": "ed3387646fda24084889f07788cd22da2978b860f5b3d2d6f1210a4e3d79998e0",
+    "corrected_value": "ed3387646fda24084889f07788cd22da2978b860f5b3d2d6f1210a4e3d7998e0",
+    "corrected_runner": "run_fresh_confirmation_evaluation.py",
+    "corrected_runner_sha256": "1131c26f06e8decd23bd12a5cbdf7b8d35ec40bd54c7f65bd1a90989c6c7c78f",
+    "model_artifacts_changed": false,
+    "model_hashes_changed": false,
+    "features_changed": false,
+    "thresholds_changed": false,
+    "partition_changed": false,
+    "metrics_changed": false,
+    "bootstrap_changed": false,
+    "decision_rules_changed": false
+  },
+  "evidence": {
+    "development_summary": "artifacts/fresh_target_development/summary.json",
+    "development_summary_sha256": "99a99e877a922bdd1df6b00351eaa18f6c97ab52ad26b50daa4d5ecdb17b4ee9",
+    "development_summary_field": "data_provenance.csv_sha256",
+    "observed_dataset_sha256": "ed3387646fda24084889f07788cd22da2978b860f5b3d2d6f1210a4e3d7998e0",
+    "observed_dataset_sha1": "71f0471d915b72635add459d0bd93b463281b183",
+    "observed_dataset_bytes": 620014585,
+    "observed_dataset_last_write": "2023-05-15T12:08:02+09:30"
+  },
+  "retry_authorisation": {
+    "authorised_by_user": true,
+    "authorised_date": "2026-10-23",
+    "authorisation_text": "yes"
+  },
+  "interpretation": "This amendment corrects a dataset-hash transcription error only. The failed attempt hashed file bytes but stopped before parsing the CSV or accessing confirmation rows, and before creating the one-time marker. The sealed confirmation design is unchanged."
+}
