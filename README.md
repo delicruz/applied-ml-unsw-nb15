@@ -151,6 +151,9 @@ Outputs are written to `artifacts/`:
   errors, and comparison with the earlier NF-ToN-IoT score audit
 - `cross_external_error_synthesis/summary.json`, aligned recurring feature-bin
   failures across NF-ToN-IoT and NF-BoT-IoT, with coverage tables and a plot
+- `fresh_confirmation_evaluation/summary.json`, the one-time sealed-confirmation
+  verdict, frozen-model metrics, paired group-bootstrap intervals, attack-label
+  recall, and plots
 
 The generated CSVs and plots are intended to feed directly into the Dataset, EDA, Results, Explainability, Error Analysis, and Discussion sections of the final report.
 
@@ -299,13 +302,12 @@ Run the preregistered development-only comparison with:
   --dataset-path data\external\nf-cse-cic-ids2018\NF-CSE-CIC-IDS2018.csv
 ```
 
-The completed run verified all 8,392,401 official rows, preserved zero grouped
-overlap among the three development partitions, and left 1,631,543 confirmation
-rows unscored. The strongest development candidate was the target-trained
+The development run verified all 8,392,401 official rows, preserved zero grouped
+overlap among the three development partitions, and initially left 1,631,543
+confirmation rows unscored. The strongest development candidate was the target-trained
 eight-feature Random Forest at threshold 0.39, with validation MCC 0.71401 and
-balanced accuracy 0.93047. This is not a final generalisation result:
-Infiltration recall was only 0.12771, development-partition prevalences differed,
-and the sealed confirmation partition remains unopened. See
+balanced accuracy 0.93047. This was not a final generalisation result:
+Infiltration recall was only 0.12771 and development-partition prevalences differed. See
 `deliverables/current_results_package/Fresh_Development_Result.md`.
 
 The selected model is now frozen and the one-time confirmation analysis is
@@ -313,5 +315,13 @@ preregistered in `protocols/fresh_confirmation_protocol.json`. The protocol
 locks the model and baseline hashes, feature list, thresholds, full-partition
 scope, paired group-bootstrap method, aggregate-improvement rule, and separate
 supported-attack coverage rule. `run_fresh_confirmation_evaluation.py` contains
-no model-fitting or threshold-selection path. Do not run it until the protocol
-commit is confirmed on the remote repository.
+no model-fitting or threshold-selection path.
+
+The one-time confirmation is complete. The frozen target Random Forest achieved
+MCC 0.12593, balanced accuracy 0.54261, Average Precision 0.48298, recall
+0.15377, and false-positive rate 0.06854. It missed the registered absolute MCC
+and balanced-accuracy gates, and the paired balanced-accuracy difference
+interval included zero. Broad coverage also failed: recall was zero for both
+FTP-BruteForce and SlowHTTPTest and 0.12221 for Infiltration. The exact verdict
+is `development improvement not confirmed`; no deployment claim is permitted.
+See `deliverables/current_results_package/Fresh_Confirmation_Result.md`.

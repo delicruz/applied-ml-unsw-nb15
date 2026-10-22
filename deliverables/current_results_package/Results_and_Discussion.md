@@ -20,8 +20,9 @@ preregistered evaluation on untouched NF-BoT-IoT then failed all three frozen
 transfer criteria. Internal overfitting is limited within UNSW-NB15, but the
 two external failures show that dataset-specific fitting and distribution shift
 remain severe risks. A preregistered target-development experiment on the
-previously unused NF-CSE-CIC-IDS2018 dataset has now identified a promising
-target-trained Random Forest, but its confirmation partition remains sealed.
+previously unused NF-CSE-CIC-IDS2018 dataset identified a promising
+target-trained Random Forest, but the completed sealed confirmation did not
+reproduce the development claim.
 
 ## 1. Model selection and internal validation
 
@@ -526,14 +527,58 @@ prevalence-sensitive, and OOB accuracy is not a class-balanced measure.
 
 Attack-level recall also exposes a remaining weakness. The selected model
 detected only 12.77% of 2,811 Infiltration records, despite detecting nearly all
-records in several larger attack families. The result is therefore
+records in several larger attack families. The result was therefore
 development-promising rather than deployment-ready. The model, features, and
-threshold must be frozen under a new registered decision rule before the
-confirmation partition is opened.
+threshold were subsequently frozen under a registered decision rule before the
+confirmation partition was opened.
 
 ![Fresh target-development candidate comparison](../../artifacts/fresh_target_development/plots/candidate_validation_comparison.png)
 
 ![Fresh target-development overfitting gaps](../../artifacts/fresh_target_development/plots/target_development_overfitting_gaps.png)
+
+### 11.1 Sealed confirmation
+
+The selected model, its eight features, threshold 0.39, baseline, metrics,
+bootstrap procedure, and decision gates were frozen before confirmation. The
+one-time run reproduced the registered 1,631,543 rows, 153,825 feature groups,
+official counts, dataset hash, ordered group digest, and both model hashes.
+Two earlier technical failures were documented before any confirmation row was
+parsed: a legacy model-deserialisation reference and a one-digit dataset-hash
+transcription error. Neither changed the experimental design, and the original
+protocol remains unchanged.
+
+The candidate's development result did not replicate:
+
+| Candidate metric | Target validation | Sealed confirmation | Change |
+|---|---:|---:|---:|
+| Average Precision | 0.91443 | 0.48298 | -0.43145 |
+| MCC | 0.71401 | 0.12593 | -0.58807 |
+| Balanced accuracy | 0.93047 | 0.54261 | -0.38786 |
+| Recall | 0.90076 | 0.15377 | -0.74699 |
+| False-positive rate | 0.03981 | 0.06854 | +0.02873 |
+
+The candidate still exceeded the frozen source model's MCC of -0.06748 and AP
+of 0.20333. Its paired MCC-difference interval was positive [0.02543, 0.67550],
+but this relative improvement was insufficient: candidate MCC missed the 0.60
+gate, balanced accuracy missed the 0.80 gate, and the paired balanced-accuracy
+difference interval included zero [-0.00706, 0.41195]. The preregistered
+aggregate verdict is therefore **`development improvement not confirmed`**.
+
+Broad attack coverage also failed. The candidate FPR passed at 0.06854, but
+recall was 0 for both FTP-BruteForce (193,360 rows) and SlowHTTPTest (105,550
+rows), and only 0.12221 for Infiltration (12,053 rows). Other large labels were
+near perfectly detected, exposing substantial attack-composition dependence.
+
+This is direct evidence of a severe development-to-confirmation generalisation
+gap. It is consistent with development-specific overfitting, but it does not
+identify a single cause: attack prevalence and composition differ, and the
+registered grouping cannot represent unknown temporal, host, session, or
+campaign dependence. The defensible claim is that the high development score
+was unstable, not that one specific overfitting mechanism was proven.
+
+![Fresh sealed-confirmation comparison](../../artifacts/fresh_confirmation_evaluation/plots/confirmation_metric_comparison.png)
+
+![Fresh sealed-confirmation attack recall](../../artifacts/fresh_confirmation_evaluation/plots/selected_attack_recall.png)
 
 ## 12. What is new in this work
 
@@ -573,7 +618,10 @@ chain:
 15. a preregistered fresh target-development experiment separates target
     training, calibration, validation, and sealed confirmation, showing that
     target retraining can repair much of the transfer failure while preserving
-    a final untouched test.
+    a final untouched test; and
+16. the one-time frozen confirmation reports a failed preregistered verdict,
+    paired group uncertainty, and all attack-label recalls, demonstrating that
+    the promising target-development score was not stable.
 
 This contribution is best described as a reproducible robustness and
 generalisation study of a conventional detector. The strongest substantive
@@ -639,12 +687,12 @@ different holdout distribution.
   different attack prevalence across training, calibration, and validation.
   Prevalence-sensitive metric gaps are therefore not direct like-for-like
   overfitting estimates.
-- The fresh target result contains no cluster-bootstrap interval yet and has
-  not been independently reproduced. Rare attack-family estimates are
-  unstable, and Infiltration recall remains low.
-- NF-CSE-CIC-IDS2018 target validation is now part of model selection. It can no
-  longer serve as independent confirmation; only the sealed partition retains
-  that role.
+- The fresh confirmation bootstrap clusters the registered coarsened feature
+  groups but cannot account for unknown temporal, host, session, or campaign
+  dependence. Its wide intervals indicate substantial group heterogeneity.
+- NF-CSE-CIC-IDS2018 target validation is part of model selection and the
+  confirmation partition has now been consumed. Further changes need genuinely
+  new data; neither partition can provide another independent confirmation.
 
 ## 14. Supported conclusion
 
@@ -693,15 +741,15 @@ high-scoring and associated with different connection-count and traffic-volume
 profiles. Because these patterns were identified on the holdout, they should be
 tested on new data before any model or policy change is considered.
 
-The new target-development result shows that retraining on a fresh target
-development partition can produce a much stronger detector than transferring
-the source model unchanged. The selected target Random Forest achieved MCC
-0.71401 and balanced accuracy 0.93047 while keeping the target-validation
-false-positive rate at 3.98%. This is evidence that target-specific development
-can repair much of the observed transfer failure. It is not yet evidence that
-the improvement generalises: the confirmation partition is sealed, prevalence
-varies across the development partitions, and Infiltration recall is only
-12.77%.
+The new target-development result initially suggested that retraining could
+repair much of the source-transfer failure, with MCC 0.71401 and balanced
+accuracy 0.93047. The sealed confirmation changed that conclusion. Candidate
+MCC fell to 0.12593, balanced accuracy to 0.54261, and recall to 0.15377. Both
+absolute aggregate gates failed, the paired balanced-accuracy interval crossed
+zero, and broad attack coverage failed. The exact preregistered verdict is
+`development improvement not confirmed`. This confirms that the high
+development accuracy was not a stable generalisation estimate and strengthens,
+rather than resolves, the overfitting and dataset-specificity concern.
 
 ## 15. Next targets
 
@@ -711,11 +759,15 @@ varies across the development partitions, and Infiltration recall is only
    method, attack-level reporting, and two-part decision rule before opening
    the sealed NF-CSE-CIC-IDS2018 confirmation partition. **Completed on 21
    October 2026.**
-3. Run the now-registered confirmation evaluation exactly once and report it regardless of
-   outcome, without further tuning.
-4. Elicit an acceptable false-alert budget or empirical false-negative versus
+3. Run the registered confirmation exactly once and report it regardless of
+   outcome. **Completed on 23 October 2026; development improvement not
+   confirmed.**
+4. Treat the failed confirmation as a stopping result: do not tune against the
+   consumed validation or confirmation partitions. Define any revised model in
+   a new protocol and evaluate it only on genuinely new data.
+5. Elicit an acceptable false-alert budget or empirical false-negative versus
    false-positive cost before making any operational recommendation.
-5. Recover richer raw flow records with timestamps or capture/session IDs, then
+6. Recover richer raw flow records with timestamps or capture/session IDs, then
    repeat source evaluation using a temporal or source-aware split.
 
 ## Draft AI-use acknowledgement

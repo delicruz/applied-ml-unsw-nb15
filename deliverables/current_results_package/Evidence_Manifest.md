@@ -51,6 +51,11 @@ this package and were not modified.
 | Frozen fresh-confirmation inputs and decision rules | `../../protocols/fresh_confirmation_protocol.json` | `Fresh_Confirmation_Protocol.md` |
 | Confirmation runner integrity tests | `../../test_fresh_confirmation_evaluation.py` | `../../run_fresh_confirmation_evaluation.py` |
 | Confirmation preflight failure and portability amendment | `../../protocols/fresh_confirmation_amendment_001.json` | `Fresh_Confirmation_Protocol.md` |
+| Confirmation hash-preflight failure and transcription amendment | `../../protocols/fresh_confirmation_amendment_002.json` | `Fresh_Confirmation_Protocol.md` |
+| Sealed-confirmation integrity and preregistered verdict | `../../artifacts/fresh_confirmation_evaluation/summary.json` | `Fresh_Confirmation_Result.md` |
+| Confirmation point metrics and group-bootstrap intervals | `../../artifacts/fresh_confirmation_evaluation/metrics_long.csv` | `../../artifacts/fresh_confirmation_evaluation/group_bootstrap_intervals.csv` |
+| Paired candidate-minus-baseline uncertainty | `../../artifacts/fresh_confirmation_evaluation/paired_bootstrap_intervals.csv` | `../../artifacts/fresh_confirmation_evaluation/paired_bootstrap_differences.csv` |
+| Confirmation attack-label recall and coverage | `../../artifacts/fresh_confirmation_evaluation/per_attack_recall.csv` | `../../artifacts/fresh_confirmation_evaluation/plots/selected_attack_recall.png` |
 
 ## Integrity checks already applied
 
@@ -96,9 +101,9 @@ this package and were not modified.
 - The fresh target runner verified all 8,392,401 official rows and parent attack
   counts before fitting. Training, calibration, and validation shared zero
   five-significant-digit feature groups.
-- The 1,631,543-row confirmation partition was counted and hashed but not
-  scored. The result records `predictions_computed: false`,
-  `metrics_computed: false`, and `labels_summarised_by_partition: false`.
+- Before confirmation, the 1,631,543-row partition was counted and hashed but
+  not scored. The completed run then reproduced 1,631,543 rows, 153,825 groups,
+  the registered ordered digest, and all official global counts before scoring.
 - Candidate models used target training only, thresholds used target
   calibration only, and ranking used target validation only. NF-ToN-IoT and
   NF-BoT-IoT were not reused for tuning.
@@ -107,6 +112,14 @@ this package and were not modified.
   group-bootstrap method, and two-part decision rule before the sealed
   partition is opened. Its runner exposes no model-fitting or threshold-
   selection path.
+- Amendments 001 and 002 document two pre-row-access technical failures and
+  explicit retry authorisation. The original protocol hash remains unchanged;
+  neither amendment changes a model, feature, threshold, partition, metric,
+  bootstrap procedure, or decision rule.
+- The one-time confirmation records `one_time_evaluation_completed: true` and
+  `model_or_threshold_changes: false`. The candidate failed the absolute MCC
+  and balanced-accuracy gates, the paired balanced-accuracy gate, and broad
+  supported-attack coverage, producing `development improvement not confirmed`.
 
 ## Interpretation boundary
 
@@ -117,6 +130,8 @@ rates, SHAP values, or cross-dataset performance establish a causal mechanism.
 The NetFlow-v1 experiments test transfer of a matched modelling approach, not
 the previously frozen 44-feature model. The NF-BoT-IoT result supports the
 fixed protocol verdict "useful transfer not supported" but does not identify a
-single causal mechanism for the failure. The fresh target-development result is
-candidate-selection evidence only; it is not a confirmed generalisation or
-deployment claim.
+single causal mechanism for the failure. The fresh sealed result supports the
+fixed verdict "development improvement not confirmed". It demonstrates
+instability of the development claim but does not by itself identify classic
+capacity overfitting, composition shift, or residual campaign dependence as
+the unique cause, and it does not permit deployment.

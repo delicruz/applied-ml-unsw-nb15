@@ -1,0 +1,31 @@
+dataset,model,attack,rows,positive_rows,recall
+sealed_confirmation,target_rf_all_features,Benign,1263043,0,
+sealed_confirmation,target_rf_all_features,Bot,12,12,0.3333333333333333
+sealed_confirmation,target_rf_all_features,Brute Force -Web,21,21,0.7142857142857143
+sealed_confirmation,target_rf_all_features,Brute Force -XSS,17,17,0.8235294117647058
+sealed_confirmation,target_rf_all_features,DDOS attack-HOIC,42,42,0.6904761904761905
+sealed_confirmation,target_rf_all_features,DDOS attack-LOIC-UDP,337,337,1.0
+sealed_confirmation,target_rf_all_features,DDoS attacks-LOIC-HTTP,146,146,0.815068493150685
+sealed_confirmation,target_rf_all_features,DoS attacks-GoldenEye,5566,5566,1.0
+sealed_confirmation,target_rf_all_features,DoS attacks-Hulk,21314,21314,0.9991554846579713
+sealed_confirmation,target_rf_all_features,DoS attacks-SlowHTTPTest,105550,105550,0.0
+sealed_confirmation,target_rf_all_features,DoS attacks-Slowloris,7889,7889,0.7170744074027127
+sealed_confirmation,target_rf_all_features,FTP-BruteForce,193360,193360,0.0
+sealed_confirmation,target_rf_all_features,Infilteration,12053,12053,0.12221023811499211
+sealed_confirmation,target_rf_all_features,SQL Injection,10,10,0.0
+sealed_confirmation,target_rf_all_features,SSH-Bruteforce,22183,22183,0.9986476130370103
+sealed_confirmation,frozen_source_rf,Benign,1263043,0,
+sealed_confirmation,frozen_source_rf,Bot,12,12,0.0
+sealed_confirmation,frozen_source_rf,Brute Force -Web,21,21,0.14285714285714285
+sealed_confirmation,frozen_source_rf,Brute Force -XSS,17,17,0.11764705882352941
+sealed_confirmation,frozen_source_rf,DDOS attack-HOIC,42,42,0.0
+sealed_confirmation,frozen_source_rf,DDOS attack-LOIC-UDP,337,337,1.0
+sealed_confirmation,frozen_source_rf,DDoS attacks-LOIC-HTTP,146,146,0.815068493150685
+sealed_confirmation,frozen_source_rf,DoS attacks-GoldenEye,5566,5566,0.0
+sealed_confirmation,frozen_source_rf,DoS attacks-Hulk,21314,21314,0.0
+sealed_confirmation,frozen_source_rf,DoS attacks-SlowHTTPTest,105550,105550,0.0
+sealed_confirmation,frozen_source_rf,DoS attacks-Slowloris,7889,7889,0.0
+sealed_confirmation,frozen_source_rf,FTP-BruteForce,193360,193360,0.0
+sealed_confirmation,frozen_source_rf,Infilteration,12053,12053,0.018003816477225588
+sealed_confirmation,frozen_source_rf,SQL Injection,10,10,0.0
+sealed_confirmation,frozen_source_rf,SSH-Bruteforce,22183,22183,0.0

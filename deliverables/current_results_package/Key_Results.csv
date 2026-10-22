@@ -101,9 +101,21 @@ fresh_target_development,NF_CSE_CIC_target_validation,frozen_source_random_fores
 fresh_target_development,NF_CSE_CIC_target_validation,frozen_source_random_forest,mcc,-0.027260,,,unchanged threshold 0.64
 fresh_target_development,NF_CSE_CIC_target_validation,frozen_source_random_forest,balanced_accuracy,0.491420,,,registered comparison baseline
 fresh_target_development,NF_CSE_CIC_target_validation,target_random_forest_all_features,average_precision,0.914430,,,target-trained; threshold 0.39 selected on target calibration
-fresh_target_development,NF_CSE_CIC_target_validation,target_random_forest_all_features,mcc,0.714005,,,development-promising; confirmation remains sealed
-fresh_target_development,NF_CSE_CIC_target_validation,target_random_forest_all_features,balanced_accuracy,0.930475,,,development-promising; confirmation remains sealed
+fresh_target_development,NF_CSE_CIC_target_validation,target_random_forest_all_features,mcc,0.714005,,,development selection result; later confirmation not supported
+fresh_target_development,NF_CSE_CIC_target_validation,target_random_forest_all_features,balanced_accuracy,0.930475,,,development selection result; later confirmation not supported
 fresh_target_development,NF_CSE_CIC_target_validation,target_random_forest_all_features,false_positive_rate,0.039806,,,14940 false positives among 375320 Normal rows
 fresh_target_development,NF_CSE_CIC_target_validation_Infilteration,target_random_forest_all_features,recall,0.127713,,,2811 positive rows; attack label misspelling follows official CSV
 fresh_target_development,NF_CSE_CIC_target_validation,target_random_forest_reduced_features,mcc,0.200144,,,AP 0.917098 but false-positive rate 0.585330
-fresh_target_development,NF_CSE_CIC_sealed_confirmation,all_candidates,rows,1631543,,,predictions and metrics not computed
+fresh_target_development,NF_CSE_CIC_sealed_confirmation,all_candidates,rows,1631543,,,registered row count before one-time confirmation
+fresh_confirmation,NF_CSE_CIC_sealed_confirmation,target_random_forest_all_features,average_precision,0.482976,,,point estimate; prevalence 0.225860; AP lift 2.138388
+fresh_confirmation,NF_CSE_CIC_sealed_confirmation,target_random_forest_all_features,mcc,0.125934,-0.067076,0.644854,point estimate with 95 percent group-bootstrap interval
+fresh_confirmation,NF_CSE_CIC_sealed_confirmation,target_random_forest_all_features,balanced_accuracy,0.542614,0.482678,0.903047,point estimate with 95 percent group-bootstrap interval
+fresh_confirmation,NF_CSE_CIC_sealed_confirmation,target_random_forest_all_features,recall,0.153767,0.047980,0.874033,point estimate with 95 percent group-bootstrap interval
+fresh_confirmation,NF_CSE_CIC_sealed_confirmation,target_random_forest_all_features,false_positive_rate,0.068539,,,86568 false positives among 1263043 Normal rows
+fresh_confirmation,NF_CSE_CIC_sealed_confirmation,frozen_source_random_forest,mcc,-0.067476,-0.105446,-0.012809,unchanged source model and threshold 0.64
+fresh_confirmation,NF_CSE_CIC_sealed_confirmation,target_minus_source_rf,mcc_difference,0.219824,0.025432,0.675504,bootstrap median paired difference; interval lower bound above zero
+fresh_confirmation,NF_CSE_CIC_sealed_confirmation,target_minus_source_rf,balanced_accuracy_difference,0.060957,-0.007062,0.411951,bootstrap median paired difference; registered interval gate failed
+fresh_confirmation,NF_CSE_CIC_sealed_confirmation_FTP_BruteForce,target_random_forest_all_features,recall,0.000000,,,193360 positive rows; coverage gate failed
+fresh_confirmation,NF_CSE_CIC_sealed_confirmation_SlowHTTPTest,target_random_forest_all_features,recall,0.000000,,,105550 positive rows; coverage gate failed
+fresh_confirmation,NF_CSE_CIC_sealed_confirmation_Infilteration,target_random_forest_all_features,recall,0.122210,,,12053 positive rows; source spelling retained
+fresh_confirmation,NF_CSE_CIC_sealed_confirmation,preregistered_decision,aggregate_improvement_supported,0.000000,,,development improvement not confirmed; deployment claim prohibited

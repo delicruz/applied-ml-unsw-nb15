@@ -1,0 +1,80 @@
+{
+  "material_passport": {
+    "origin_skill": "experiment-agent",
+    "origin_mode": "run",
+    "origin_date": "2026-10-23",
+    "verification_status": "UNVERIFIED",
+    "version_label": "sealed_confirmation_result_v1"
+  },
+  "protocol_id": "nf-cse-cic-ids2018-v1-sealed-confirmation-2026-10-21",
+  "protocol_sha256": "1723cc40e789df2fbcc439b4025c3ad0756db0a3e7fbc4d0a2d96f089da2b58a",
+  "technical_amendments": [
+    {
+      "path": "protocols\\fresh_confirmation_amendment_001.json",
+      "sha256": "2e6b5540497224a2d278f141125dd9fc59a0976506e8977fb152b319f716d468"
+    },
+    {
+      "path": "protocols\\fresh_confirmation_amendment_002.json",
+      "sha256": "07b04535ee52a9dcb947e65c63ef59372da4a6e52be8c52ba6155b40a89fc9f9"
+    }
+  ],
+  "dataset": {
+    "path": "C:\\Users\\Dung\\Documents\\ChatGPT\\Applied ML\\data\\external\\nf-cse-cic-ids2018\\extracted\\88a47ba2ab64258e_MOHANAD_A4706\\data\\NF-CSE-CIC-IDS2018.csv",
+    "sha256": "ed3387646fda24084889f07788cd22da2978b860f5b3d2d6f1210a4e3d7998e0"
+  },
+  "integrity": {
+    "official_counts_verified": true,
+    "global_rows": 8392401,
+    "global_label_counts": {
+      "0": 7373198,
+      "1": 1019203
+    },
+    "global_official_attack_counts": {
+      "Benign": 7373198,
+      "Bot": 15683,
+      "BruteForce": 287597,
+      "DDoS": 380096,
+      "DoS": 269361,
+      "Infiltration": 62072,
+      "Web Attacks": 4394
+    },
+    "confirmation_rows": 1631543,
+    "confirmation_groups": 153825,
+    "confirmation_ordered_group_digest_sha256": "2eb47d7a15380c5d9e18c9544ca099a0a50d2482128ea3e74a196e88a1bf40b2"
+  },
+  "frozen_models": {
+    "target_rf_all_features": {
+      "sha256": "a39a4c1355f638ed526bbe0004c6d9bfdc4cab6976081d73b3bd9b89bba54743",
+      "threshold": 0.39,
+      "role": "sole selected target-development candidate"
+    },
+    "frozen_source_rf": {
+      "sha256": "38756c9b09be364b5ff483df82b98183634753ef326faafeaaa8ebcfd498646b",
+      "threshold": 0.64,
+      "role": "unchanged source-trained Random Forest baseline"
+    }
+  },
+  "decision": {
+    "aggregate_improvement_supported": false,
+    "aggregate_requirements": {
+      "candidate_mcc_at_least_0_60": false,
+      "candidate_balanced_accuracy_at_least_0_80": false,
+      "candidate_average_precision_lift_above_1": true,
+      "paired_mcc_ci_lower_above_0": true,
+      "paired_balanced_accuracy_ci_lower_above_0": false
+    },
+    "broad_attack_coverage_supported": false,
+    "coverage_requirements": {
+      "candidate_false_positive_rate_at_most_0_10": true,
+      "every_supported_attack_recall_at_least_0_50": false
+    },
+    "supported_attack_count": 9,
+    "minimum_supported_attack_recall": 0.0,
+    "verdict": "development improvement not confirmed",
+    "deployment_claim_permitted": false
+  },
+  "confirmation_opened": true,
+  "one_time_evaluation_completed": true,
+  "model_or_threshold_changes": false,
+  "interpretation_boundary": "This one-time confirmation tests whether the preregistered target-development improvement replicates on the sealed NF-CSE-CIC-IDS2018 partition. It cannot establish performance on other datasets or production traffic, and it never permits a deployment claim."
+}
