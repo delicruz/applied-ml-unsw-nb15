@@ -354,3 +354,14 @@ or model fitting. The four already-open NetFlow datasets are development domains
 in a leave-one-dataset-out comparison; none is described as untouched
 confirmation. See
 `deliverables/v2_research_prototype/V2_Generalisation_Development_Protocol.md`.
+
+The Version 2 runner is frozen separately before model fitting. Verify its
+protocol, implementation and four local dataset files without training:
+
+```powershell
+.\.venv\Scripts\python.exe run_v2_generalisation_development.py --preflight-only
+```
+
+After preflight succeeds, omit `--preflight-only` for the registered run. The
+runner refuses to overwrite a completed `summary.json` and contains no automatic
+retry path.

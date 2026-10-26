@@ -1,0 +1,32 @@
+{
+  "manifest_id": "applied-ml-v2-generalisation-implementation-2026-10-26",
+  "status": "IMPLEMENTATION_FROZEN_BEFORE_EXECUTION",
+  "frozen_date": "2026-10-26",
+  "timezone": "Australia/Adelaide",
+  "repository_parent_commit": "a3d5f81796c5fd3cad57341f1ee1a1f85f109998",
+  "protocol": {
+    "path": "protocols/v2_generalisation_development_protocol.json",
+    "sha256": "ee3aa81854b74da7ed52eaea8ee43c3aa113a64a5745d6ba720e147bf0670bea"
+  },
+  "runner": {
+    "path": "run_v2_generalisation_development.py",
+    "sha256": "4ce8e38a1db64feedbb1120bf445ec8c6f5828bb02f1a1db96d81a56efa7dcec"
+  },
+  "tests": {
+    "path": "test_v2_generalisation_development.py",
+    "sha256": "125a9c9378b3a75bdd56bde15ef6b7bdf3b83933e6dc88c6d6d3565a1fd519f7"
+  },
+  "preflight_command": ".\\.venv\\Scripts\\python.exe run_v2_generalisation_development.py --preflight-only",
+  "run_command": ".\\.venv\\Scripts\\python.exe run_v2_generalisation_development.py",
+  "preflight_state": "PASSED",
+  "preflight_date": "2026-10-26",
+  "preflight_checks": {
+    "protocol_and_locked_evidence_hashes": true,
+    "dataset_headers": true,
+    "four_dataset_sha256_values": true,
+    "model_fitting_or_scoring_performed": false
+  },
+  "execution_state": "NOT_RUN",
+  "automatic_retry": false,
+  "interpretation_boundary": "This manifest freezes implementation only. It contains no model fit, development score, candidate verdict, independent confirmation, or deployment evidence."
+}
