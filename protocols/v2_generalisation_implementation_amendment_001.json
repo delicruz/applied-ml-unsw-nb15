@@ -1,0 +1,45 @@
+{
+  "amendment_id": "applied-ml-v2-generalisation-implementation-amendment-001",
+  "status": "FROZEN_BEFORE_EXECUTION_ATTEMPT_002",
+  "date": "2026-10-26",
+  "timezone": "Australia/Adelaide",
+  "repository_parent_commit": "31601df499a9b4d4da195610094e61c7d8813f29",
+  "authorisation": "The user explicitly authorised implementing the repair, testing and pushing it, then starting execution attempt 002.",
+  "trigger": {
+    "attempt_record": "protocols/v2_generalisation_execution_attempt_001.json",
+    "attempt_record_sha256": "cb2331c182ac3272a499a7d64466b9cf9d108fdc3f0f7d3368433e4bfc89a38d",
+    "failure_stage": "first-fold threshold-grid calculation before held-out-domain evaluation",
+    "exception_type": "TypeError",
+    "root_cause": "The four-factor MCC denominator was multiplied as Python integers before np.sqrt, producing an object integer outside NumPy's directly coercible fixed-width range."
+  },
+  "scope": {
+    "design_changed": false,
+    "datasets_changed": false,
+    "partitions_or_sampling_changed": false,
+    "candidate_models_changed": false,
+    "threshold_rule_changed": false,
+    "promotion_rule_changed": false,
+    "repair": [
+      "introduce one mcc_from_counts helper that converts all confusion counts to float before multiplication",
+      "use the helper in threshold selection, subgroup reporting and paired bootstrap calculations",
+      "add a regression test with multi-million-row confusion counts",
+      "make the new implementation manifest also verify this amendment hash"
+    ]
+  },
+  "previous_implementation": {
+    "manifest": "protocols/v2_generalisation_implementation_manifest.json",
+    "manifest_sha256": "ab401ae60b3648224924a0ef0362db785fcfc9abc6cd05bec95986a4bd150610",
+    "runner_sha256": "4ce8e38a1db64feedbb1120bf445ec8c6f5828bb02f1a1db96d81a56efa7dcec",
+    "test_sha256": "125a9c9378b3a75bdd56bde15ef6b7bdf3b83933e6dc88c6d6d3565a1fd519f7"
+  },
+  "amended_implementation": {
+    "protocol": "protocols/v2_generalisation_development_protocol.json",
+    "protocol_sha256": "ee3aa81854b74da7ed52eaea8ee43c3aa113a64a5745d6ba720e147bf0670bea",
+    "runner": "run_v2_generalisation_development.py",
+    "runner_sha256": "31caa548052373d7cbd61d755a7d2c09beeff2854e5fbd59ebaacf4a09c9cb66",
+    "tests": "test_v2_generalisation_development.py",
+    "tests_sha256": "f35104c51678d1c9bcd3a5cb19b42403abfa96f6063ce6f17d8b2d5fb3556045"
+  },
+  "execution_state": "NOT_RUN",
+  "interpretation_boundary": "This is a numerical type-safety repair only. It does not alter the registered experiment design, permit result-dependent tuning, or erase the failed first attempt."
+}

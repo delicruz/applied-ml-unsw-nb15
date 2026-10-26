@@ -43,7 +43,7 @@ from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import FunctionTransformer, OneHotEncoder, StandardScaler
 
 PROTOCOL_PATH = Path("protocols/v2_generalisation_development_protocol.json")
-MANIFEST_PATH = Path("protocols/v2_generalisation_implementation_manifest.json")
+MANIFEST_PATH = Path("protocols/v2_generalisation_implementation_manifest_v2.json")
 OUTPUT_DIR = Path("artifacts/v2_generalisation_development")
 SEED = 42
 CHUNK_SIZE = 250_000
@@ -185,6 +185,10 @@ def verify_implementation(manifest_path: Path, runner_path: Path) -> dict[str, A
         runner_path: manifest["runner"]["sha256"],
         Path(manifest["tests"]["path"]): manifest["tests"]["sha256"],
     }
+    if "amendment" in manifest:
+        checks[Path(manifest["amendment"]["path"])] = manifest["amendment"][
+            "sha256"
+        ]
     for path, expected in checks.items():
         if sha256_file(path) != expected:
             raise ValueError(f"Implementation hash mismatch: {path}")
@@ -563,6 +567,15 @@ def confusion_components(
     return tn, fp, fn, tp
 
 
+def mcc_from_counts(tn: int | float, fp: int | float, fn: int | float, tp: int | float) -> float:
+    """Calculate MCC after widening counts before their four-factor product."""
+    tn_f, fp_f, fn_f, tp_f = map(float, (tn, fp, fn, tp))
+    denominator = np.sqrt(
+        (tp_f + fp_f) * (tp_f + fn_f) * (tn_f + fp_f) * (tn_f + fn_f)
+    )
+    return float((tp_f * tn_f - fp_f * fn_f) / denominator) if denominator else 0.0
+
+
 def row_metrics(
     labels: np.ndarray, probabilities: np.ndarray, threshold: float
 ) -> dict[str, Any]:
@@ -632,8 +645,7 @@ def select_constrained_threshold(
             labels = group[TARGET].to_numpy(dtype="int8")
             scores = group["probability"].to_numpy(dtype="float64")
             tn, fp, fn, tp = confusion_components(labels, scores, float(threshold))
-            denominator = np.sqrt((tp + fp) * (tp + fn) * (tn + fp) * (tn + fn))
-            domain_mcc.append((tp * tn - fp * fn) / denominator if denominator else 0.0)
+            domain_mcc.append(mcc_from_counts(tn, fp, fn, tp))
             domain_fpr.append(fp / (fp + tn) if fp + tn else 0.0)
         recalls = []
         for domain, attack in supported:
@@ -691,12 +703,11 @@ def metrics_from_group_confusions(groups: pd.DataFrame) -> dict[str, Any]:
     recall = tp / positives if positives else 0.0
     specificity = tn / negatives if negatives else None
     f1 = 2 * precision * recall / (precision + recall) if precision + recall else 0.0
-    denominator = np.sqrt((tp + fp) * (tp + fn) * (tn + fp) * (tn + fn))
     return {
         "rows": int(positives + negatives),
         "positive_rows": int(positives),
         "negative_rows": int(negatives),
-        "mcc": float((tp * tn - fp * fn) / denominator if denominator else 0.0),
+        "mcc": mcc_from_counts(tn, fp, fn, tp),
         "balanced_accuracy": (
             float((recall + specificity) / 2) if specificity is not None else None
         ),
@@ -909,9 +920,8 @@ def bootstrap_metric(
     tn = negatives - fp
     recall = tp / positives if positives else 0.0
     specificity = tn / negatives if negatives else 0.0
-    denominator = np.sqrt((tp + fp) * (tp + fn) * (tn + fp) * (tn + fn))
     return {
-        "mcc": float((tp * tn - fp * fn) / denominator if denominator else 0.0),
+        "mcc": mcc_from_counts(tn, fp, fn, tp),
         "balanced_accuracy": float((recall + specificity) / 2),
         "recall": float(recall),
         "false_positive_rate": float(1.0 - specificity),

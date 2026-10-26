@@ -1,0 +1,37 @@
+{
+  "manifest_id": "applied-ml-v2-generalisation-implementation-v2-2026-10-26",
+  "status": "IMPLEMENTATION_FROZEN_BEFORE_EXECUTION",
+  "frozen_date": "2026-10-26",
+  "timezone": "Australia/Adelaide",
+  "repository_parent_commit": "31601df499a9b4d4da195610094e61c7d8813f29",
+  "protocol": {
+    "path": "protocols/v2_generalisation_development_protocol.json",
+    "sha256": "ee3aa81854b74da7ed52eaea8ee43c3aa113a64a5745d6ba720e147bf0670bea"
+  },
+  "amendment": {
+    "path": "protocols/v2_generalisation_implementation_amendment_001.json",
+    "sha256": "d5282e8175c81095e6e3deca081e6d16e447cdbaa3583444fb56180c6928dbdf"
+  },
+  "runner": {
+    "path": "run_v2_generalisation_development.py",
+    "sha256": "31caa548052373d7cbd61d755a7d2c09beeff2854e5fbd59ebaacf4a09c9cb66"
+  },
+  "tests": {
+    "path": "test_v2_generalisation_development.py",
+    "sha256": "f35104c51678d1c9bcd3a5cb19b42403abfa96f6063ce6f17d8b2d5fb3556045"
+  },
+  "preflight_command": ".\\.venv\\Scripts\\python.exe run_v2_generalisation_development.py --preflight-only",
+  "run_command": ".\\.venv\\Scripts\\python.exe run_v2_generalisation_development.py",
+  "preflight_state": "PASSED",
+  "preflight_checks": {
+    "protocol_and_locked_evidence_hashes": true,
+    "implementation_amendment_hash": true,
+    "large_count_mcc_regression_test": true,
+    "dataset_headers": true,
+    "four_dataset_sha256_values": true,
+    "model_fitting_or_scoring_performed": false
+  },
+  "execution_state": "NOT_RUN",
+  "automatic_retry": false,
+  "interpretation_boundary": "This manifest freezes the narrowly amended implementation for authorised execution attempt 002. It contains no development result or deployment evidence."
+}

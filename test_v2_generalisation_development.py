@@ -42,7 +42,7 @@ def toy_frame() -> pd.DataFrame:
 class V2GeneralisationDevelopmentTests(unittest.TestCase):
     def test_frozen_implementation_manifest_matches_files(self) -> None:
         manifest = v2.verify_implementation(
-            ROOT / "protocols" / "v2_generalisation_implementation_manifest.json",
+            ROOT / "protocols" / "v2_generalisation_implementation_manifest_v2.json",
             ROOT / "run_v2_generalisation_development.py",
         )
         self.assertEqual(manifest["status"], "IMPLEMENTATION_FROZEN_BEFORE_EXECUTION")
@@ -134,6 +134,16 @@ class V2GeneralisationDevelopmentTests(unittest.TestCase):
         grouped = v2.metrics_from_group_confusions(groups)
         for metric in ("mcc", "balanced_accuracy", "recall", "false_positive_rate"):
             self.assertAlmostEqual(point[metric], grouped[metric])
+
+    def test_mcc_accepts_large_python_integer_counts(self) -> None:
+        counts = (8_000_000, 2_000_000, 1_000_000, 9_000_000)
+        observed = v2.mcc_from_counts(*counts)
+        tn, fp, fn, tp = map(float, counts)
+        expected = (tp * tn - fp * fn) / np.sqrt(
+            (tp + fp) * (tp + fn) * (tn + fp) * (tn + fn)
+        )
+        self.assertTrue(np.isfinite(observed))
+        self.assertAlmostEqual(observed, expected)
 
     def test_fold_source_construction_excludes_heldout_domain(self) -> None:
         domains = list(v2.DATASET_GLOBS)
