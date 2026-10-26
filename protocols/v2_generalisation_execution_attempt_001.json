@@ -1,0 +1,59 @@
+{
+  "attempt_id": "applied-ml-v2-generalisation-execution-attempt-001",
+  "date": "2026-10-26",
+  "timezone": "Australia/Adelaide",
+  "command": ".\\.venv\\Scripts\\python.exe run_v2_generalisation_development.py",
+  "working_directory": "C:\\Users\\Dung\\Documents\\ChatGPT\\Applied ML",
+  "status": "FAILED_NO_RETRY",
+  "protocol": {
+    "path": "protocols/v2_generalisation_development_protocol.json",
+    "sha256": "ee3aa81854b74da7ed52eaea8ee43c3aa113a64a5745d6ba720e147bf0670bea"
+  },
+  "implementation_manifest": {
+    "path": "protocols/v2_generalisation_implementation_manifest.json",
+    "sha256": "ab401ae60b3648224924a0ef0362db785fcfc9abc6cd05bec95986a4bd150610"
+  },
+  "runner": {
+    "path": "run_v2_generalisation_development.py",
+    "sha256": "4ce8e38a1db64feedbb1120bf445ec8c6f5828bb02f1a1db96d81a56efa7dcec"
+  },
+  "completed_before_failure": [
+    "preflight protocol, evidence, header, and four-dataset SHA-256 verification",
+    "first-pass group scan of all 11994893 rows across the four registered development domains",
+    "deterministic materialisation of the registered source training and calibration samples",
+    "fit of pooled_rf_unweighted_all_features for the fold holding out NF-UNSW-NB15",
+    "calibration probability computation for that fitted fold model"
+  ],
+  "failure": {
+    "stage": "first fold threshold-grid calculation before held-out-domain evaluation",
+    "heldout_domain": "NF-UNSW-NB15",
+    "candidate": "pooled_rf_unweighted_all_features",
+    "exception_type": "TypeError",
+    "message": "loop of ufunc does not support argument 0 of type int which has no callable sqrt method",
+    "file": "run_v2_generalisation_development.py",
+    "function": "select_constrained_threshold",
+    "line_at_attempt": 635,
+    "expression": "np.sqrt((tp + fp) * (tp + fn) * (tn + fp) * (tn + fn))",
+    "diagnosis": "The confusion counts are Python integers. Their multiplied MCC denominator can exceed NumPy's directly coercible fixed-width integer range, producing an object integer that np.sqrt rejects. The counts must be converted to floating point before multiplication."
+  },
+  "output_state": {
+    "directory": "artifacts/v2_generalisation_development",
+    "files_created": 0,
+    "summary_created": false,
+    "heldout_predictions_computed": false,
+    "heldout_metrics_computed": false,
+    "candidate_selection_performed": false
+  },
+  "retry_state": {
+    "automatic_retry_performed": false,
+    "retry_authorised": false,
+    "required_before_retry": [
+      "commit a narrowly scoped implementation amendment",
+      "cast MCC denominator factors to float before multiplication",
+      "add a regression test using large confusion counts",
+      "update and reverify the frozen implementation hashes",
+      "obtain user authorisation for a new execution attempt"
+    ]
+  },
+  "interpretation_boundary": "This failed attempt produced no held-out evaluation or candidate result and is not evidence for or against the Version 2 hypothesis."
+}
