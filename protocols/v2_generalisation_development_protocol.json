@@ -1,0 +1,294 @@
+{
+  "material_passport": {
+    "origin_skill": "academic-research-suite / experiment-agent",
+    "origin_mode": "plan",
+    "origin_date": "2026-10-26",
+    "verification_status": "UNVERIFIED",
+    "version_label": "v2_generalisation_development_protocol_v1"
+  },
+  "protocol_id": "applied-ml-v2-multidomain-generalisation-development-2026-10-26",
+  "status": "REGISTERED_BEFORE_V2_IMPLEMENTATION_OR_MODEL_FITTING",
+  "registered_date": "2026-10-26",
+  "timezone": "Australia/Adelaide",
+  "repository_parent_commit": "0406151faca65b5218db2cefd887361bb4b38446",
+  "project_role": "bounded research-prototype development; not deployment validation",
+  "objective": "Test whether domain-balanced, attack-family-aware development improves endpoint-free NetFlow intrusion-detection robustness compared with an otherwise matched unweighted Random Forest baseline.",
+  "hypothesis": "Balancing development contribution by dataset and attack family, combined with stronger Random Forest regularisation, will improve leave-one-dataset-out MCC, worst-domain balanced accuracy, and supported attack-family recall without an unacceptable false-positive-rate increase.",
+  "known_at_registration": {
+    "all_listed_datasets_have_already_been_opened": true,
+    "nf_cse_cic_confirmation_has_been_consumed": true,
+    "v1_confirmation_verdict": "development improvement not confirmed",
+    "v1_confirmation_mcc": 0.125933561341337,
+    "v1_confirmation_balanced_accuracy": 0.5426136936118755,
+    "v1_confirmation_recall": 0.15376662143826322,
+    "dominant_audit_finding": "FTP-BruteForce and DoS attacks-SlowHTTPTest were absent from sampled validation, formed 81.12% of confirmation attacks, and each had zero recall",
+    "interpretation": "These observations motivated the protocol but are not independent evidence for Version 2."
+  },
+  "development_domains": [
+    {
+      "name": "NF-UNSW-NB15",
+      "role": "opened Version 2 development domain"
+    },
+    {
+      "name": "NF-ToN-IoT",
+      "role": "opened Version 2 development domain"
+    },
+    {
+      "name": "NF-BoT-IoT",
+      "role": "opened Version 2 development domain"
+    },
+    {
+      "name": "NF-CSE-CIC-IDS2018",
+      "role": "opened Version 2 development domain; all former partitions, including consumed confirmation, lose holdout status"
+    }
+  ],
+  "independent_confirmation_boundary": {
+    "included_in_this_protocol": false,
+    "requirement": "A final Version 2 confirmation requires a genuinely new dataset or capture that has not been inspected, scored, audited, or used in this protocol.",
+    "registration_rule": "Its identity, hashes, model artifact, threshold, metrics, attack-family rule, and decision rule must be committed in a separate protocol before row-level access or scoring.",
+    "fallback_if_unavailable": "Report Version 2 as a development-only research prototype and do not make deployment or real-world generalisation claims."
+  },
+  "features": {
+    "all_common_endpoint_free_features": [
+      "PROTOCOL",
+      "L7_PROTO",
+      "IN_BYTES",
+      "OUT_BYTES",
+      "IN_PKTS",
+      "OUT_PKTS",
+      "TCP_FLAGS",
+      "FLOW_DURATION_MILLISECONDS"
+    ],
+    "reduced_ablation_features": [
+      "PROTOCOL",
+      "IN_BYTES",
+      "OUT_BYTES",
+      "IN_PKTS",
+      "OUT_PKTS"
+    ],
+    "excluded_endpoint_features": [
+      "IPV4_SRC_ADDR",
+      "L4_SRC_PORT",
+      "IPV4_DST_ADDR",
+      "L4_DST_PORT"
+    ],
+    "excluded_shortcut_features": [
+      "sttl",
+      "dttl",
+      "source_ttl",
+      "destination_ttl"
+    ],
+    "shortcut_rule": "TTL-related fields are prohibited in every Version 2 candidate. They are not consistently available across the four NetFlow domains and were previously identified as potential setup shortcuts.",
+    "preprocessing_rule": "Fit numeric transforms and categorical encoders only on the training portions of the three source domains in each fold. Unknown categories must be ignored at evaluation time."
+  },
+  "group_and_sampling_protocol": {
+    "group_definition": "Categorical values exact; numeric values rounded to five significant digits across the eight common endpoint-free features.",
+    "group_hash": "SHA-256 of the canonical grouped feature tuple, namespaced by dataset.",
+    "cross_partition_rule": "All rows from one namespaced group remain in one within-domain partition.",
+    "source_domain_split": {
+      "training": "first group-hash value in [0.00, 0.75)",
+      "calibration": "first group-hash value in [0.75, 1.00)"
+    },
+    "training_cap_per_source_domain": 250000,
+    "calibration_cap_per_source_domain": 100000,
+    "cap_method": "Deterministic second-hash group sampling within dataset by binary class and raw attack label; retain complete groups and preserve every attack label with available support before filling remaining capacity.",
+    "held_out_domain_evaluation": "Score the full held-out dataset in chunks; do not subsample evaluation rows.",
+    "weighting": "For weighted candidates, normalise row weights so each source dataset contributes equally, then so each supported raw attack label contributes equally within that dataset; normal traffic is one additional family. Cap any individual row weight at ten times the median non-zero weight and renormalise.",
+    "minimum_supported_attack_rows": 100
+  },
+  "evaluation_design": {
+    "method": "four-fold leave-one-dataset-out development evaluation",
+    "folds": [
+      "hold out NF-UNSW-NB15; develop on the other three domains",
+      "hold out NF-ToN-IoT; develop on the other three domains",
+      "hold out NF-BoT-IoT; develop on the other three domains",
+      "hold out NF-CSE-CIC-IDS2018; develop on the other three domains"
+    ],
+    "held_out_domain_use": "The held-out domain in each fold may be scored once per preregistered candidate for development comparison. It must not be used to fit preprocessing, models, weights, or thresholds.",
+    "research_status": "Because all four domains were inspected before registration, these are source-aware development folds, not untouched external tests."
+  },
+  "candidate_experiments": [
+    {
+      "id": "pooled_rf_unweighted_all_features",
+      "role": "matched Version 2 baseline",
+      "model": "Random Forest",
+      "features": "all eight common endpoint-free features",
+      "sample_weight": false,
+      "settings": {
+        "n_estimators": 200,
+        "max_depth": 24,
+        "min_samples_leaf": 5,
+        "max_features": "sqrt",
+        "class_weight": "balanced_subsample",
+        "n_jobs": -1,
+        "random_state": 42
+      }
+    },
+    {
+      "id": "pooled_lr_domain_family_weighted_all_features",
+      "role": "weighted linear control",
+      "model": "Logistic Regression",
+      "features": "all eight common endpoint-free features",
+      "sample_weight": true,
+      "settings": {
+        "regularisation": "L2",
+        "C": 1.0,
+        "class_weight": null,
+        "max_iter": 1000,
+        "random_state": 42
+      }
+    },
+    {
+      "id": "pooled_rf_domain_family_weighted_all_features",
+      "role": "primary Version 2 hypothesis",
+      "model": "Random Forest",
+      "features": "all eight common endpoint-free features",
+      "sample_weight": true,
+      "settings": {
+        "n_estimators": 300,
+        "max_depth": 16,
+        "min_samples_leaf": 20,
+        "max_features": "sqrt",
+        "class_weight": null,
+        "n_jobs": -1,
+        "random_state": 42
+      }
+    },
+    {
+      "id": "pooled_rf_domain_family_weighted_reduced_features",
+      "role": "pre-specified stability ablation",
+      "model": "Random Forest",
+      "features": "reduced five-feature set",
+      "sample_weight": true,
+      "settings": {
+        "n_estimators": 300,
+        "max_depth": 16,
+        "min_samples_leaf": 20,
+        "max_features": "sqrt",
+        "class_weight": null,
+        "n_jobs": -1,
+        "random_state": 42
+      }
+    }
+  ],
+  "threshold_rule": {
+    "scope": "calibration portions of the three source domains only",
+    "grid": {
+      "minimum": 0.05,
+      "maximum": 0.95,
+      "step": 0.01
+    },
+    "constraints": {
+      "maximum_false_positive_rate_in_each_source_domain": 0.20,
+      "minimum_recall_for_each_supported_attack_label": 0.20
+    },
+    "selection": "Among feasible thresholds, maximise the minimum source-domain MCC; break ties by higher mean source-domain MCC, higher minimum supported-attack recall, lower maximum false-positive rate, then higher threshold.",
+    "no_feasible_threshold": "Select the threshold that maximises minimum source-domain MCC using the same tie-break order, mark the candidate constraint_failed, and prevent it from passing the Version 2 promotion gate."
+  },
+  "metrics": {
+    "primary": "macro-average held-out-domain MCC across the four folds",
+    "robustness_metrics": [
+      "worst held-out-domain balanced accuracy",
+      "worst held-out-domain MCC",
+      "macro-average supported-attack recall",
+      "minimum supported-attack recall",
+      "maximum held-out-domain false-positive rate"
+    ],
+    "secondary": [
+      "average precision",
+      "average-precision lift over prevalence",
+      "F1",
+      "recall",
+      "specificity",
+      "Brier score",
+      "attack-minus-normal mean probability margin"
+    ],
+    "subgroup_reporting": [
+      "every raw attack label",
+      "dataset",
+      "registered repeated-group-size bucket",
+      "mixed-label versus single-label group"
+    ],
+    "uncertainty": "For the matched baseline and any promotion-eligible candidate, compute paired 95% bootstrap intervals over exact evaluation groups within each held-out domain using 200 replicates and seed 42."
+  },
+  "promotion_rule": {
+    "reference": "pooled_rf_unweighted_all_features",
+    "eligibility_requirements": [
+      "threshold constraints passed in all four folds",
+      "balanced accuracy is greater than 0.50 in every held-out domain",
+      "false-positive rate is at most 0.25 in every held-out domain",
+      "recall is at least 0.20 for every held-out raw attack label with at least 100 rows"
+    ],
+    "improvement_requirements": [
+      "macro-average held-out-domain MCC exceeds the matched baseline by at least 0.05",
+      "worst held-out-domain balanced accuracy exceeds the matched baseline by at least 0.02",
+      "maximum held-out-domain false-positive rate is no more than 0.02 above the matched baseline"
+    ],
+    "ranking": "Among candidates meeting every eligibility and improvement requirement, select highest macro-average held-out-domain MCC; break ties by higher worst-domain balanced accuracy, higher minimum supported-attack recall, lower maximum false-positive rate, then candidate ID alphabetically.",
+    "failure_outcome": "If no candidate satisfies every requirement, record 'no Version 2 candidate selected' and do not weaken the rule after viewing results.",
+    "claim_boundary": "Passing this rule means development-promising research prototype only; it does not establish independent generalisation or deployment readiness."
+  },
+  "overfitting_checks": [
+    "training-to-calibration and calibration-to-held-out gaps for MCC, balanced accuracy, recall and false-positive rate",
+    "per-domain and per-attack recall rather than aggregate accuracy alone",
+    "paired comparison against the matched unweighted baseline on identical held-out groups",
+    "performance by repeated-group-size bucket and mixed-label status",
+    "comparison of all-feature and reduced-feature weighted Random Forests",
+    "Random Forest out-of-bag score where available",
+    "frozen score-separation comparison across domains"
+  ],
+  "locked_inputs": {
+    "fresh_generalisation_audit_summary": {
+      "path": "artifacts/fresh_generalisation_failure_audit/summary.json",
+      "sha256": "e817ecc4ba92f99d2b5a747f19d63b4181a25ca292e3e0530a14fa90fde61cd9"
+    },
+    "fresh_target_development_summary": {
+      "path": "artifacts/fresh_target_development/summary.json",
+      "sha256": "99a99e877a922bdd1df6b00351eaa18f6c97ab52ad26b50daa4d5ecdb17b4ee9"
+    },
+    "external_netflow_validation_summary": {
+      "path": "artifacts/external_netflow_validation/summary.json",
+      "sha256": "f7aa07d7b8ea618e0b93471bc7273055fec1c9e7ae4e3b7ec702e636ac744579"
+    },
+    "third_dataset_validation_summary": {
+      "path": "artifacts/third_dataset_validation/summary.json",
+      "sha256": "52f93435c59c9babad2081ced911a2ad30447638c9975d04d3d3c2bc5da16e2c"
+    }
+  },
+  "expected_outputs": [
+    "artifacts/v2_generalisation_development/summary.json",
+    "artifacts/v2_generalisation_development/fold_metrics.csv",
+    "artifacts/v2_generalisation_development/aggregate_candidate_metrics.csv",
+    "artifacts/v2_generalisation_development/per_attack_recall.csv",
+    "artifacts/v2_generalisation_development/thresholds.csv",
+    "artifacts/v2_generalisation_development/overfitting_gaps.csv",
+    "artifacts/v2_generalisation_development/group_size_metrics.csv",
+    "artifacts/v2_generalisation_development/paired_group_bootstrap_intervals.csv",
+    "artifacts/v2_generalisation_development/plots/domain_generalisation.png",
+    "artifacts/v2_generalisation_development/plots/attack_family_recall.png",
+    "artifacts/v2_generalisation_development/plots/overfitting_gaps.png"
+  ],
+  "integrity_rules": {
+    "allowed": [
+      "implement and test the registered runner",
+      "verify existing dataset and evidence hashes",
+      "construct the registered group partitions and deterministic bounded source samples",
+      "fit only the four registered candidates",
+      "select thresholds only by the registered source-calibration rule",
+      "compare candidates only using the registered leave-one-dataset-out development metrics",
+      "report a failed promotion rule without changing it"
+    ],
+    "prohibited": [
+      "describe any of the four opened datasets as untouched confirmation",
+      "add candidates, features, thresholds, or alternate splits after viewing Version 2 results",
+      "use endpoint identifiers or TTL-related shortcut features",
+      "fit preprocessing, weights, models, or thresholds using a fold's held-out domain",
+      "select a model using aggregate accuracy alone",
+      "make a deployment or real-world readiness claim",
+      "reuse any future confirmation dataset for tuning after it is opened"
+    ],
+    "amendment_rule": "A necessary implementation correction must be documented and committed before rerunning any affected experiment. A substantive design change creates a new protocol version rather than silently altering this file."
+  },
+  "stopping_rule": "Run the registered development experiment once after preflight tests pass. Do not silently retry a failed run. Stop after reporting the fixed promotion verdict; any additional hypothesis requires a new protocol version.",
+  "interpretation_boundary": "Version 2 is a bounded, post-audit research prototype. Leave-one-dataset-out performance can reject weak designs and provide stronger development evidence, but only a separately preregistered genuinely new dataset or capture can independently confirm generalisation."
+}

@@ -344,3 +344,13 @@ large repeated-group concentration, feature and feature/label shift, and a
 collapse in frozen-score class separation. The analysis is post hoc and cannot
 validate a correction or authorise confirmation-data tuning. See
 `deliverables/current_results_package/Fresh_Generalisation_Failure_Audit.md`.
+
+## Version 2 research prototype
+
+Version 2 is isolated on the `codex/v2-generalisation-improvements` branch.
+Its development design is registered in
+`protocols/v2_generalisation_development_protocol.json` before implementation
+or model fitting. The four already-open NetFlow datasets are development domains
+in a leave-one-dataset-out comparison; none is described as untouched
+confirmation. See
+`deliverables/v2_research_prototype/V2_Generalisation_Development_Protocol.md`.
