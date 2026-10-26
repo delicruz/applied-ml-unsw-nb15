@@ -580,6 +580,39 @@ was unstable, not that one specific overfitting mechanism was proven.
 
 ![Fresh sealed-confirmation attack recall](../../artifacts/fresh_confirmation_evaluation/plots/selected_attack_recall.png)
 
+### 11.2 Post-hoc generalisation-failure audit
+
+The audit reproduced the saved validation and confirmation metrics exactly and
+then examined the frozen model without fitting, feature selection, threshold
+selection, or candidate selection. The largest explanation is attack-mixture
+coverage: FTP-BruteForce and SlowHTTPTest were absent from the sampled
+validation partition but comprised 52.47% and 28.64% of confirmation attacks.
+Together they represented 81.12% of confirmation attacks, and the model recalled
+0% of both.
+
+Repeated-group concentration amplified this failure. The largest 1% of groups
+contained 80.28% of confirmation rows and 91.63% of confirmation attacks.
+Recall for confirmation groups with at least 1,000 rows was only 7.57%, compared
+with 91.37% for the same size category in validation. Mixed-label coarsened
+groups covered 57.92% of confirmation rows, showing that identical registered
+eight-feature representations frequently carry conflicting labels.
+
+The representation also shifted. PSI was 0.85590 for `IN_BYTES`, 0.56075 for
+`OUT_BYTES`, and 0.35510 for `TCP_FLAGS`; `TCP_FLAGS` had the largest
+prevalence-adjusted feature/label association drift at 1.82028. The frozen
+attack-minus-Normal mean-score margin contracted from +0.66439 in validation to
++0.11588 in confirmation. The confirmation attack mean score was 0.32343,
+below the fixed 0.39 threshold.
+
+These results are consistent with development-specific overfitting,
+non-representative attack coverage, repeated-group concentration, and unstable
+feature/label relationships. They do not isolate one causal mechanism and do
+not imply that hyperparameter changes alone will solve the problem.
+
+![Fresh audit attack mixture and recall](../../artifacts/fresh_generalisation_failure_audit/plots/attack_mix_and_recall.png)
+
+![Fresh audit recall by repeated-group size](../../artifacts/fresh_generalisation_failure_audit/plots/group_size_recall.png)
+
 ## 12. What is new in this work
 
 The novelty is evaluative rather than algorithmic. A claim that Logistic
@@ -621,7 +654,10 @@ chain:
     a final untouched test; and
 16. the one-time frozen confirmation reports a failed preregistered verdict,
     paired group uncertainty, and all attack-label recalls, demonstrating that
-    the promising target-development score was not stable.
+    the promising target-development score was not stable; and
+17. a no-retuning post-hoc audit localises the failure to attack-mixture gaps,
+    repeated-group concentration, representation shift, and collapsed frozen-
+    score separation without presenting those diagnostics as a validated fix.
 
 This contribution is best described as a reproducible robustness and
 generalisation study of a conventional detector. The strongest substantive
@@ -762,12 +798,16 @@ rather than resolves, the overfitting and dataset-specificity concern.
 3. Run the registered confirmation exactly once and report it regardless of
    outcome. **Completed on 23 October 2026; development improvement not
    confirmed.**
-4. Treat the failed confirmation as a stopping result: do not tune against the
+4. Audit the confirmation failure without changing the model or threshold.
+   **Completed on 26 October 2026; the dominant findings were absent validation
+   coverage for the two largest confirmation attack families, large repeated-
+   group concentration, feature/label drift, and score-separation collapse.**
+5. Treat the failed confirmation as a stopping result: do not tune against the
    consumed validation or confirmation partitions. Define any revised model in
    a new protocol and evaluate it only on genuinely new data.
-5. Elicit an acceptable false-alert budget or empirical false-negative versus
+6. Elicit an acceptable false-alert budget or empirical false-negative versus
    false-positive cost before making any operational recommendation.
-6. Recover richer raw flow records with timestamps or capture/session IDs, then
+7. Recover richer raw flow records with timestamps or capture/session IDs, then
    repeat source evaluation using a temporal or source-aware split.
 
 ## Draft AI-use acknowledgement

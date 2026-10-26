@@ -119,3 +119,12 @@ fresh_confirmation,NF_CSE_CIC_sealed_confirmation_FTP_BruteForce,target_random_f
 fresh_confirmation,NF_CSE_CIC_sealed_confirmation_SlowHTTPTest,target_random_forest_all_features,recall,0.000000,,,105550 positive rows; coverage gate failed
 fresh_confirmation,NF_CSE_CIC_sealed_confirmation_Infilteration,target_random_forest_all_features,recall,0.122210,,,12053 positive rows; source spelling retained
 fresh_confirmation,NF_CSE_CIC_sealed_confirmation,preregistered_decision,aggregate_improvement_supported,0.000000,,,development improvement not confirmed; deployment claim prohibited
+fresh_generalisation_audit,NF_CSE_CIC_target_validation,FTP_BruteForce,positive_rows,0.000000,,,absent from sampled validation
+fresh_generalisation_audit,NF_CSE_CIC_target_validation,SlowHTTPTest,positive_rows,0.000000,,,absent from sampled validation
+fresh_generalisation_audit,NF_CSE_CIC_sealed_confirmation,FTP_BruteForce,attack_share,0.524722,,,193360 rows; recall zero
+fresh_generalisation_audit,NF_CSE_CIC_sealed_confirmation,SlowHTTPTest,attack_share,0.286431,,,105550 rows; recall zero
+fresh_generalisation_audit,NF_CSE_CIC_validation_to_confirmation,target_random_forest_all_features,attack_minus_normal_mean_probability_change,-0.548508,,,margin 0.664392 to 0.115883
+fresh_generalisation_audit,NF_CSE_CIC_validation_to_confirmation,IN_BYTES,psi,0.855902,,,validation-derived bins; post-hoc descriptive
+fresh_generalisation_audit,NF_CSE_CIC_validation_to_confirmation,TCP_FLAGS,weighted_absolute_relative_log_odds_drift,1.820284,,,largest prevalence-adjusted association drift
+fresh_generalisation_audit,NF_CSE_CIC_sealed_confirmation,largest_one_percent_groups,positive_row_share,0.916290,,,top one percent of 153825 groups
+fresh_generalisation_audit,NF_CSE_CIC_sealed_confirmation,groups_at_least_1000_rows,recall,0.075723,,,332754 positive rows

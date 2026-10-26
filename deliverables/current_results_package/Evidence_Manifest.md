@@ -56,6 +56,12 @@ this package and were not modified.
 | Confirmation point metrics and group-bootstrap intervals | `../../artifacts/fresh_confirmation_evaluation/metrics_long.csv` | `../../artifacts/fresh_confirmation_evaluation/group_bootstrap_intervals.csv` |
 | Paired candidate-minus-baseline uncertainty | `../../artifacts/fresh_confirmation_evaluation/paired_bootstrap_intervals.csv` | `../../artifacts/fresh_confirmation_evaluation/paired_bootstrap_differences.csv` |
 | Confirmation attack-label recall and coverage | `../../artifacts/fresh_confirmation_evaluation/per_attack_recall.csv` | `../../artifacts/fresh_confirmation_evaluation/plots/selected_attack_recall.png` |
+| Post-hoc fresh generalisation-audit scope | `../../protocols/fresh_generalisation_failure_audit.json` | `Fresh_Generalisation_Audit_Protocol.md` |
+| Audit integrity and diagnostic summary | `../../artifacts/fresh_generalisation_failure_audit/summary.json` | `Fresh_Generalisation_Failure_Audit.md` |
+| Validation-to-confirmation attack mix and recall | `../../artifacts/fresh_generalisation_failure_audit/attack_mix_and_recall.csv` | `../../artifacts/fresh_generalisation_failure_audit/plots/attack_mix_and_recall.png` |
+| Repeated-group concentration and performance | `../../artifacts/fresh_generalisation_failure_audit/group_size_profiles.csv` | `../../artifacts/fresh_generalisation_failure_audit/plots/group_size_recall.png` |
+| Feature and feature/label shift | `../../artifacts/fresh_generalisation_failure_audit/numeric_distribution_shift.csv` | `../../artifacts/fresh_generalisation_failure_audit/feature_label_association_drift.csv` |
+| Frozen-model score shift | `../../artifacts/fresh_generalisation_failure_audit/model_score_shift.csv` | `../../artifacts/fresh_generalisation_failure_audit/plots/model_score_shift.png` |
 
 ## Integrity checks already applied
 
@@ -120,6 +126,13 @@ this package and were not modified.
   `model_or_threshold_changes: false`. The candidate failed the absolute MCC
   and balanced-accuracy gates, the paired balanced-accuracy gate, and broad
   supported-attack coverage, producing `development improvement not confirmed`.
+- The post-hoc audit reproduces the 400,087-row validation sample, 1,631,543-row
+  confirmation partition, both saved metric sets, confirmation digest, dataset
+  hash, and frozen model hash before diagnostics. It records no model, feature,
+  threshold, candidate-selection, or deployment changes.
+- FTP-BruteForce and SlowHTTPTest are absent from sampled validation but form
+  81.12% of confirmation attacks. The largest 1% of confirmation groups contain
+  91.63% of positive rows, and recall in groups of at least 1,000 rows is 7.57%.
 
 ## Interpretation boundary
 

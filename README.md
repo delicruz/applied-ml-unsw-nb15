@@ -154,6 +154,9 @@ Outputs are written to `artifacts/`:
 - `fresh_confirmation_evaluation/summary.json`, the one-time sealed-confirmation
   verdict, frozen-model metrics, paired group-bootstrap intervals, attack-label
   recall, and plots
+- `fresh_generalisation_failure_audit/summary.json`, post-hoc validation-to-
+  confirmation attack-mix, repeated-group, feature, label-association and
+  frozen-score diagnostics
 
 The generated CSVs and plots are intended to feed directly into the Dataset, EDA, Results, Explainability, Error Analysis, and Discussion sections of the final report.
 
@@ -325,3 +328,19 @@ interval included zero. Broad coverage also failed: recall was zero for both
 FTP-BruteForce and SlowHTTPTest and 0.12221 for Infiltration. The exact verdict
 is `development improvement not confirmed`; no deployment claim is permitted.
 See `deliverables/current_results_package/Fresh_Confirmation_Result.md`.
+
+Explain the completed confirmation failure without fitting or changing the
+model:
+
+```powershell
+.\.venv\Scripts\python.exe run_fresh_generalisation_failure_audit.py `
+  --dataset-path data\external\nf-cse-cic-ids2018\extracted\88a47ba2ab64258e_MOHANAD_A4706\data\NF-CSE-CIC-IDS2018.csv
+```
+
+The audit reproduces both saved metric sets before analysis. It shows that
+FTP-BruteForce and SlowHTTPTest were absent from sampled validation but formed
+81.12% of confirmation attacks, where both had zero recall. It also records
+large repeated-group concentration, feature and feature/label shift, and a
+collapse in frozen-score class separation. The analysis is post hoc and cannot
+validate a correction or authorise confirmation-data tuning. See
+`deliverables/current_results_package/Fresh_Generalisation_Failure_Audit.md`.
