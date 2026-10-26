@@ -1,0 +1,117 @@
+{
+  "protocol_id": "nf-cse-cic-ids2018-v1-posthoc-generalisation-audit-2026-10-26",
+  "status": "REGISTERED_POSTHOC_SCOPE_BEFORE_AUDIT_RUN",
+  "registered_date": "2026-10-26",
+  "timezone": "Australia/Adelaide",
+  "repository_parent_commit": "1453a32808e680d2902f70cd37c7372bc9f002b6",
+  "known_at_registration": {
+    "confirmation_opened": true,
+    "confirmation_verdict": "development improvement not confirmed",
+    "candidate_confirmation_mcc": 0.125933561341337,
+    "candidate_confirmation_balanced_accuracy": 0.5426136936118755,
+    "candidate_confirmation_recall": 0.15376662143826322,
+    "broad_attack_coverage_supported": false
+  },
+  "audit_questions": [
+    "How did raw attack-label composition change from sampled target validation to full sealed confirmation?",
+    "Which registered model features changed distribution between the two partitions?",
+    "Which validation-derived feature bins changed their relationship with the binary label?",
+    "How did the frozen target Random Forest score distribution and class separation change?",
+    "Which attack labels and validation-derived feature bins dominate confirmation errors?",
+    "How concentrated are rows and errors in repeated five-significant-digit feature groups?"
+  ],
+  "scope_boundaries": {
+    "model_fitting": false,
+    "feature_selection": false,
+    "threshold_selection": false,
+    "candidate_selection": false,
+    "deployment_claim": false
+  },
+  "frozen_analysis": {
+    "source_scope": "registered deterministic sampled target_validation partition",
+    "comparison_scope": "all registered sealed_confirmation rows",
+    "model": "target_rf_all_features",
+    "threshold": 0.39,
+    "numeric_distribution": "validation-derived decile bins with PSI plus two-sample KS statistic",
+    "categorical_distribution": "Jensen-Shannon divergence and unseen-category rate",
+    "feature_label_association": "validation-derived bins with prevalence-adjusted relative log-odds drift",
+    "attack_reporting": "all raw attack labels with composition and recall in both partitions",
+    "error_profiles": "confirmation recall and false-positive rate in validation-derived feature bins",
+    "group_analysis": "row concentration, mixed-label groups, recall and false-positive rate by registered group-size bucket",
+    "minimum_supported_attack_rows": 100
+  },
+  "expected_integrity": {
+    "dataset_sha256": "ed3387646fda24084889f07788cd22da2978b860f5b3d2d6f1210a4e3d7998e0",
+    "global_rows": 8392401,
+    "target_validation_rows": 400087,
+    "target_validation_groups": 46022,
+    "sealed_confirmation_rows": 1631543,
+    "sealed_confirmation_groups": 153825,
+    "sealed_confirmation_ordered_group_digest_sha256": "2eb47d7a15380c5d9e18c9544ca099a0a50d2482128ea3e74a196e88a1bf40b2"
+  },
+  "expected_metrics": {
+    "target_validation": {
+      "average_precision": 0.914429972636867,
+      "mcc": 0.71400506573084,
+      "balanced_accuracy": 0.9304745023792265,
+      "recall": 0.900755036944321,
+      "specificity": 0.9601939678141319,
+      "false_positive_rate": 0.03980603218586809
+    },
+    "sealed_confirmation": {
+      "average_precision": 0.48297594030331314,
+      "mcc": 0.125933561341337,
+      "balanced_accuracy": 0.5426136936118755,
+      "recall": 0.15376662143826322,
+      "specificity": 0.9314607657854879,
+      "false_positive_rate": 0.06853923421451213
+    }
+  },
+  "locked_inputs": {
+    "development_summary": {
+      "path": "artifacts/fresh_target_development/summary.json",
+      "sha256": "99a99e877a922bdd1df6b00351eaa18f6c97ab52ad26b50daa4d5ecdb17b4ee9"
+    },
+    "confirmation_summary": {
+      "path": "artifacts/fresh_confirmation_evaluation/summary.json",
+      "sha256": "23f4bee33042209a9126e6ae516c2c9ccf9fab4f7c2a73f8ef361f2d317cab96"
+    },
+    "confirmation_protocol": {
+      "path": "protocols/fresh_confirmation_protocol.json",
+      "sha256": "1723cc40e789df2fbcc439b4025c3ad0756db0a3e7fbc4d0a2d96f089da2b58a"
+    },
+    "confirmation_amendment_002": {
+      "path": "protocols/fresh_confirmation_amendment_002.json",
+      "sha256": "07b04535ee52a9dcb947e65c63ef59372da4a6e52be8c52ba6155b40a89fc9f9"
+    },
+    "selected_model": {
+      "path": "artifacts/fresh_target_development/models/target_rf_all_features.joblib",
+      "sha256": "a39a4c1355f638ed526bbe0004c6d9bfdc4cab6976081d73b3bd9b89bba54743"
+    }
+  },
+  "confirmation_protocol": {
+    "path": "protocols/fresh_confirmation_protocol.json",
+    "sha256": "1723cc40e789df2fbcc439b4025c3ad0756db0a3e7fbc4d0a2d96f089da2b58a"
+  },
+  "runner": {
+    "path": "run_fresh_generalisation_failure_audit.py",
+    "sha256": "6281885499a5e2869d66c452bfdde6c33011c38c81731f7d46b35fdc9a2d4962"
+  },
+  "expected_outputs": [
+    "summary.json",
+    "reproduced_metrics.csv",
+    "attack_mix_and_recall.csv",
+    "numeric_distribution_shift.csv",
+    "categorical_distribution_shift.csv",
+    "feature_label_association_drift.csv",
+    "feature_label_association_bins.csv",
+    "model_score_shift.csv",
+    "confirmation_error_profiles_by_feature_bin.csv",
+    "group_size_profiles.csv",
+    "plots/feature_distribution_shift.png",
+    "plots/attack_mix_and_recall.png",
+    "plots/model_score_shift.png",
+    "plots/group_size_recall.png"
+  ],
+  "interpretation_boundary": "The audit is post hoc and descriptive. It may generate hypotheses for a new development protocol but cannot establish a unique causal mechanism, validate a correction, authorise confirmation-data tuning, or establish deployment readiness."
+}
