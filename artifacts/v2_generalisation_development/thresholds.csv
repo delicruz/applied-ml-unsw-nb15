@@ -1,0 +1,17 @@
+heldout_domain,candidate,threshold,constraints_passed
+NF-UNSW-NB15,pooled_rf_unweighted_all_features,0.16,False
+NF-UNSW-NB15,pooled_lr_domain_family_weighted_all_features,0.11,False
+NF-UNSW-NB15,pooled_rf_domain_family_weighted_all_features,0.41,False
+NF-UNSW-NB15,pooled_rf_domain_family_weighted_reduced_features,0.28,False
+NF-ToN-IoT,pooled_rf_unweighted_all_features,0.3,False
+NF-ToN-IoT,pooled_lr_domain_family_weighted_all_features,0.36,False
+NF-ToN-IoT,pooled_rf_domain_family_weighted_all_features,0.59,False
+NF-ToN-IoT,pooled_rf_domain_family_weighted_reduced_features,0.44,False
+NF-BoT-IoT,pooled_rf_unweighted_all_features,0.28,False
+NF-BoT-IoT,pooled_lr_domain_family_weighted_all_features,0.48,False
+NF-BoT-IoT,pooled_rf_domain_family_weighted_all_features,0.7,False
+NF-BoT-IoT,pooled_rf_domain_family_weighted_reduced_features,0.51,False
+NF-CSE-CIC-IDS2018,pooled_rf_unweighted_all_features,0.64,True
+NF-CSE-CIC-IDS2018,pooled_lr_domain_family_weighted_all_features,0.08,False
+NF-CSE-CIC-IDS2018,pooled_rf_domain_family_weighted_all_features,0.79,True
+NF-CSE-CIC-IDS2018,pooled_rf_domain_family_weighted_reduced_features,0.88,True

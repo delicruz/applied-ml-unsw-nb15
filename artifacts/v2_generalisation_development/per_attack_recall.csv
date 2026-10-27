@@ -1,0 +1,145 @@
+heldout_domain,candidate,Attack,positive_rows,true_positive,recall
+NF-UNSW-NB15,pooled_rf_unweighted_all_features,Analysis,1995,1857,0.9308270676691729
+NF-UNSW-NB15,pooled_rf_unweighted_all_features,Backdoor,1782,1578,0.8855218855218855
+NF-UNSW-NB15,pooled_rf_unweighted_all_features,DoS,5051,4443,0.8796277964759454
+NF-UNSW-NB15,pooled_rf_unweighted_all_features,Exploits,24736,21798,0.88122574385511
+NF-UNSW-NB15,pooled_rf_unweighted_all_features,Fuzzers,19463,17304,0.889071571700149
+NF-UNSW-NB15,pooled_rf_unweighted_all_features,Generic,5570,3755,0.6741472172351886
+NF-UNSW-NB15,pooled_rf_unweighted_all_features,Reconnaissance,12291,7739,0.6296477097062891
+NF-UNSW-NB15,pooled_rf_unweighted_all_features,Shellcode,1365,1358,0.9948717948717949
+NF-UNSW-NB15,pooled_rf_unweighted_all_features,Worms,153,141,0.9215686274509803
+NF-UNSW-NB15,pooled_lr_domain_family_weighted_all_features,Analysis,1995,1958,0.981453634085213
+NF-UNSW-NB15,pooled_lr_domain_family_weighted_all_features,Backdoor,1782,1709,0.9590347923681257
+NF-UNSW-NB15,pooled_lr_domain_family_weighted_all_features,DoS,5051,4710,0.9324886161156206
+NF-UNSW-NB15,pooled_lr_domain_family_weighted_all_features,Exploits,24736,24172,0.9771992238033635
+NF-UNSW-NB15,pooled_lr_domain_family_weighted_all_features,Fuzzers,19463,14594,0.7498330164928325
+NF-UNSW-NB15,pooled_lr_domain_family_weighted_all_features,Generic,5570,4867,0.8737881508078995
+NF-UNSW-NB15,pooled_lr_domain_family_weighted_all_features,Reconnaissance,12291,7906,0.6432348873159223
+NF-UNSW-NB15,pooled_lr_domain_family_weighted_all_features,Shellcode,1365,678,0.4967032967032967
+NF-UNSW-NB15,pooled_lr_domain_family_weighted_all_features,Worms,153,134,0.8758169934640523
+NF-UNSW-NB15,pooled_rf_domain_family_weighted_all_features,Analysis,1995,1930,0.9674185463659147
+NF-UNSW-NB15,pooled_rf_domain_family_weighted_all_features,Backdoor,1782,1647,0.9242424242424242
+NF-UNSW-NB15,pooled_rf_domain_family_weighted_all_features,DoS,5051,4773,0.9449613937834093
+NF-UNSW-NB15,pooled_rf_domain_family_weighted_all_features,Exploits,24736,24349,0.984354786545925
+NF-UNSW-NB15,pooled_rf_domain_family_weighted_all_features,Fuzzers,19463,17782,0.9136309921389303
+NF-UNSW-NB15,pooled_rf_domain_family_weighted_all_features,Generic,5570,4509,0.8095152603231598
+NF-UNSW-NB15,pooled_rf_domain_family_weighted_all_features,Reconnaissance,12291,12144,0.9880400292897242
+NF-UNSW-NB15,pooled_rf_domain_family_weighted_all_features,Shellcode,1365,1365,1.0
+NF-UNSW-NB15,pooled_rf_domain_family_weighted_all_features,Worms,153,147,0.9607843137254902
+NF-UNSW-NB15,pooled_rf_domain_family_weighted_reduced_features,Analysis,1995,1942,0.9734335839598998
+NF-UNSW-NB15,pooled_rf_domain_family_weighted_reduced_features,Backdoor,1782,1669,0.9365881032547699
+NF-UNSW-NB15,pooled_rf_domain_family_weighted_reduced_features,DoS,5051,4571,0.9049693130073253
+NF-UNSW-NB15,pooled_rf_domain_family_weighted_reduced_features,Exploits,24736,22500,0.9096054333764554
+NF-UNSW-NB15,pooled_rf_domain_family_weighted_reduced_features,Fuzzers,19463,14782,0.7594923701382109
+NF-UNSW-NB15,pooled_rf_domain_family_weighted_reduced_features,Generic,5570,4162,0.7472172351885099
+NF-UNSW-NB15,pooled_rf_domain_family_weighted_reduced_features,Reconnaissance,12291,7896,0.6424212838662436
+NF-UNSW-NB15,pooled_rf_domain_family_weighted_reduced_features,Shellcode,1365,703,0.515018315018315
+NF-UNSW-NB15,pooled_rf_domain_family_weighted_reduced_features,Worms,153,134,0.8758169934640523
+NF-ToN-IoT,pooled_rf_unweighted_all_features,backdoor,17247,17077,0.9901432133124601
+NF-ToN-IoT,pooled_rf_unweighted_all_features,ddos,326345,319163,0.9779926151771898
+NF-ToN-IoT,pooled_rf_unweighted_all_features,dos,17717,15962,0.900942597505221
+NF-ToN-IoT,pooled_rf_unweighted_all_features,injection,468539,421020,0.898580481027193
+NF-ToN-IoT,pooled_rf_unweighted_all_features,mitm,1295,601,0.4640926640926641
+NF-ToN-IoT,pooled_rf_unweighted_all_features,password,156299,149215,0.9546766134140333
+NF-ToN-IoT,pooled_rf_unweighted_all_features,ransomware,142,141,0.9929577464788732
+NF-ToN-IoT,pooled_rf_unweighted_all_features,scanning,21467,20820,0.9698607164485024
+NF-ToN-IoT,pooled_rf_unweighted_all_features,xss,99944,92347,0.923987432962459
+NF-ToN-IoT,pooled_lr_domain_family_weighted_all_features,backdoor,17247,17230,0.999014321331246
+NF-ToN-IoT,pooled_lr_domain_family_weighted_all_features,ddos,326345,325969,0.998847845071933
+NF-ToN-IoT,pooled_lr_domain_family_weighted_all_features,dos,17717,17605,0.9936783879889372
+NF-ToN-IoT,pooled_lr_domain_family_weighted_all_features,injection,468539,464915,0.992265318361972
+NF-ToN-IoT,pooled_lr_domain_family_weighted_all_features,mitm,1295,1143,0.8826254826254826
+NF-ToN-IoT,pooled_lr_domain_family_weighted_all_features,password,156299,156270,0.9998144581859129
+NF-ToN-IoT,pooled_lr_domain_family_weighted_all_features,ransomware,142,141,0.9929577464788732
+NF-ToN-IoT,pooled_lr_domain_family_weighted_all_features,scanning,21467,21448,0.9991149205757675
+NF-ToN-IoT,pooled_lr_domain_family_weighted_all_features,xss,99944,99896,0.9995197310493876
+NF-ToN-IoT,pooled_rf_domain_family_weighted_all_features,backdoor,17247,17191,0.9967530585029281
+NF-ToN-IoT,pooled_rf_domain_family_weighted_all_features,ddos,326345,323263,0.9905560066800472
+NF-ToN-IoT,pooled_rf_domain_family_weighted_all_features,dos,17717,16048,0.9057966924422871
+NF-ToN-IoT,pooled_rf_domain_family_weighted_all_features,injection,468539,456980,0.975329695073409
+NF-ToN-IoT,pooled_rf_domain_family_weighted_all_features,mitm,1295,827,0.6386100386100386
+NF-ToN-IoT,pooled_rf_domain_family_weighted_all_features,password,156299,156240,0.9996225183782366
+NF-ToN-IoT,pooled_rf_domain_family_weighted_all_features,ransomware,142,134,0.9436619718309859
+NF-ToN-IoT,pooled_rf_domain_family_weighted_all_features,scanning,21467,21222,0.9885871337401593
+NF-ToN-IoT,pooled_rf_domain_family_weighted_all_features,xss,99944,96784,0.9683822940846875
+NF-ToN-IoT,pooled_rf_domain_family_weighted_reduced_features,backdoor,17247,17138,0.9936800603003421
+NF-ToN-IoT,pooled_rf_domain_family_weighted_reduced_features,ddos,326345,307010,0.9407528842176225
+NF-ToN-IoT,pooled_rf_domain_family_weighted_reduced_features,dos,17717,8703,0.49122311903821186
+NF-ToN-IoT,pooled_rf_domain_family_weighted_reduced_features,injection,468539,439832,0.9387308207000912
+NF-ToN-IoT,pooled_rf_domain_family_weighted_reduced_features,mitm,1295,1109,0.8563706563706563
+NF-ToN-IoT,pooled_rf_domain_family_weighted_reduced_features,password,156299,150952,0.9657899282784919
+NF-ToN-IoT,pooled_rf_domain_family_weighted_reduced_features,ransomware,142,142,1.0
+NF-ToN-IoT,pooled_rf_domain_family_weighted_reduced_features,scanning,21467,18948,0.8826571015978013
+NF-ToN-IoT,pooled_rf_domain_family_weighted_reduced_features,xss,99944,90876,0.9092691907468182
+NF-BoT-IoT,pooled_rf_unweighted_all_features,DDoS,56844,56230,0.9891985081978749
+NF-BoT-IoT,pooled_rf_unweighted_all_features,DoS,56833,56220,0.9892140129854134
+NF-BoT-IoT,pooled_rf_unweighted_all_features,Reconnaissance,470655,117150,0.2489084361156261
+NF-BoT-IoT,pooled_rf_unweighted_all_features,Theft,1909,587,0.3074908328968046
+NF-BoT-IoT,pooled_lr_domain_family_weighted_all_features,DDoS,56844,56814,0.9994722398142284
+NF-BoT-IoT,pooled_lr_domain_family_weighted_all_features,DoS,56833,56803,0.9994721376664966
+NF-BoT-IoT,pooled_lr_domain_family_weighted_all_features,Reconnaissance,470655,443701,0.9427308750571013
+NF-BoT-IoT,pooled_lr_domain_family_weighted_all_features,Theft,1909,1588,0.8318491356731272
+NF-BoT-IoT,pooled_rf_domain_family_weighted_all_features,DDoS,56844,28278,0.4974667511082964
+NF-BoT-IoT,pooled_rf_domain_family_weighted_all_features,DoS,56833,28272,0.4974574630936252
+NF-BoT-IoT,pooled_rf_domain_family_weighted_all_features,Reconnaissance,470655,56168,0.11934006862776343
+NF-BoT-IoT,pooled_rf_domain_family_weighted_all_features,Theft,1909,28,0.014667365112624411
+NF-BoT-IoT,pooled_rf_domain_family_weighted_reduced_features,DDoS,56844,56618,0.9960242066005207
+NF-BoT-IoT,pooled_rf_domain_family_weighted_reduced_features,DoS,56833,56606,0.9960058416764908
+NF-BoT-IoT,pooled_rf_domain_family_weighted_reduced_features,Reconnaissance,470655,93702,0.19908850431844982
+NF-BoT-IoT,pooled_rf_domain_family_weighted_reduced_features,Theft,1909,782,0.40963855421686746
+NF-CSE-CIC-IDS2018,pooled_rf_unweighted_all_features,Bot,15683,15576,0.9931773257667538
+NF-CSE-CIC-IDS2018,pooled_rf_unweighted_all_features,Brute Force -Web,2613,63,0.024110218140068886
+NF-CSE-CIC-IDS2018,pooled_rf_unweighted_all_features,Brute Force -XSS,1745,2,0.001146131805157593
+NF-CSE-CIC-IDS2018,pooled_rf_unweighted_all_features,DDOS attack-HOIC,230,94,0.40869565217391307
+NF-CSE-CIC-IDS2018,pooled_rf_unweighted_all_features,DDOS attack-LOIC-UDP,1667,0,0.0
+NF-CSE-CIC-IDS2018,pooled_rf_unweighted_all_features,DDoS attacks-LOIC-HTTP,378199,0,0.0
+NF-CSE-CIC-IDS2018,pooled_rf_unweighted_all_features,DoS attacks-GoldenEye,32850,0,0.0
+NF-CSE-CIC-IDS2018,pooled_rf_unweighted_all_features,DoS attacks-Hulk,108136,0,0.0
+NF-CSE-CIC-IDS2018,pooled_rf_unweighted_all_features,DoS attacks-SlowHTTPTest,105550,0,0.0
+NF-CSE-CIC-IDS2018,pooled_rf_unweighted_all_features,DoS attacks-Slowloris,22825,0,0.0
+NF-CSE-CIC-IDS2018,pooled_rf_unweighted_all_features,FTP-BruteForce,193360,0,0.0
+NF-CSE-CIC-IDS2018,pooled_rf_unweighted_all_features,Infilteration,62072,7154,0.11525325428534605
+NF-CSE-CIC-IDS2018,pooled_rf_unweighted_all_features,SQL Injection,36,35,0.9722222222222222
+NF-CSE-CIC-IDS2018,pooled_rf_unweighted_all_features,SSH-Bruteforce,94237,0,0.0
+NF-CSE-CIC-IDS2018,pooled_lr_domain_family_weighted_all_features,Bot,15683,15683,1.0
+NF-CSE-CIC-IDS2018,pooled_lr_domain_family_weighted_all_features,Brute Force -Web,2613,2613,1.0
+NF-CSE-CIC-IDS2018,pooled_lr_domain_family_weighted_all_features,Brute Force -XSS,1745,1745,1.0
+NF-CSE-CIC-IDS2018,pooled_lr_domain_family_weighted_all_features,DDOS attack-HOIC,230,230,1.0
+NF-CSE-CIC-IDS2018,pooled_lr_domain_family_weighted_all_features,DDOS attack-LOIC-UDP,1667,1667,1.0
+NF-CSE-CIC-IDS2018,pooled_lr_domain_family_weighted_all_features,DDoS attacks-LOIC-HTTP,378199,378199,1.0
+NF-CSE-CIC-IDS2018,pooled_lr_domain_family_weighted_all_features,DoS attacks-GoldenEye,32850,32850,1.0
+NF-CSE-CIC-IDS2018,pooled_lr_domain_family_weighted_all_features,DoS attacks-Hulk,108136,108136,1.0
+NF-CSE-CIC-IDS2018,pooled_lr_domain_family_weighted_all_features,DoS attacks-SlowHTTPTest,105550,105550,1.0
+NF-CSE-CIC-IDS2018,pooled_lr_domain_family_weighted_all_features,DoS attacks-Slowloris,22825,22825,1.0
+NF-CSE-CIC-IDS2018,pooled_lr_domain_family_weighted_all_features,FTP-BruteForce,193360,193360,1.0
+NF-CSE-CIC-IDS2018,pooled_lr_domain_family_weighted_all_features,Infilteration,62072,61990,0.9986789534733858
+NF-CSE-CIC-IDS2018,pooled_lr_domain_family_weighted_all_features,SQL Injection,36,36,1.0
+NF-CSE-CIC-IDS2018,pooled_lr_domain_family_weighted_all_features,SSH-Bruteforce,94237,94237,1.0
+NF-CSE-CIC-IDS2018,pooled_rf_domain_family_weighted_all_features,Bot,15683,15653,0.9980871006822675
+NF-CSE-CIC-IDS2018,pooled_rf_domain_family_weighted_all_features,Brute Force -Web,2613,1305,0.49942594718714123
+NF-CSE-CIC-IDS2018,pooled_rf_domain_family_weighted_all_features,Brute Force -XSS,1745,830,0.47564469914040114
+NF-CSE-CIC-IDS2018,pooled_rf_domain_family_weighted_all_features,DDOS attack-HOIC,230,94,0.40869565217391307
+NF-CSE-CIC-IDS2018,pooled_rf_domain_family_weighted_all_features,DDOS attack-LOIC-UDP,1667,0,0.0
+NF-CSE-CIC-IDS2018,pooled_rf_domain_family_weighted_all_features,DDoS attacks-LOIC-HTTP,378199,0,0.0
+NF-CSE-CIC-IDS2018,pooled_rf_domain_family_weighted_all_features,DoS attacks-GoldenEye,32850,0,0.0
+NF-CSE-CIC-IDS2018,pooled_rf_domain_family_weighted_all_features,DoS attacks-Hulk,108136,0,0.0
+NF-CSE-CIC-IDS2018,pooled_rf_domain_family_weighted_all_features,DoS attacks-SlowHTTPTest,105550,0,0.0
+NF-CSE-CIC-IDS2018,pooled_rf_domain_family_weighted_all_features,DoS attacks-Slowloris,22825,0,0.0
+NF-CSE-CIC-IDS2018,pooled_rf_domain_family_weighted_all_features,FTP-BruteForce,193360,0,0.0
+NF-CSE-CIC-IDS2018,pooled_rf_domain_family_weighted_all_features,Infilteration,62072,20025,0.3226092279932981
+NF-CSE-CIC-IDS2018,pooled_rf_domain_family_weighted_all_features,SQL Injection,36,35,0.9722222222222222
+NF-CSE-CIC-IDS2018,pooled_rf_domain_family_weighted_all_features,SSH-Bruteforce,94237,0,0.0
+NF-CSE-CIC-IDS2018,pooled_rf_domain_family_weighted_reduced_features,Bot,15683,15575,0.9931135624561627
+NF-CSE-CIC-IDS2018,pooled_rf_domain_family_weighted_reduced_features,Brute Force -Web,2613,67,0.02564102564102564
+NF-CSE-CIC-IDS2018,pooled_rf_domain_family_weighted_reduced_features,Brute Force -XSS,1745,7,0.0040114613180515755
+NF-CSE-CIC-IDS2018,pooled_rf_domain_family_weighted_reduced_features,DDOS attack-HOIC,230,84,0.3652173913043478
+NF-CSE-CIC-IDS2018,pooled_rf_domain_family_weighted_reduced_features,DDOS attack-LOIC-UDP,1667,0,0.0
+NF-CSE-CIC-IDS2018,pooled_rf_domain_family_weighted_reduced_features,DDoS attacks-LOIC-HTTP,378199,0,0.0
+NF-CSE-CIC-IDS2018,pooled_rf_domain_family_weighted_reduced_features,DoS attacks-GoldenEye,32850,0,0.0
+NF-CSE-CIC-IDS2018,pooled_rf_domain_family_weighted_reduced_features,DoS attacks-Hulk,108136,0,0.0
+NF-CSE-CIC-IDS2018,pooled_rf_domain_family_weighted_reduced_features,DoS attacks-SlowHTTPTest,105550,0,0.0
+NF-CSE-CIC-IDS2018,pooled_rf_domain_family_weighted_reduced_features,DoS attacks-Slowloris,22825,0,0.0
+NF-CSE-CIC-IDS2018,pooled_rf_domain_family_weighted_reduced_features,FTP-BruteForce,193360,0,0.0
+NF-CSE-CIC-IDS2018,pooled_rf_domain_family_weighted_reduced_features,Infilteration,62072,13234,0.21320402113674441
+NF-CSE-CIC-IDS2018,pooled_rf_domain_family_weighted_reduced_features,SQL Injection,36,27,0.75
+NF-CSE-CIC-IDS2018,pooled_rf_domain_family_weighted_reduced_features,SSH-Bruteforce,94237,0,0.0

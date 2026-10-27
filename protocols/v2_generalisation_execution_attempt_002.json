@@ -1,0 +1,74 @@
+{
+  "attempt_id": "applied-ml-v2-generalisation-execution-attempt-002",
+  "started_date": "2026-10-26",
+  "completed_date": "2026-10-27",
+  "timezone": "Australia/Adelaide",
+  "command": ".\\.venv\\Scripts\\python.exe run_v2_generalisation_development.py",
+  "working_directory": "C:\\Users\\Dung\\Documents\\ChatGPT\\Applied ML",
+  "status": "COMPLETED",
+  "repository_commit_at_start": "278a17d93d3a25d987f66496441c58f351680c94",
+  "protocol": {
+    "path": "protocols/v2_generalisation_development_protocol.json",
+    "sha256": "ee3aa81854b74da7ed52eaea8ee43c3aa113a64a5745d6ba720e147bf0670bea"
+  },
+  "implementation_manifest": {
+    "path": "protocols/v2_generalisation_implementation_manifest_v2.json",
+    "sha256": "60c2bf9260df1e6a2a5097801118dbd46e20eb3119d2af5ae711cbe45e12690c"
+  },
+  "prior_attempt": {
+    "path": "protocols/v2_generalisation_execution_attempt_001.json",
+    "preserved": true,
+    "automatic_retry": false,
+    "user_authorised_attempt_002": true
+  },
+  "completion": {
+    "runtime_seconds": 5389.22802734375,
+    "exit_code_observed": null,
+    "completion_verified_by_artifacts": true,
+    "folds_completed": 4,
+    "candidate_fold_evaluations_completed": 16,
+    "full_heldout_rows_scored_per_candidate": 11994893,
+    "summary_created": true
+  },
+  "verdict": {
+    "selected_candidate": null,
+    "promotion_verdict": "no Version 2 candidate selected",
+    "promotion_eligible_candidates": 0,
+    "threshold_constraints_passed_in_all_folds_by_any_candidate": false,
+    "independent_confirmation": false,
+    "deployment_claim_permitted": false
+  },
+  "headline_results": {
+    "best_macro_mcc_candidate": "pooled_lr_domain_family_weighted_all_features",
+    "best_macro_mcc": 0.056321,
+    "best_macro_mcc_improvement_over_reference": 0.049582,
+    "best_candidate_worst_domain_balanced_accuracy": 0.492417,
+    "best_candidate_maximum_domain_false_positive_rate": 0.998118,
+    "primary_weighted_rf_macro_mcc": -0.04151,
+    "reference_unweighted_rf_macro_mcc": 0.006739
+  },
+  "verified_outputs": {
+    "summary": {
+      "path": "artifacts/v2_generalisation_development/summary.json",
+      "sha256": "ce1ca9c9e8cb58c672803889bf7df50b2a1ce69ee035f61c63c7df6956d25e4f"
+    },
+    "fold_metrics": {
+      "path": "artifacts/v2_generalisation_development/fold_metrics.csv",
+      "sha256": "871a580aa7382024cafc7db5ee5d137aecb41fb46b423f5ca2c9bc42ef5d27ba"
+    },
+    "aggregate_candidate_metrics": {
+      "path": "artifacts/v2_generalisation_development/aggregate_candidate_metrics.csv",
+      "sha256": "6388ad5b89a18ce0eb42d7e56bc486579502e53de29549aaee41546c26a0f64e"
+    },
+    "per_attack_recall": {
+      "path": "artifacts/v2_generalisation_development/per_attack_recall.csv",
+      "sha256": "f10c848d106c57039ef829dfc6291930205ad1608ef817fab7fd89968d758bf6"
+    }
+  },
+  "nonfatal_anomalies": [
+    "Scikit-learn warned that some inputs lacked OOB scores for weighted Random Forest fits; OOB was diagnostic only and the promotion decision used held-out-domain metrics.",
+    "Matplotlib could not apply tight_layout fully to the dense overfitting-gap plot; the data table and plot were still written."
+  ],
+  "sample_concentration_note": "Group-complete caps can substantially exceed or under-diversify the nominal cap when a few registered groups are very large. NF-CSE-CIC-IDS2018 training retained 299372 rows from 13 groups, and NF-ToN-IoT calibration retained 105627 rows from 111 groups. This is a reported limitation, not a post-result protocol change.",
+  "interpretation_boundary": "This is a completed development-only research-prototype experiment. It rejects the registered candidates under the fixed promotion rule and supplies no independently confirmed or deployable model."
+}

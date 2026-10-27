@@ -1,0 +1,256 @@
+{
+  "material_passport": {
+    "origin_skill": "academic-research-suite / experiment-agent",
+    "origin_mode": "run",
+    "origin_date": "2026-10-26",
+    "verification_status": "ANALYZED",
+    "version_label": "v2_generalisation_development_v1"
+  },
+  "protocol_id": "applied-ml-v2-multidomain-generalisation-development-2026-10-26",
+  "development_only": true,
+  "independent_confirmation": false,
+  "preflight": {
+    "protocol_verified": true,
+    "datasets": [
+      {
+        "domain": "NF-UNSW-NB15",
+        "path": "C:\\Users\\Dung\\Documents\\ChatGPT\\Applied ML\\data\\external\\nf-unsw-nb15\\88695f0f620eb568_MOHANAD_A4706\\data\\NF-UNSW-NB15.csv",
+        "sha256": "26e29152ead98fc27c012155cbcb0842f39ad41d64acf8b274a7e68ea8c71642",
+        "expected_rows": 1623118
+      },
+      {
+        "domain": "NF-ToN-IoT",
+        "path": "C:\\Users\\Dung\\Documents\\ChatGPT\\Applied ML\\data\\external\\nf-ton-iot\\7ca78ae35fa4961a_MOHANAD_A4706\\data\\NF-ToN-IoT.csv",
+        "sha256": "43363378f620cfe38fda7c40cd5ef06b14e99715798a982b175d4b197f040567",
+        "expected_rows": 1379274
+      },
+      {
+        "domain": "NF-BoT-IoT",
+        "path": "C:\\Users\\Dung\\Documents\\ChatGPT\\Applied ML\\data\\external\\nf-bot-iot\\de2c6f75dd50d933_MOHANAD_A4706\\data\\NF-BoT-IoT.csv",
+        "sha256": "0dcaeb12918dccee4127e537863366958a2fdc222fda06e0b1b0458c31a429ff",
+        "expected_rows": 600100
+      },
+      {
+        "domain": "NF-CSE-CIC-IDS2018",
+        "path": "C:\\Users\\Dung\\Documents\\ChatGPT\\Applied ML\\data\\external\\nf-cse-cic-ids2018\\extracted\\88a47ba2ab64258e_MOHANAD_A4706\\data\\NF-CSE-CIC-IDS2018.csv",
+        "sha256": "ed3387646fda24084889f07788cd22da2978b860f5b3d2d6f1210a4e3d7998e0",
+        "expected_rows": 8392401
+      }
+    ]
+  },
+  "sample_integrity": {
+    "NF-UNSW-NB15": {
+      "rows": 1623118,
+      "label_counts": {
+        "0": 1550712,
+        "1": 72406
+      },
+      "attack_counts": {
+        "Analysis": 1995,
+        "Backdoor": 1782,
+        "Benign": 1550712,
+        "DoS": 5051,
+        "Exploits": 24736,
+        "Fuzzers": 19463,
+        "Generic": 5570,
+        "Reconnaissance": 12291,
+        "Shellcode": 1365,
+        "Worms": 153
+      },
+      "groups": 317923,
+      "samples": {
+        "training": {
+          "rows": 250770,
+          "groups": 73060,
+          "positive_rows": 55724,
+          "families": 10
+        },
+        "calibration": {
+          "rows": 100088,
+          "groups": 27944,
+          "positive_rows": 16682,
+          "families": 10
+        }
+      }
+    },
+    "NF-ToN-IoT": {
+      "rows": 1379274,
+      "label_counts": {
+        "0": 270279,
+        "1": 1108995
+      },
+      "attack_counts": {
+        "Benign": 270279,
+        "backdoor": 17247,
+        "ddos": 326345,
+        "dos": 17717,
+        "injection": 468539,
+        "mitm": 1295,
+        "password": 156299,
+        "ransomware": 142,
+        "scanning": 21467,
+        "xss": 99944
+      },
+      "groups": 380877,
+      "samples": {
+        "training": {
+          "rows": 251419,
+          "groups": 44592,
+          "positive_rows": 212833,
+          "families": 10
+        },
+        "calibration": {
+          "rows": 105627,
+          "groups": 111,
+          "positive_rows": 105592,
+          "families": 10
+        }
+      }
+    },
+    "NF-BoT-IoT": {
+      "rows": 600100,
+      "label_counts": {
+        "0": 13859,
+        "1": 586241
+      },
+      "attack_counts": {
+        "Benign": 13859,
+        "DDoS": 56844,
+        "DoS": 56833,
+        "Reconnaissance": 470655,
+        "Theft": 1909
+      },
+      "groups": 25165,
+      "samples": {
+        "training": {
+          "rows": 330348,
+          "groups": 602,
+          "positive_rows": 329753,
+          "families": 5
+        },
+        "calibration": {
+          "rows": 88518,
+          "groups": 6258,
+          "positive_rows": 82280,
+          "families": 5
+        }
+      }
+    },
+    "NF-CSE-CIC-IDS2018": {
+      "rows": 8392401,
+      "label_counts": {
+        "0": 7373198,
+        "1": 1019203
+      },
+      "attack_counts": {
+        "Benign": 7373198,
+        "Bot": 15683,
+        "Brute Force -Web": 2613,
+        "Brute Force -XSS": 1745,
+        "DDOS attack-HOIC": 230,
+        "DDOS attack-LOIC-UDP": 1667,
+        "DDoS attacks-LOIC-HTTP": 378199,
+        "DoS attacks-GoldenEye": 32850,
+        "DoS attacks-Hulk": 108136,
+        "DoS attacks-SlowHTTPTest": 105550,
+        "DoS attacks-Slowloris": 22825,
+        "FTP-BruteForce": 193360,
+        "Infilteration": 62072,
+        "SQL Injection": 36,
+        "SSH-Bruteforce": 94237
+      },
+      "groups": 770534,
+      "samples": {
+        "training": {
+          "rows": 299372,
+          "groups": 13,
+          "positive_rows": 299004,
+          "families": 15
+        },
+        "calibration": {
+          "rows": 165539,
+          "groups": 687,
+          "positive_rows": 136371,
+          "families": 13
+        }
+      }
+    }
+  },
+  "selected_candidate": null,
+  "promotion_verdict": "no Version 2 candidate selected",
+  "aggregate_candidates": [
+    {
+      "candidate": "pooled_lr_domain_family_weighted_all_features",
+      "macro_mcc": 0.05632132659099218,
+      "worst_domain_mcc": -0.008847462226753262,
+      "worst_domain_balanced_accuracy": 0.49241653243893696,
+      "macro_supported_attack_recall": 0.946274118986005,
+      "minimum_supported_attack_recall": 0.4967032967032967,
+      "maximum_domain_false_positive_rate": 0.9981184555195723,
+      "threshold_constraints_all_folds": false,
+      "macro_mcc_improvement": 0.04958210407957919,
+      "worst_balanced_accuracy_improvement": 0.13110893981042654,
+      "maximum_fpr_increase": 0.12789561594652454,
+      "eligibility_passed": false,
+      "improvement_passed": false,
+      "promotion_eligible": false
+    },
+    {
+      "candidate": "pooled_rf_domain_family_weighted_all_features",
+      "macro_mcc": -0.04151031793728177,
+      "worst_domain_mcc": -0.20372705053590567,
+      "worst_domain_balanced_accuracy": 0.35931016512890224,
+      "macro_supported_attack_recall": 0.5923897551679167,
+      "minimum_supported_attack_recall": 0.0,
+      "maximum_domain_false_positive_rate": 0.9682578067365184,
+      "threshold_constraints_all_folds": false,
+      "macro_mcc_improvement": -0.048249540448694755,
+      "worst_balanced_accuracy_improvement": -0.0019974274996081842,
+      "maximum_fpr_increase": 0.0980349671634706,
+      "eligibility_passed": false,
+      "improvement_passed": false,
+      "promotion_eligible": false
+    },
+    {
+      "candidate": "pooled_rf_domain_family_weighted_reduced_features",
+      "macro_mcc": -0.10085599946957971,
+      "worst_domain_mcc": -0.1510900896567722,
+      "worst_domain_balanced_accuracy": 0.2820300965844986,
+      "macro_supported_attack_recall": 0.5555708846054993,
+      "minimum_supported_attack_recall": 0.0,
+      "maximum_domain_false_positive_rate": 0.9602737323242485,
+      "threshold_constraints_all_folds": false,
+      "macro_mcc_improvement": -0.1075952219809927,
+      "worst_balanced_accuracy_improvement": -0.0792774960440118,
+      "maximum_fpr_increase": 0.0900508927512007,
+      "eligibility_passed": false,
+      "improvement_passed": false,
+      "promotion_eligible": false
+    },
+    {
+      "candidate": "pooled_rf_unweighted_all_features",
+      "macro_mcc": 0.006739222511412988,
+      "worst_domain_mcc": -0.08508036156799709,
+      "worst_domain_balanced_accuracy": 0.3613075926285104,
+      "macro_supported_attack_recall": 0.5667696533506307,
+      "minimum_supported_attack_recall": 0.0,
+      "maximum_domain_false_positive_rate": 0.8702228395730478,
+      "threshold_constraints_all_folds": false,
+      "macro_mcc_improvement": 0.0,
+      "worst_balanced_accuracy_improvement": 0.0,
+      "maximum_fpr_increase": 0.0,
+      "eligibility_passed": false,
+      "improvement_passed": false,
+      "promotion_eligible": false
+    }
+  ],
+  "runtime_seconds": 5389.22802734375,
+  "environment": {
+    "python": "3.13.5",
+    "platform": "Windows-11-10.0.26300-SP0",
+    "numpy": "2.5.2",
+    "pandas": "3.0.5",
+    "scikit_learn": "1.9.0"
+  },
+  "interpretation_boundary": "Version 2 is a bounded, post-audit research prototype. Leave-one-dataset-out performance can reject weak designs and provide stronger development evidence, but only a separately preregistered genuinely new dataset or capture can independently confirm generalisation."
+}

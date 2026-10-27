@@ -365,3 +365,12 @@ protocol, implementation and four local dataset files without training:
 After preflight succeeds, omit `--preflight-only` for the registered run. The
 runner refuses to overwrite a completed `summary.json` and contains no automatic
 retry path.
+
+The registered run completed on 27 October 2026 after one separately recorded
+implementation failure and a user-authorised numerical type-safety amendment.
+All 16 candidate-fold evaluations completed, but no candidate passed the fixed
+promotion rule. Weighted Logistic Regression had the highest macro MCC
+(`0.05632`) while reaching a maximum held-out false-positive rate of `0.99812`;
+the weighted Random Forest candidates had negative macro MCC. The result is a
+development-only rejection, not a selected or deployable model. See
+`deliverables/v2_research_prototype/V2_Development_Result.md`.

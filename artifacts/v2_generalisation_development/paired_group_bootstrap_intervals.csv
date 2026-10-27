@@ -1,0 +1,17 @@
+heldout_domain,comparison,metric,bootstrap_median,ci_lower,ci_upper
+NF-BoT-IoT,pooled_rf_unweighted_all_features,balanced_accuracy,0.3903725235699181,0.197608745340999,0.7268590280288019
+NF-BoT-IoT,pooled_rf_unweighted_all_features,false_positive_rate,0.6809440896355734,0.38806504696208266,0.8668106501216241
+NF-BoT-IoT,pooled_rf_unweighted_all_features,mcc,-0.0630314271313138,-0.1715327569067013,0.3890184427410601
+NF-BoT-IoT,pooled_rf_unweighted_all_features,recall,0.39663726898293444,0.16562645182667748,0.9687023707752702
+NF-CSE-CIC-IDS2018,pooled_rf_unweighted_all_features,balanced_accuracy,0.48030971371936404,0.46421068013833516,0.5057824378951675
+NF-CSE-CIC-IDS2018,pooled_rf_unweighted_all_features,false_positive_rate,0.06163354198106136,0.03982141245035091,0.08417396942913927
+NF-CSE-CIC-IDS2018,pooled_rf_unweighted_all_features,mcc,-0.05637902864395746,-0.1037470623690931,0.014858087448364551
+NF-CSE-CIC-IDS2018,pooled_rf_unweighted_all_features,recall,0.020402623956637528,0.0026968143539928867,0.07197719087012946
+NF-ToN-IoT,pooled_rf_unweighted_all_features,balanced_accuracy,0.5715003102695699,0.5384439347255799,0.6093192966933477
+NF-ToN-IoT,pooled_rf_unweighted_all_features,false_positive_rate,0.7902238507850744,0.7187000237752573,0.8573163646304884
+NF-ToN-IoT,pooled_rf_unweighted_all_features,mcc,0.19717983193745423,0.11679660880696548,0.2680179610151819
+NF-ToN-IoT,pooled_rf_unweighted_all_features,recall,0.9332035411432662,0.9189301613313168,0.9492298679042339
+NF-UNSW-NB15,pooled_rf_unweighted_all_features,balanced_accuracy,0.48054500871983086,0.4286173241530674,0.5181465263735238
+NF-UNSW-NB15,pooled_rf_unweighted_all_features,false_positive_rate,0.8705734489491874,0.8326447691199028,0.8978549680249204
+NF-UNSW-NB15,pooled_rf_unweighted_all_features,mcc,-0.023228017184008538,-0.09914231118787849,0.021391852829987453
+NF-UNSW-NB15,pooled_rf_unweighted_all_features,recall,0.8286498846759536,0.7320866576717076,0.8842566534431574
