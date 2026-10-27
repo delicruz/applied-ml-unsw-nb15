@@ -1,0 +1,52 @@
+{
+  "material_passport": {
+    "origin_skill": "academic-research-suite / academic-paper",
+    "origin_mode": "evidence consolidation",
+    "origin_date": "2026-10-27",
+    "verification_status": "ANALYZED",
+    "version_label": "final_research_prototype_manifest_v1"
+  },
+  "project_status": "RESEARCH_PROTOTYPE_COMPLETE",
+  "model_status": "NO_CROSS_DOMAIN_CANDIDATE_SELECTED",
+  "deployment_ready": false,
+  "final_development_verdict": "no Version 3 candidate selected",
+  "evidence": {
+    "ttl_removed_internal_validation": {
+      "path": "artifacts/robustness_audit/robustness_metrics.csv",
+      "sha256": "70f60ee08b1a270cfc1accb6a861396affbe664d6c6d694350f7497613188197"
+    },
+    "final_holdout": {
+      "path": "artifacts/final_holdout_evaluation/summary.json",
+      "sha256": "83e82e96c5c65a99ba776b7b1f7528c8b9397b3cb53bea61c64ff5638fa8ef72"
+    },
+    "nf_ton_external": {
+      "path": "artifacts/external_netflow_validation/summary.json",
+      "sha256": "f7aa07d7b8ea618e0b93471bc7273055fec1c9e7ae4e3b7ec702e636ac744579"
+    },
+    "nf_bot_external": {
+      "path": "artifacts/third_dataset_validation/summary.json",
+      "sha256": "52f93435c59c9babad2081ced911a2ad30447638c9975d04d3d3c2bc5da16e2c"
+    },
+    "nf_cse_confirmation": {
+      "path": "artifacts/fresh_confirmation_evaluation/summary.json",
+      "sha256": "23f4bee33042209a9126e6ae516c2c9ccf9fab4f7c2a73f8ef361f2d317cab96"
+    },
+    "version_2_result": {
+      "path": "artifacts/v2_generalisation_development/summary.json",
+      "sha256": "ce1ca9c9e8cb58c672803889bf7df50b2a1ce69ee035f61c63c7df6956d25e4f"
+    },
+    "version_3_result": {
+      "path": "artifacts/v3_group_balanced_development/summary.json",
+      "sha256": "eac836ff6bdde20c8dccfb577a2bfff4c89f40cf2ba1637e8bfa33a90d8c45ef"
+    },
+    "version_2_protocol": {
+      "path": "protocols/v2_generalisation_development_protocol.json",
+      "sha256": "ee3aa81854b74da7ed52eaea8ee43c3aa113a64a5745d6ba720e147bf0670bea"
+    },
+    "version_3_protocol": {
+      "path": "protocols/v3_group_balanced_development_protocol.json",
+      "sha256": "0d0f089b811aea1fcce629eae0ac285d63db4a22daaf032cd7a59d214595b410"
+    }
+  },
+  "claim_boundary": "The repository supports a completed research prototype and a negative cross-domain selection verdict. It does not support a production or real-world reliability claim."
+}

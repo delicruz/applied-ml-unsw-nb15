@@ -2,6 +2,17 @@
 
 This project builds a reproducible binary classifier for the UNSW-NB15 dataset. It compares a logistic-regression baseline with a Random Forest, evaluates precision, recall, F1 and PR-AUC, examines decision thresholds, and explains the Random Forest globally and locally with feature importance and SHAP.
 
+## Current project status
+
+The implementation and planned development studies are complete. The project is
+a research prototype, not a deployment-ready intrusion detector. Strong
+UNSW-NB15 internal results did not transfer reliably to NF-ToN-IoT,
+NF-BoT-IoT, or NF-CSE-CIC-IDS2018. Registered Version 2 and Version 3 studies
+therefore selected no cross-domain candidate. See
+`deliverables/final_research_prototype/Project_Final_Status.md` for the concise
+conclusion, completed feature inventory, claim boundaries, and AI-use
+acknowledgement.
+
 ## Design choices
 
 - The supplied test split remains untouched until final evaluation. The supplied

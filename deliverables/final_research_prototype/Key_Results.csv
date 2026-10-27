@@ -1,0 +1,8 @@
+stage,scope,candidate,average_precision,mcc,balanced_accuracy,recall,false_positive_rate,minimum_supported_attack_recall,worst_group_balanced_mcc,verdict,evidence
+internal_validation,UNSW-NB15 validation,Random Forest without TTL,0.996446,0.890781,,0.972599,0.089375,,,strong internal result only,artifacts/robustness_audit/robustness_metrics.csv
+internal_holdout,UNSW-NB15 conservative primary holdout,Random Forest without TTL,0.982069,0.746241,,0.982111,0.263808,,,within-dataset holdout; high alert burden,artifacts/final_holdout_evaluation/summary.json
+external_transfer,NF-ToN-IoT,Frozen Random Forest,0.792129,-0.152427,,0.042965,,,,transfer unsupported,artifacts/external_netflow_validation/summary.json
+external_transfer,NF-BoT-IoT,Frozen Random Forest,0.945314,-0.011702,0.498108,0.002277,,,,useful transfer not supported,artifacts/third_dataset_validation/summary.json
+sealed_confirmation,NF-CSE-CIC-IDS2018,Target-trained Random Forest,0.482976,0.125934,0.542614,0.153767,0.068539,,,development improvement not confirmed,artifacts/fresh_confirmation_evaluation/summary.json
+version_2,four-domain leave-one-dataset-out,Weighted Logistic Regression,,0.056321,0.492417,,0.998118,0.496703,,no Version 2 candidate selected,artifacts/v2_generalisation_development/summary.json
+version_3,four-domain group-balanced leave-one-dataset-out,Derived Logistic Regression,,0.025611,0.475065,,0.856898,0.000000,-0.162441,no Version 3 candidate selected,artifacts/v3_group_balanced_development/summary.json
