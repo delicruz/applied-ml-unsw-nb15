@@ -1,0 +1,270 @@
+{
+  "material_passport": {
+    "origin_skill": "academic-research-suite / experiment-agent",
+    "origin_mode": "run",
+    "origin_date": "2026-10-27",
+    "verification_status": "ANALYZED",
+    "version_label": "v3_group_balanced_development_v1"
+  },
+  "protocol_id": "applied-ml-v3-group-balanced-derived-features-2026-10-27",
+  "development_only": true,
+  "independent_confirmation": false,
+  "preflight": {
+    "protocol_verified": true,
+    "datasets": [
+      {
+        "domain": "NF-UNSW-NB15",
+        "path": "C:\\Users\\Dung\\Documents\\ChatGPT\\Applied ML\\data\\external\\nf-unsw-nb15\\88695f0f620eb568_MOHANAD_A4706\\data\\NF-UNSW-NB15.csv",
+        "sha256": "26e29152ead98fc27c012155cbcb0842f39ad41d64acf8b274a7e68ea8c71642",
+        "expected_rows": 1623118
+      },
+      {
+        "domain": "NF-ToN-IoT",
+        "path": "C:\\Users\\Dung\\Documents\\ChatGPT\\Applied ML\\data\\external\\nf-ton-iot\\7ca78ae35fa4961a_MOHANAD_A4706\\data\\NF-ToN-IoT.csv",
+        "sha256": "43363378f620cfe38fda7c40cd5ef06b14e99715798a982b175d4b197f040567",
+        "expected_rows": 1379274
+      },
+      {
+        "domain": "NF-BoT-IoT",
+        "path": "C:\\Users\\Dung\\Documents\\ChatGPT\\Applied ML\\data\\external\\nf-bot-iot\\de2c6f75dd50d933_MOHANAD_A4706\\data\\NF-BoT-IoT.csv",
+        "sha256": "0dcaeb12918dccee4127e537863366958a2fdc222fda06e0b1b0458c31a429ff",
+        "expected_rows": 600100
+      },
+      {
+        "domain": "NF-CSE-CIC-IDS2018",
+        "path": "C:\\Users\\Dung\\Documents\\ChatGPT\\Applied ML\\data\\external\\nf-cse-cic-ids2018\\extracted\\88a47ba2ab64258e_MOHANAD_A4706\\data\\NF-CSE-CIC-IDS2018.csv",
+        "sha256": "ed3387646fda24084889f07788cd22da2978b860f5b3d2d6f1210a4e3d7998e0",
+        "expected_rows": 8392401
+      }
+    ]
+  },
+  "sample_integrity": {
+    "NF-UNSW-NB15": {
+      "rows": 1623118,
+      "label_counts": {
+        "0": 1550712,
+        "1": 72406
+      },
+      "attack_counts": {
+        "Analysis": 1995,
+        "Backdoor": 1782,
+        "Benign": 1550712,
+        "DoS": 5051,
+        "Exploits": 24736,
+        "Fuzzers": 19463,
+        "Generic": 5570,
+        "Reconnaissance": 12291,
+        "Shellcode": 1365,
+        "Worms": 153
+      },
+      "groups": 317923,
+      "samples": {
+        "training": {
+          "rows": 250009,
+          "groups": 107392,
+          "positive_rows": 48994,
+          "families": 10,
+          "largest_original_group_rows": 37156,
+          "largest_retained_group_rows": 64,
+          "largest_retained_group_share": 0.0002559907843317641
+        },
+        "calibration": {
+          "rows": 100015,
+          "groups": 41745,
+          "positive_rows": 16682,
+          "families": 10,
+          "largest_original_group_rows": 12150,
+          "largest_retained_group_rows": 64,
+          "largest_retained_group_share": 0.0006399040143978403
+        }
+      }
+    },
+    "NF-ToN-IoT": {
+      "rows": 1379274,
+      "label_counts": {
+        "0": 270279,
+        "1": 1108995
+      },
+      "attack_counts": {
+        "Benign": 270279,
+        "backdoor": 17247,
+        "ddos": 326345,
+        "dos": 17717,
+        "injection": 468539,
+        "mitm": 1295,
+        "password": 156299,
+        "ransomware": 142,
+        "scanning": 21467,
+        "xss": 99944
+      },
+      "groups": 380877,
+      "samples": {
+        "training": {
+          "rows": 250001,
+          "groups": 79751,
+          "positive_rows": 219618,
+          "families": 10,
+          "largest_original_group_rows": 9341,
+          "largest_retained_group_rows": 64,
+          "largest_retained_group_share": 0.00025599897600409597
+        },
+        "calibration": {
+          "rows": 100000,
+          "groups": 34069,
+          "positive_rows": 86890,
+          "families": 10,
+          "largest_original_group_rows": 104207,
+          "largest_retained_group_rows": 64,
+          "largest_retained_group_share": 0.00064
+        }
+      }
+    },
+    "NF-BoT-IoT": {
+      "rows": 600100,
+      "label_counts": {
+        "0": 13859,
+        "1": 586241
+      },
+      "attack_counts": {
+        "Benign": 13859,
+        "DDoS": 56844,
+        "DoS": 56833,
+        "Reconnaissance": 470655,
+        "Theft": 1909
+      },
+      "groups": 25165,
+      "samples": {
+        "training": {
+          "rows": 99257,
+          "groups": 18907,
+          "positive_rows": 95988,
+          "families": 5,
+          "largest_original_group_rows": 326232,
+          "largest_retained_group_rows": 64,
+          "largest_retained_group_share": 0.0006447907956113926
+        },
+        "calibration": {
+          "rows": 34025,
+          "groups": 6258,
+          "positive_rows": 32949,
+          "families": 5,
+          "largest_original_group_rows": 26883,
+          "largest_retained_group_rows": 64,
+          "largest_retained_group_share": 0.0018809698750918442
+        }
+      }
+    },
+    "NF-CSE-CIC-IDS2018": {
+      "rows": 8392401,
+      "label_counts": {
+        "0": 7373198,
+        "1": 1019203
+      },
+      "attack_counts": {
+        "Benign": 7373198,
+        "Bot": 15683,
+        "Brute Force -Web": 2613,
+        "Brute Force -XSS": 1745,
+        "DDOS attack-HOIC": 230,
+        "DDOS attack-LOIC-UDP": 1667,
+        "DDoS attacks-LOIC-HTTP": 378199,
+        "DoS attacks-GoldenEye": 32850,
+        "DoS attacks-Hulk": 108136,
+        "DoS attacks-SlowHTTPTest": 105550,
+        "DoS attacks-Slowloris": 22825,
+        "FTP-BruteForce": 193360,
+        "Infilteration": 62072,
+        "SQL Injection": 36,
+        "SSH-Bruteforce": 94237
+      },
+      "groups": 770534,
+      "samples": {
+        "training": {
+          "rows": 250019,
+          "groups": 32845,
+          "positive_rows": 64379,
+          "families": 15,
+          "largest_original_group_rows": 432393,
+          "largest_retained_group_rows": 64,
+          "largest_retained_group_share": 0.0002559805454785436
+        },
+        "calibration": {
+          "rows": 100001,
+          "groups": 13050,
+          "positive_rows": 25010,
+          "families": 13,
+          "largest_original_group_rows": 89669,
+          "largest_retained_group_rows": 64,
+          "largest_retained_group_share": 0.0006399936000639994
+        }
+      }
+    }
+  },
+  "selected_candidate": null,
+  "promotion_verdict": "no Version 3 candidate selected",
+  "aggregate_candidates": [
+    {
+      "candidate": "group_capped_lr_base_features",
+      "macro_mcc": -0.08095281586241088,
+      "worst_domain_mcc": -0.27087186695303955,
+      "worst_domain_balanced_accuracy": 0.30768056793397736,
+      "macro_supported_attack_recall": 0.6397040042686222,
+      "minimum_supported_attack_recall": 0.0,
+      "maximum_domain_false_positive_rate": 0.9585502388272858,
+      "worst_domain_group_balanced_mcc": -0.4714025891425521,
+      "macro_group_balanced_mcc": -0.025276768041986447,
+      "threshold_constraints_all_folds": false,
+      "macro_mcc_improvement": 0.0,
+      "worst_balanced_accuracy_improvement": 0.0,
+      "maximum_fpr_increase": 0.0,
+      "eligibility_passed": false,
+      "improvement_passed": false,
+      "promotion_eligible": false
+    },
+    {
+      "candidate": "group_capped_lr_derived_features",
+      "macro_mcc": 0.025611383269084576,
+      "worst_domain_mcc": -0.0338264974844685,
+      "worst_domain_balanced_accuracy": 0.4750647685123517,
+      "macro_supported_attack_recall": 0.6073577003202689,
+      "minimum_supported_attack_recall": 0.0,
+      "maximum_domain_false_positive_rate": 0.856897992664015,
+      "worst_domain_group_balanced_mcc": -0.1624414068755733,
+      "macro_group_balanced_mcc": 0.060141410081845106,
+      "threshold_constraints_all_folds": false,
+      "macro_mcc_improvement": 0.10656419913149545,
+      "worst_balanced_accuracy_improvement": 0.16738420057837433,
+      "maximum_fpr_increase": -0.10165224616327084,
+      "eligibility_passed": false,
+      "improvement_passed": true,
+      "promotion_eligible": false
+    },
+    {
+      "candidate": "group_capped_rf_derived_features",
+      "macro_mcc": -0.03296949685026405,
+      "worst_domain_mcc": -0.2663023775394064,
+      "worst_domain_balanced_accuracy": 0.29634922000257685,
+      "macro_supported_attack_recall": 0.30066134463858396,
+      "minimum_supported_attack_recall": 0.0,
+      "maximum_domain_false_positive_rate": 0.5292017113876503,
+      "worst_domain_group_balanced_mcc": -0.23467056975749764,
+      "macro_group_balanced_mcc": 0.004880557451380919,
+      "threshold_constraints_all_folds": false,
+      "macro_mcc_improvement": 0.04798331901214683,
+      "worst_balanced_accuracy_improvement": -0.011331347931400504,
+      "maximum_fpr_increase": -0.4293485274396356,
+      "eligibility_passed": false,
+      "improvement_passed": false,
+      "promotion_eligible": false
+    }
+  ],
+  "runtime_seconds": 2641.5942573547363,
+  "environment": {
+    "python": "3.13.5",
+    "platform": "Windows-11-10.0.26300-SP0",
+    "numpy": "2.5.2",
+    "pandas": "3.0.5",
+    "scikit_learn": "1.9.0"
+  },
+  "interpretation_boundary": "Version 3 can test whether group-capped fitting and derived traffic features improve development robustness. It cannot prove that the resulting model is safe or reliable in live networks without genuinely new confirmation data and operational validation."
+}

@@ -401,3 +401,13 @@ dataset hashes without scanning rows or fitting models:
 After preflight succeeds, omit `--preflight-only` to perform the one registered
 development run. The runner refuses to overwrite a completed `summary.json` and
 has no automatic retry path.
+
+The one registered Version 3 run completed on 27 October 2026 with no retry.
+The 64-row cap worked: source training samples used 18,907 to 107,392 distinct
+groups per domain, and no retained group exceeded 64 rows. The derived Logistic
+Regression improved macro MCC by `0.10656` over the matched reference, but its
+worst-domain balanced accuracy was `0.47506`, maximum held-out false-positive
+rate was `0.85690`, worst equal-group MCC was `-0.16244`, and some supported
+attacks still had zero recall. No candidate passed all threshold and eligibility
+requirements, so the fixed verdict is `no Version 3 candidate selected`. See
+`deliverables/v3_research_prototype/V3_Group_Balanced_Development_Result.md`.

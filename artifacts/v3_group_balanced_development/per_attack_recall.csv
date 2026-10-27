@@ -1,0 +1,109 @@
+heldout_domain,candidate,Attack,positive_rows,true_positive,recall
+NF-UNSW-NB15,group_capped_lr_base_features,Analysis,1995,1958,0.981453634085213
+NF-UNSW-NB15,group_capped_lr_base_features,Backdoor,1782,1699,0.9534231200897868
+NF-UNSW-NB15,group_capped_lr_base_features,DoS,5051,4859,0.9619877252029301
+NF-UNSW-NB15,group_capped_lr_base_features,Exploits,24736,24396,0.986254851228978
+NF-UNSW-NB15,group_capped_lr_base_features,Fuzzers,19463,16440,0.8446796485639418
+NF-UNSW-NB15,group_capped_lr_base_features,Generic,5570,5446,0.9777378815080789
+NF-UNSW-NB15,group_capped_lr_base_features,Reconnaissance,12291,12163,0.9895858758441136
+NF-UNSW-NB15,group_capped_lr_base_features,Shellcode,1365,685,0.5018315018315018
+NF-UNSW-NB15,group_capped_lr_base_features,Worms,153,146,0.954248366013072
+NF-UNSW-NB15,group_capped_lr_derived_features,Analysis,1995,1958,0.981453634085213
+NF-UNSW-NB15,group_capped_lr_derived_features,Backdoor,1782,1709,0.9590347923681257
+NF-UNSW-NB15,group_capped_lr_derived_features,DoS,5051,4686,0.9277370817659869
+NF-UNSW-NB15,group_capped_lr_derived_features,Exploits,24736,23114,0.934427554980595
+NF-UNSW-NB15,group_capped_lr_derived_features,Fuzzers,19463,17647,0.9066947541488979
+NF-UNSW-NB15,group_capped_lr_derived_features,Generic,5570,5261,0.944524236983842
+NF-UNSW-NB15,group_capped_lr_derived_features,Reconnaissance,12291,12161,0.9894231551541779
+NF-UNSW-NB15,group_capped_lr_derived_features,Shellcode,1365,744,0.545054945054945
+NF-UNSW-NB15,group_capped_lr_derived_features,Worms,153,134,0.8758169934640523
+NF-UNSW-NB15,group_capped_rf_derived_features,Analysis,1995,389,0.1949874686716792
+NF-UNSW-NB15,group_capped_rf_derived_features,Backdoor,1782,298,0.16722783389450055
+NF-UNSW-NB15,group_capped_rf_derived_features,DoS,5051,2109,0.41754108097406456
+NF-UNSW-NB15,group_capped_rf_derived_features,Exploits,24736,13182,0.5329075032341527
+NF-UNSW-NB15,group_capped_rf_derived_features,Fuzzers,19463,10114,0.5196526743050918
+NF-UNSW-NB15,group_capped_rf_derived_features,Generic,5570,1585,0.2845601436265709
+NF-UNSW-NB15,group_capped_rf_derived_features,Reconnaissance,12291,6232,0.5070376698397201
+NF-UNSW-NB15,group_capped_rf_derived_features,Shellcode,1365,678,0.4967032967032967
+NF-UNSW-NB15,group_capped_rf_derived_features,Worms,153,102,0.6666666666666666
+NF-ToN-IoT,group_capped_lr_base_features,backdoor,17247,17186,0.9964631530121181
+NF-ToN-IoT,group_capped_lr_base_features,ddos,326345,309998,0.9499088388055585
+NF-ToN-IoT,group_capped_lr_base_features,dos,17717,17573,0.9918722131286335
+NF-ToN-IoT,group_capped_lr_base_features,injection,468539,373254,0.7966337914239796
+NF-ToN-IoT,group_capped_lr_base_features,mitm,1295,724,0.5590733590733591
+NF-ToN-IoT,group_capped_lr_base_features,password,156299,155883,0.9973384346668884
+NF-ToN-IoT,group_capped_lr_base_features,ransomware,142,141,0.9929577464788732
+NF-ToN-IoT,group_capped_lr_base_features,scanning,21467,21439,0.9986956724274467
+NF-ToN-IoT,group_capped_lr_base_features,xss,99944,99731,0.9978688065316578
+NF-ToN-IoT,group_capped_lr_derived_features,backdoor,17247,7183,0.4164782280976402
+NF-ToN-IoT,group_capped_lr_derived_features,ddos,326345,306453,0.9390461015183318
+NF-ToN-IoT,group_capped_lr_derived_features,dos,17717,16155,0.9118360896314275
+NF-ToN-IoT,group_capped_lr_derived_features,injection,468539,367192,0.7836957008914947
+NF-ToN-IoT,group_capped_lr_derived_features,mitm,1295,578,0.4463320463320463
+NF-ToN-IoT,group_capped_lr_derived_features,password,156299,155890,0.9973832206220129
+NF-ToN-IoT,group_capped_lr_derived_features,ransomware,142,141,0.9929577464788732
+NF-ToN-IoT,group_capped_lr_derived_features,scanning,21467,21243,0.9895653794195742
+NF-ToN-IoT,group_capped_lr_derived_features,xss,99944,96447,0.9650104058272633
+NF-ToN-IoT,group_capped_rf_derived_features,backdoor,17247,17015,0.9865483852264162
+NF-ToN-IoT,group_capped_rf_derived_features,ddos,326345,117194,0.3591107570209441
+NF-ToN-IoT,group_capped_rf_derived_features,dos,17717,761,0.04295309589659649
+NF-ToN-IoT,group_capped_rf_derived_features,injection,468539,136837,0.292050394951114
+NF-ToN-IoT,group_capped_rf_derived_features,mitm,1295,49,0.03783783783783784
+NF-ToN-IoT,group_capped_rf_derived_features,password,156299,88149,0.5639767368953096
+NF-ToN-IoT,group_capped_rf_derived_features,ransomware,142,105,0.7394366197183099
+NF-ToN-IoT,group_capped_rf_derived_features,scanning,21467,12607,0.5872734895420878
+NF-ToN-IoT,group_capped_rf_derived_features,xss,99944,34176,0.34195149283598814
+NF-BoT-IoT,group_capped_lr_base_features,DDoS,56844,56009,0.9853106748293575
+NF-BoT-IoT,group_capped_lr_base_features,DoS,56833,55998,0.985307831717488
+NF-BoT-IoT,group_capped_lr_base_features,Reconnaissance,470655,70890,0.15061988080441088
+NF-BoT-IoT,group_capped_lr_base_features,Theft,1909,258,0.13514929282346777
+NF-BoT-IoT,group_capped_lr_derived_features,DDoS,56844,55321,0.9732073745689959
+NF-BoT-IoT,group_capped_lr_derived_features,DoS,56833,55319,0.973360547569194
+NF-BoT-IoT,group_capped_lr_derived_features,Reconnaissance,470655,44698,0.09496977616300688
+NF-BoT-IoT,group_capped_lr_derived_features,Theft,1909,98,0.05133577789418544
+NF-BoT-IoT,group_capped_rf_derived_features,DDoS,56844,21638,0.3806558299908522
+NF-BoT-IoT,group_capped_rf_derived_features,DoS,56833,21638,0.3807295057449017
+NF-BoT-IoT,group_capped_rf_derived_features,Reconnaissance,470655,15431,0.03278622345454739
+NF-BoT-IoT,group_capped_rf_derived_features,Theft,1909,0,0.0
+NF-CSE-CIC-IDS2018,group_capped_lr_base_features,Bot,15683,15683,1.0
+NF-CSE-CIC-IDS2018,group_capped_lr_base_features,Brute Force -Web,2613,170,0.06505931879066207
+NF-CSE-CIC-IDS2018,group_capped_lr_base_features,Brute Force -XSS,1745,117,0.0670487106017192
+NF-CSE-CIC-IDS2018,group_capped_lr_base_features,DDOS attack-HOIC,230,230,1.0
+NF-CSE-CIC-IDS2018,group_capped_lr_base_features,DDOS attack-LOIC-UDP,1667,0,0.0
+NF-CSE-CIC-IDS2018,group_capped_lr_base_features,DDoS attacks-LOIC-HTTP,378199,289328,0.7650152432978405
+NF-CSE-CIC-IDS2018,group_capped_lr_base_features,DoS attacks-GoldenEye,32850,0,0.0
+NF-CSE-CIC-IDS2018,group_capped_lr_base_features,DoS attacks-Hulk,108136,0,0.0
+NF-CSE-CIC-IDS2018,group_capped_lr_base_features,DoS attacks-SlowHTTPTest,105550,0,0.0
+NF-CSE-CIC-IDS2018,group_capped_lr_base_features,DoS attacks-Slowloris,22825,0,0.0
+NF-CSE-CIC-IDS2018,group_capped_lr_base_features,FTP-BruteForce,193360,0,0.0
+NF-CSE-CIC-IDS2018,group_capped_lr_base_features,Infilteration,62072,49913,0.8041145766206985
+NF-CSE-CIC-IDS2018,group_capped_lr_base_features,SQL Injection,36,36,1.0
+NF-CSE-CIC-IDS2018,group_capped_lr_base_features,SSH-Bruteforce,94237,0,0.0
+NF-CSE-CIC-IDS2018,group_capped_lr_derived_features,Bot,15683,15683,1.0
+NF-CSE-CIC-IDS2018,group_capped_lr_derived_features,Brute Force -Web,2613,64,0.024492920015308076
+NF-CSE-CIC-IDS2018,group_capped_lr_derived_features,Brute Force -XSS,1745,3,0.0017191977077363897
+NF-CSE-CIC-IDS2018,group_capped_lr_derived_features,DDOS attack-HOIC,230,97,0.4217391304347826
+NF-CSE-CIC-IDS2018,group_capped_lr_derived_features,DDOS attack-LOIC-UDP,1667,0,0.0
+NF-CSE-CIC-IDS2018,group_capped_lr_derived_features,DDoS attacks-LOIC-HTTP,378199,0,0.0
+NF-CSE-CIC-IDS2018,group_capped_lr_derived_features,DoS attacks-GoldenEye,32850,0,0.0
+NF-CSE-CIC-IDS2018,group_capped_lr_derived_features,DoS attacks-Hulk,108136,16,0.00014796182584893096
+NF-CSE-CIC-IDS2018,group_capped_lr_derived_features,DoS attacks-SlowHTTPTest,105550,105550,1.0
+NF-CSE-CIC-IDS2018,group_capped_lr_derived_features,DoS attacks-Slowloris,22825,0,0.0
+NF-CSE-CIC-IDS2018,group_capped_lr_derived_features,FTP-BruteForce,193360,193360,1.0
+NF-CSE-CIC-IDS2018,group_capped_lr_derived_features,Infilteration,62072,13020,0.20975641190875113
+NF-CSE-CIC-IDS2018,group_capped_lr_derived_features,SQL Injection,36,36,1.0
+NF-CSE-CIC-IDS2018,group_capped_lr_derived_features,SSH-Bruteforce,94237,30,0.00031834629710198755
+NF-CSE-CIC-IDS2018,group_capped_rf_derived_features,Bot,15683,15663,0.9987247337881783
+NF-CSE-CIC-IDS2018,group_capped_rf_derived_features,Brute Force -Web,2613,65,0.024875621890547265
+NF-CSE-CIC-IDS2018,group_capped_rf_derived_features,Brute Force -XSS,1745,2,0.001146131805157593
+NF-CSE-CIC-IDS2018,group_capped_rf_derived_features,DDOS attack-HOIC,230,94,0.40869565217391307
+NF-CSE-CIC-IDS2018,group_capped_rf_derived_features,DDOS attack-LOIC-UDP,1667,0,0.0
+NF-CSE-CIC-IDS2018,group_capped_rf_derived_features,DDoS attacks-LOIC-HTTP,378199,88292,0.23345381664150355
+NF-CSE-CIC-IDS2018,group_capped_rf_derived_features,DoS attacks-GoldenEye,32850,0,0.0
+NF-CSE-CIC-IDS2018,group_capped_rf_derived_features,DoS attacks-Hulk,108136,0,0.0
+NF-CSE-CIC-IDS2018,group_capped_rf_derived_features,DoS attacks-SlowHTTPTest,105550,0,0.0
+NF-CSE-CIC-IDS2018,group_capped_rf_derived_features,DoS attacks-Slowloris,22825,0,0.0
+NF-CSE-CIC-IDS2018,group_capped_rf_derived_features,FTP-BruteForce,193360,0,0.0
+NF-CSE-CIC-IDS2018,group_capped_rf_derived_features,Infilteration,62072,20090,0.3236563990204923
+NF-CSE-CIC-IDS2018,group_capped_rf_derived_features,SQL Injection,36,35,0.9722222222222222
+NF-CSE-CIC-IDS2018,group_capped_rf_derived_features,SSH-Bruteforce,94237,0,0.0

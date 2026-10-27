@@ -1,0 +1,62 @@
+{
+  "execution_id": "applied-ml-v3-group-balanced-execution-attempt-001-2026-10-27",
+  "status": "COMPLETED",
+  "execution_date": "2026-10-27",
+  "timezone": "Australia/Adelaide",
+  "branch": "codex/v3-group-balanced-derived-features",
+  "repository_parent_commit": "14d0f13462b1e992dc0beba651c59f23fcf7defd",
+  "command": ".\\.venv\\Scripts\\python.exe run_v3_group_balanced_development.py",
+  "exit_code": 0,
+  "runtime_seconds": 2641.59425735474,
+  "automatic_retry": false,
+  "attempt_number": 1,
+  "frozen_implementation_manifest": {
+    "path": "protocols/v3_group_balanced_implementation_manifest.json",
+    "sha256": "f8b24fff5c68521560664f6ce1f048a6ed9a06bddb706846d76ad55b7484bd2d"
+  },
+  "result": {
+    "selected_candidate": null,
+    "promotion_verdict": "no Version 3 candidate selected",
+    "development_only": true,
+    "independent_confirmation": false
+  },
+  "locked_outputs": {
+    "summary": {
+      "path": "artifacts/v3_group_balanced_development/summary.json",
+      "sha256": "eac836ff6bdde20c8dccfb577a2bfff4c89f40cf2ba1637e8bfa33a90d8c45ef"
+    },
+    "sampling_diagnostics": {
+      "path": "artifacts/v3_group_balanced_development/sampling_diagnostics.csv",
+      "sha256": "eceb67a44576e9c8d6c9f406a11cd618a2ca8d58216c3fd0d6a99666fa3a3525"
+    },
+    "fold_metrics": {
+      "path": "artifacts/v3_group_balanced_development/fold_metrics.csv",
+      "sha256": "1ff5c719b294e4873a38dd170692cd812223b10984d1e6e15a56d0eea0fc19eb"
+    },
+    "group_balanced_fold_metrics": {
+      "path": "artifacts/v3_group_balanced_development/group_balanced_fold_metrics.csv",
+      "sha256": "aeba1473cc465ab1ac697eb6395f6cdfa25a12b327789db6dc8ed202e1d03ec7"
+    },
+    "aggregate_candidate_metrics": {
+      "path": "artifacts/v3_group_balanced_development/aggregate_candidate_metrics.csv",
+      "sha256": "d7d4994ee149b6ea53824b72bcf460394d08d23521eabd2fd2fa3ac809e3e36b"
+    },
+    "per_attack_recall": {
+      "path": "artifacts/v3_group_balanced_development/per_attack_recall.csv",
+      "sha256": "760b688ad17fded8ded9e221a2ea838e05eb954b549601c90f03dc44fe5ec838"
+    },
+    "thresholds": {
+      "path": "artifacts/v3_group_balanced_development/thresholds.csv",
+      "sha256": "5280361a63e80d216c1d09d88321d6eec47a5e3933bd71e6eec0a0ed2d48c0aa"
+    },
+    "overfitting_gaps": {
+      "path": "artifacts/v3_group_balanced_development/overfitting_gaps.csv",
+      "sha256": "1c25806e8f5dc56b3040337e0beb72d4786fa957c040ce6b81b67275254e684e"
+    },
+    "paired_group_bootstrap_intervals": {
+      "path": "artifacts/v3_group_balanced_development/paired_group_bootstrap_intervals.csv",
+      "sha256": "d5aaec60e43b9e4cb4f5be7743fa1ed493c42861862e63d58d27ea7cdc182804"
+    }
+  },
+  "interpretation_boundary": "This is a completed development-only experiment over four previously opened domains. It is not independent confirmation or evidence of deployment readiness."
+}

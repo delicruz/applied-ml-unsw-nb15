@@ -1,0 +1,13 @@
+heldout_domain,candidate,threshold,constraints_passed
+NF-UNSW-NB15,group_capped_lr_base_features,0.23,False
+NF-UNSW-NB15,group_capped_lr_derived_features,0.22,False
+NF-UNSW-NB15,group_capped_rf_derived_features,0.5,False
+NF-ToN-IoT,group_capped_lr_base_features,0.31,False
+NF-ToN-IoT,group_capped_lr_derived_features,0.34,False
+NF-ToN-IoT,group_capped_rf_derived_features,0.64,False
+NF-BoT-IoT,group_capped_lr_base_features,0.35,False
+NF-BoT-IoT,group_capped_lr_derived_features,0.55,False
+NF-BoT-IoT,group_capped_rf_derived_features,0.62,False
+NF-CSE-CIC-IDS2018,group_capped_lr_base_features,0.33,False
+NF-CSE-CIC-IDS2018,group_capped_lr_derived_features,0.62,False
+NF-CSE-CIC-IDS2018,group_capped_rf_derived_features,0.65,True
