@@ -389,3 +389,15 @@ Forest. It adds equal-group-weight metrics to the usual row-weighted metrics and
 retains strict cross-domain false-positive and attack-coverage gates. IP, port,
 and TTL shortcut features remain prohibited. See
 `deliverables/v3_research_prototype/V3_Group_Balanced_Development_Protocol.md`.
+
+The Version 3 implementation is frozen separately from its protocol and result.
+Verify its implementation hashes, locked evidence, dataset headers, and four
+dataset hashes without scanning rows or fitting models:
+
+```powershell
+.\.venv\Scripts\python.exe run_v3_group_balanced_development.py --preflight-only
+```
+
+After preflight succeeds, omit `--preflight-only` to perform the one registered
+development run. The runner refuses to overwrite a completed `summary.json` and
+has no automatic retry path.

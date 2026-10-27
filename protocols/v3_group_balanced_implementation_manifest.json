@@ -1,0 +1,37 @@
+{
+  "manifest_id": "applied-ml-v3-group-balanced-implementation-v1-2026-10-27",
+  "status": "IMPLEMENTATION_FROZEN_BEFORE_EXECUTION",
+  "frozen_date": "2026-10-27",
+  "timezone": "Australia/Adelaide",
+  "repository_parent_commit": "c6018282a50a898c94232505b0824d94a59ed8d3",
+  "protocol": {
+    "path": "protocols/v3_group_balanced_development_protocol.json",
+    "sha256": "0d0f089b811aea1fcce629eae0ac285d63db4a22daaf032cd7a59d214595b410"
+  },
+  "runner": {
+    "path": "run_v3_group_balanced_development.py",
+    "sha256": "0c6a90c6d11fd0c5a9ce4b0ce9d73482d09e818643af04fbf888fc7e6fe4a140"
+  },
+  "tests": {
+    "path": "test_v3_group_balanced_development.py",
+    "sha256": "92d30358765fb43ad1d306bfe9e8a7bab1310bbcf020de8256c5b7c5784a4e7b"
+  },
+  "dependency": {
+    "path": "run_v2_generalisation_development.py",
+    "sha256": "31caa548052373d7cbd61d755a7d2c09beeff2854e5fbd59ebaacf4a09c9cb66",
+    "purpose": "audited dataset discovery, group hashing, row metrics, and streamed held-out evaluation"
+  },
+  "preflight_command": ".\\.venv\\Scripts\\python.exe run_v3_group_balanced_development.py --preflight-only",
+  "run_command": ".\\.venv\\Scripts\\python.exe run_v3_group_balanced_development.py",
+  "preflight_state": "PASSED",
+  "preflight_checks": {
+    "protocol_and_locked_v2_evidence_hashes": true,
+    "frozen_runner_test_and_dependency_hashes": true,
+    "dataset_headers": true,
+    "four_dataset_sha256_values": true,
+    "model_fitting_or_scoring_performed": false
+  },
+  "execution_state": "NOT_RUN",
+  "automatic_retry": false,
+  "interpretation_boundary": "This manifest freezes the Version 3 implementation before execution. It contains no development result or deployment evidence."
+}
