@@ -374,3 +374,18 @@ promotion rule. Weighted Logistic Regression had the highest macro MCC
 the weighted Random Forest candidates had negative macro MCC. The result is a
 development-only rejection, not a selected or deployable model. See
 `deliverables/v2_research_prototype/V2_Development_Result.md`.
+
+## Version 3 group-balanced development
+
+Version 3 is isolated on the `codex/v3-group-balanced-derived-features` branch.
+Its protocol was registered before implementation or fitting in
+`protocols/v3_group_balanced_development_protocol.json`. It addresses the group
+concentration exposed by Version 2 by capping each source group at 64 retained
+rows for fitting and calibration, while still scoring every held-out row.
+
+The fixed comparison contains a group-capped Logistic Regression reference, a
+derived-feature Logistic Regression, and a regularised derived-feature Random
+Forest. It adds equal-group-weight metrics to the usual row-weighted metrics and
+retains strict cross-domain false-positive and attack-coverage gates. IP, port,
+and TTL shortcut features remain prohibited. See
+`deliverables/v3_research_prototype/V3_Group_Balanced_Development_Protocol.md`.

@@ -1,0 +1,287 @@
+{
+  "material_passport": {
+    "origin_skill": "academic-research-suite / experiment-agent",
+    "origin_mode": "plan",
+    "origin_date": "2026-10-27",
+    "verification_status": "UNVERIFIED",
+    "version_label": "v3_group_balanced_development_protocol_v1"
+  },
+  "protocol_id": "applied-ml-v3-group-balanced-derived-features-2026-10-27",
+  "status": "REGISTERED_BEFORE_V3_IMPLEMENTATION_OR_MODEL_FITTING",
+  "registered_date": "2026-10-27",
+  "timezone": "Australia/Adelaide",
+  "repository_parent_commit": "c4fb98d7ad2425bb0aea543b47d423d0e8a7efdd",
+  "project_role": "bounded research-prototype development; not deployment validation",
+  "objective": "Test whether limiting repeated-group influence and adding deterministic traffic-rate and directionality features improves cross-domain intrusion-detection robustness over a matched group-capped linear reference.",
+  "hypothesis": "Group-capped source fitting will reduce dependence on a few massive repeated groups, and deterministic derived traffic features will improve leave-one-dataset-out MCC and balanced accuracy without producing the near-universal attack predictions observed in Version 2.",
+  "v2_motivation": {
+    "verdict": "no Version 2 candidate selected",
+    "best_macro_mcc": 0.056321,
+    "best_candidate": "pooled_lr_domain_family_weighted_all_features",
+    "best_candidate_maximum_held_out_false_positive_rate": 0.998118,
+    "best_candidate_worst_domain_balanced_accuracy": 0.492417,
+    "observed_group_concentration_examples": [
+      "NF-CSE-CIC-IDS2018 training used 299372 rows from only 13 complete groups",
+      "NF-ToN-IoT calibration used 105627 rows from 111 complete groups",
+      "NF-BoT-IoT training used 330348 rows from 602 complete groups"
+    ],
+    "interpretation": "Version 2 showed that domain/family row weighting and ordinary model regularisation were insufficient. Version 3 changes the development representation and group influence rather than performing another broad hyperparameter search."
+  },
+  "development_domains": [
+    "NF-UNSW-NB15",
+    "NF-ToN-IoT",
+    "NF-BoT-IoT",
+    "NF-CSE-CIC-IDS2018"
+  ],
+  "development_status": {
+    "all_domains_already_opened": true,
+    "evaluation_design": "four-fold leave-one-dataset-out development comparison",
+    "claim_boundary": "The four domains are source-aware development evidence only. None is an untouched test or independent confirmation dataset."
+  },
+  "independent_confirmation_boundary": {
+    "included_in_this_protocol": false,
+    "requirement": "Any final confirmation requires a genuinely new dataset or capture that has not been inspected, scored, audited, or used during Versions 1 through 3.",
+    "fallback_if_unavailable": "Report the selected design, if any, as a development-only research prototype and make no deployment-readiness claim."
+  },
+  "features": {
+    "base_features": [
+      "PROTOCOL",
+      "L7_PROTO",
+      "IN_BYTES",
+      "OUT_BYTES",
+      "IN_PKTS",
+      "OUT_PKTS",
+      "TCP_FLAGS",
+      "FLOW_DURATION_MILLISECONDS"
+    ],
+    "derived_features": {
+      "TOTAL_BYTES": "IN_BYTES + OUT_BYTES",
+      "TOTAL_PKTS": "IN_PKTS + OUT_PKTS",
+      "IN_AVG_PKT_BYTES": "IN_BYTES / max(IN_PKTS, 1)",
+      "OUT_AVG_PKT_BYTES": "OUT_BYTES / max(OUT_PKTS, 1)",
+      "BYTE_ASYMMETRY": "(IN_BYTES - OUT_BYTES) / (TOTAL_BYTES + 1)",
+      "PKT_ASYMMETRY": "(IN_PKTS - OUT_PKTS) / (TOTAL_PKTS + 1)",
+      "BYTES_PER_MILLISECOND": "TOTAL_BYTES / max(FLOW_DURATION_MILLISECONDS, 1)",
+      "PKTS_PER_MILLISECOND": "TOTAL_PKTS / max(FLOW_DURATION_MILLISECONDS, 1)"
+    },
+    "derived_feature_rule": "The formulas are fixed and use only the eight registered base fields. Any clipping, imputation, encoding, or scaling parameters are fitted on source-training rows only within each fold.",
+    "excluded_endpoint_features": [
+      "IPV4_SRC_ADDR",
+      "L4_SRC_PORT",
+      "IPV4_DST_ADDR",
+      "L4_DST_PORT"
+    ],
+    "excluded_shortcut_features": [
+      "sttl",
+      "dttl",
+      "source_ttl",
+      "destination_ttl"
+    ],
+    "shortcut_rule": "Endpoint identifiers and TTL-related fields are prohibited in every Version 3 candidate."
+  },
+  "group_and_sampling_protocol": {
+    "group_definition": "Categorical base-feature values exact; numeric base-feature values rounded to five significant digits.",
+    "group_hash": "SHA-256 of the canonical grouped base-feature tuple, namespaced by dataset.",
+    "cross_partition_rule": "All rows from one namespaced group remain in one within-domain partition.",
+    "source_domain_split": {
+      "training": "first group-hash value in [0.00, 0.75)",
+      "calibration": "first group-hash value in [0.75, 1.00)"
+    },
+    "maximum_retained_rows_per_group_per_partition": 64,
+    "within_group_selection": "Deterministic hash order, first preserving each available binary-label and raw-attack-label stratum, then filling the remaining group allowance in hash order.",
+    "group_selection": "Deterministic round-robin across source dataset and raw attack family. Capacity is charged using the retained capped contribution, never the original complete-group row count.",
+    "target_training_rows_per_source_domain": 250000,
+    "target_calibration_rows_per_source_domain": 100000,
+    "minimum_supported_attack_rows": 100,
+    "held_out_domain_evaluation": "Score every row of the held-out domain in chunks. Do not apply the 64-row group cap to evaluation rows.",
+    "row_weights": "No additional domain/family sample weighting. The sampling design limits row dominance; model class weighting is fixed per candidate.",
+    "required_sampling_diagnostics": [
+      "selected rows and distinct groups by domain and partition",
+      "original and retained group-size distributions",
+      "retained rows by class and raw attack label",
+      "largest retained share contributed by one group",
+      "zero group overlap among training, calibration, and held-out partitions"
+    ]
+  },
+  "candidate_experiments": [
+    {
+      "id": "group_capped_lr_base_features",
+      "role": "matched Version 3 reference",
+      "model": "Logistic Regression",
+      "features": "base_features",
+      "settings": {
+        "regularisation": "L2",
+        "C": 1.0,
+        "class_weight": "balanced",
+        "max_iter": 1000,
+        "random_state": 42
+      }
+    },
+    {
+      "id": "group_capped_lr_derived_features",
+      "role": "derived-representation linear candidate",
+      "model": "Logistic Regression",
+      "features": "base_features plus derived_features",
+      "settings": {
+        "regularisation": "L2",
+        "C": 1.0,
+        "class_weight": "balanced",
+        "max_iter": 1000,
+        "random_state": 42
+      }
+    },
+    {
+      "id": "group_capped_rf_derived_features",
+      "role": "regularised nonlinear derived-representation candidate",
+      "model": "Random Forest",
+      "features": "base_features plus derived_features",
+      "settings": {
+        "n_estimators": 300,
+        "max_depth": 14,
+        "min_samples_leaf": 20,
+        "max_features": "sqrt",
+        "class_weight": "balanced_subsample",
+        "n_jobs": -1,
+        "random_state": 42
+      }
+    }
+  ],
+  "threshold_rule": {
+    "scope": "calibration portions of the three source domains only",
+    "grid": {
+      "minimum": 0.05,
+      "maximum": 0.95,
+      "step": 0.01
+    },
+    "constraints": {
+      "maximum_false_positive_rate_in_each_source_domain": 0.20,
+      "minimum_recall_for_each_supported_attack_domain_stratum": 0.20,
+      "minimum_rows_for_supported_stratum": 100
+    },
+    "selection": "Among feasible thresholds, maximise the minimum source-domain MCC; break ties by higher mean source-domain MCC, higher minimum supported-stratum recall, lower maximum source-domain false-positive rate, then higher threshold.",
+    "no_feasible_threshold": "Use the same ranking without feasibility, mark the fold constraint_failed, and prevent that candidate from passing the promotion gate."
+  },
+  "evaluation_metrics": {
+    "primary": "macro-average row-weighted held-out-domain MCC",
+    "group_balanced_definition": "Within each held-out domain, every exact evaluation group receives equal total weight; rows inside a group divide that group's weight equally.",
+    "required_row_weighted_metrics": [
+      "MCC",
+      "balanced accuracy",
+      "false-positive rate",
+      "recall",
+      "specificity",
+      "F1",
+      "average precision",
+      "average-precision lift over prevalence",
+      "Brier score"
+    ],
+    "required_group_balanced_metrics": [
+      "MCC",
+      "balanced accuracy",
+      "false-positive rate",
+      "recall"
+    ],
+    "subgroup_reporting": [
+      "every raw attack label with its support",
+      "held-out dataset",
+      "registered group-size bucket",
+      "mixed-label versus single-label group"
+    ],
+    "uncertainty": "For the matched reference and any promotion-eligible candidate, compute paired 95% bootstrap intervals over exact evaluation groups within each held-out domain using 200 replicates and seed 42."
+  },
+  "promotion_rule": {
+    "reference": "group_capped_lr_base_features",
+    "candidate_scope": [
+      "group_capped_lr_derived_features",
+      "group_capped_rf_derived_features"
+    ],
+    "eligibility_requirements": [
+      "source-calibration threshold constraints pass in all four folds",
+      "row-weighted held-out balanced accuracy is greater than 0.50 in every domain",
+      "row-weighted held-out false-positive rate is at most 0.25 in every domain",
+      "row-weighted held-out recall is at least 0.20 for every attack/domain stratum with at least 100 rows",
+      "group-balanced held-out MCC is greater than 0 in every domain"
+    ],
+    "improvement_requirements": [
+      "macro-average row-weighted held-out MCC exceeds the matched reference by at least 0.03",
+      "worst-domain row-weighted balanced accuracy exceeds the matched reference by at least 0.02",
+      "maximum row-weighted held-out false-positive rate is no more than 0.02 above the matched reference"
+    ],
+    "ranking": "Among candidates meeting every requirement, select the highest macro-average row-weighted MCC; break ties by higher worst-domain balanced accuracy, higher minimum supported-attack recall, higher worst-domain group-balanced MCC, lower maximum false-positive rate, then candidate ID alphabetically.",
+    "failure_outcome": "If no candidate satisfies every requirement, record 'no Version 3 candidate selected' and do not weaken the rule after viewing results.",
+    "claim_boundary": "Passing means development-promising research prototype only; it does not establish independent generalisation or real-world deployment readiness."
+  },
+  "overfitting_checks": [
+    "training-to-calibration and calibration-to-held-out gaps for MCC, balanced accuracy, recall, and false-positive rate",
+    "row-weighted versus equal-group-weight held-out metrics",
+    "per-domain and per-attack recall rather than aggregate accuracy alone",
+    "score separation and predicted-positive rate in every domain",
+    "performance by original group-size bucket and mixed-label status",
+    "sampling concentration before and after the 64-row cap",
+    "Random Forest out-of-bag score where available"
+  ],
+  "locked_inputs": {
+    "v2_summary": {
+      "path": "artifacts/v2_generalisation_development/summary.json",
+      "sha256": "ce1ca9c9e8cb58c672803889bf7df50b2a1ce69ee035f61c63c7df6956d25e4f"
+    },
+    "v2_fold_metrics": {
+      "path": "artifacts/v2_generalisation_development/fold_metrics.csv",
+      "sha256": "871a580aa7382024cafc7db5ee5d137aecb41fb46b423f5ca2c9bc42ef5d27ba"
+    },
+    "v2_aggregate_candidate_metrics": {
+      "path": "artifacts/v2_generalisation_development/aggregate_candidate_metrics.csv",
+      "sha256": "6388ad5b89a18ce0eb42d7e56bc486579502e53de29549aaee41546c26a0f64e"
+    },
+    "v2_per_attack_recall": {
+      "path": "artifacts/v2_generalisation_development/per_attack_recall.csv",
+      "sha256": "f10c848d106c57039ef829dfc6291930205ad1608ef817fab7fd89968d758bf6"
+    },
+    "v2_execution_record": {
+      "path": "protocols/v2_generalisation_execution_attempt_002.json",
+      "sha256": "2ec1a7eef3bbda75662a4bb4497d5ebcd2bc0f325da6b4b68df3051805e73f7d"
+    },
+    "v2_human_result": {
+      "path": "deliverables/v2_research_prototype/V2_Development_Result.md",
+      "sha256": "55de71574017d3aba576778d55128169f33cd8de9f732ff7a3397a1b0c73fbb1"
+    }
+  },
+  "expected_outputs": [
+    "artifacts/v3_group_balanced_development/summary.json",
+    "artifacts/v3_group_balanced_development/sampling_diagnostics.csv",
+    "artifacts/v3_group_balanced_development/fold_metrics.csv",
+    "artifacts/v3_group_balanced_development/group_balanced_fold_metrics.csv",
+    "artifacts/v3_group_balanced_development/aggregate_candidate_metrics.csv",
+    "artifacts/v3_group_balanced_development/per_attack_recall.csv",
+    "artifacts/v3_group_balanced_development/thresholds.csv",
+    "artifacts/v3_group_balanced_development/overfitting_gaps.csv",
+    "artifacts/v3_group_balanced_development/group_size_metrics.csv",
+    "artifacts/v3_group_balanced_development/paired_group_bootstrap_intervals.csv",
+    "artifacts/v3_group_balanced_development/plots/domain_generalisation.png",
+    "artifacts/v3_group_balanced_development/plots/attack_family_recall.png",
+    "artifacts/v3_group_balanced_development/plots/group_influence.png"
+  ],
+  "integrity_rules": {
+    "allowed": [
+      "implement and test the registered Version 3 runner",
+      "verify the locked Version 2 evidence and existing local dataset files",
+      "construct the registered group partitions and capped source samples",
+      "fit only the three registered candidates",
+      "select thresholds only from registered source-calibration rows",
+      "score each full held-out development domain once per candidate",
+      "report a failed promotion result without changing the rule"
+    ],
+    "prohibited": [
+      "describe any of the four domains as untouched confirmation or final test data",
+      "add candidates, derived features, thresholds, splits, or alternate caps after viewing Version 3 results",
+      "use endpoint identifiers or TTL-related shortcut features",
+      "fit preprocessing, sampling choices, models, or thresholds using a fold's held-out domain",
+      "subsample held-out rows for final fold metrics",
+      "make a deployment or real-world readiness claim",
+      "silently rerun a failed or completed experiment"
+    ],
+    "amendment_rule": "A necessary implementation correction must be documented and committed before rerunning an affected experiment. A substantive design change requires a new protocol version."
+  },
+  "stopping_rule": "After implementation and preflight tests pass, run the registered Version 3 experiment once. Stop after the fixed promotion verdict; do not silently retry or expand the search.",
+  "interpretation_boundary": "Version 3 can test whether group-capped fitting and derived traffic features improve development robustness. It cannot prove that the resulting model is safe or reliable in live networks without genuinely new confirmation data and operational validation."
+}
