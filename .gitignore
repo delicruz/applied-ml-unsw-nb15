@@ -23,9 +23,5 @@ deliverables/
 *.mp4
 ~$*
 
-# Version the project guide and the compact current-results package.
+# Version the project guide only. Keep all generated documents and deliverables local.
 !README.md
-!deliverables/
-deliverables/*
-!deliverables/current_results_package/
-!deliverables/current_results_package/**
