@@ -226,17 +226,6 @@ def add_editable_model_development_flow(doc) -> None:
     from docx.oxml.ns import qn
     from docx.shared import Inches, Pt, RGBColor
 
-    title = doc.add_paragraph()
-    title.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    title.paragraph_format.space_before = Pt(4)
-    title.paragraph_format.space_after = Pt(5)
-    title.paragraph_format.keep_with_next = True
-    run = title.add_run("Model development responded to observed failure modes")
-    run.font.name = "Calibri"
-    run.font.size = Pt(10.5)
-    run.font.bold = True
-    run.font.color.rgb = RGBColor(0, 0, 0)
-
     stages = [
         ("VERSION 1", "Source models\nand frozen transfer", "EAF2F8"),
         ("AUDIT", "Shortcut, duplicate\nand shift evidence", "F2F2F2"),
@@ -347,14 +336,7 @@ def generate_report_figures() -> dict[str, str]:
                     color="#374151",
                 )
             )
-    ax.set_title(
-        "Model development responded to observed failure modes",
-        loc="left",
-        color="#000000",
-        weight="bold",
-        pad=4,
-    )
-    fig.subplots_adjust(left=0.02, right=0.99, top=0.86, bottom=0.05)
+    fig.subplots_adjust(left=0.02, right=0.99, top=0.98, bottom=0.05)
     figure1 = FIGURE_DIR / "figure_1_model_development_flow.png"
     fig.savefig(figure1, bbox_inches="tight")
     plt.close(fig)
@@ -383,17 +365,11 @@ def generate_report_figures() -> dict[str, str]:
     ax.set_xticks(x, [point.label for point in points])
     ax.set_ylim(-0.3, 1.05)
     ax.set_ylabel("Metric value")
-    ax.set_title(
-        "High ranking quality did not guarantee reliable classification",
-        loc="left",
-        color="#000000",
-        weight="bold",
-    )
     ax.legend(loc="upper center", bbox_to_anchor=(0.5, -0.24), ncols=2, frameon=False)
     ax.grid(axis="y", color="#D9E2F3", linewidth=0.8)
     ax.spines["top"].set_visible(False)
     ax.spines["right"].set_visible(False)
-    fig.subplots_adjust(left=0.10, right=0.98, top=0.88, bottom=0.30)
+    fig.subplots_adjust(left=0.10, right=0.98, top=0.98, bottom=0.30)
     figure2 = FIGURE_DIR / "figure_2_generalisation_progression.png"
     fig.savefig(figure2, bbox_inches="tight")
     plt.close(fig)
@@ -440,14 +416,6 @@ def generate_report_figures() -> dict[str, str]:
         ax.set_axisbelow(True)
         ax.spines["top"].set_visible(False)
         ax.spines["right"].set_visible(False)
-    fig.suptitle(
-        "Exploratory remedies remained unstable across held-out domains",
-        x=0.03,
-        ha="left",
-        color="#000000",
-        weight="bold",
-        fontsize=13,
-    )
     fig.text(
         0.03,
         0.01,
@@ -455,7 +423,7 @@ def generate_report_figures() -> dict[str, str]:
         fontsize=9,
         color="#000000",
     )
-    fig.tight_layout(rect=[0, 0.05, 1, 0.95])
+    fig.tight_layout(rect=[0, 0.05, 1, 1])
     figure4 = FIGURE_DIR / "figure_4_v2_v3_ranges.png"
     fig.savefig(figure4, bbox_inches="tight")
     plt.close(fig)

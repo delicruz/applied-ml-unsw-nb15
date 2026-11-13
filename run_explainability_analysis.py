@@ -390,7 +390,6 @@ def run_shap_analysis(
     original_importance.to_csv(output_dir / "shap_importance_original.csv", index=False)
 
     shap.plots.beeswarm(explanation, max_display=20, show=False)
-    plt.title("Random Forest SHAP summary")
     plt.tight_layout()
     plt.savefig(output_dir / "plots" / "shap_summary.png", dpi=200, bbox_inches="tight")
     plt.close()
