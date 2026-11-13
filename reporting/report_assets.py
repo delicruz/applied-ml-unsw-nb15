@@ -236,7 +236,7 @@ def add_editable_model_development_flow(doc) -> None:
     table = doc.add_table(rows=1, cols=9)
     table.alignment = WD_TABLE_ALIGNMENT.CENTER
     table.autofit = False
-    widths = [1.13, 0.20, 1.13, 0.20, 1.13, 0.20, 1.13, 0.20, 1.13]
+    widths = [1.05, 0.28, 1.05, 0.28, 1.05, 0.28, 1.05, 0.28, 1.05]
     row = table.rows[0]
     cant_split = OxmlElement("w:cantSplit")
     row._tr.get_or_add_trPr().append(cant_split)
@@ -257,7 +257,9 @@ def add_editable_model_development_flow(doc) -> None:
         if index % 2:
             arrow = paragraph.add_run("→")
             arrow.font.name = "Times New Roman"
-            arrow.font.size = Pt(13)
+            arrow.font.size = Pt(18)
+            arrow.font.bold = True
+            arrow.font.color.rgb = RGBColor(0, 0, 0)
             continue
 
         heading, body, fill = stages[stage_index]
@@ -309,8 +311,8 @@ def generate_report_figures() -> dict[str, str]:
         ("DECISION", "No candidate\npromoted"),
     ]
     fills = ["#EAF2F8", "#F2F2F2", "#FFF2E6", "#E8F4F3", "#F9EAEA"]
-    xs = np.linspace(0.02, 0.82, len(stages))
-    width = 0.16
+    xs = np.linspace(0.01, 0.83, len(stages))
+    width = 0.145
     for index, ((heading, body), x0, fill) in enumerate(zip(stages, xs, fills)):
         ax.add_patch(
             FancyBboxPatch(
@@ -331,8 +333,8 @@ def generate_report_figures() -> dict[str, str]:
                     (x0 + width + 0.006, 0.51),
                     (xs[index + 1] - 0.006, 0.51),
                     arrowstyle="-|>",
-                    mutation_scale=11,
-                    linewidth=1.1,
+                    mutation_scale=16,
+                    linewidth=1.8,
                     color="#374151",
                 )
             )
